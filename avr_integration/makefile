@@ -51,7 +51,7 @@ CC_DBG_MACROS=-DGCC -DDEBUG
 
 
 AVR_FLAGS= -o0 -mmcu=atmega329 $(CC_INCLUDES) -o $(PRGNAME).elf
-SIMULAVR_FLAGS= -d atmega328 -T exit -f
+SIMULAVR_FLAGS= -d atmega328 -T exit -F 12000000 -f
 
 SDCC_SRC=../../$(SRC_C)
 SDCC_OPT_FORGOT_OR_REMOVED= --noloopreverse --no-reg-params --peep-asm --peep-return --opt-code-size
