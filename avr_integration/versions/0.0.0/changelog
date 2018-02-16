@@ -1,0 +1,39 @@
+# Change Log
+All notable changes to this project will be documented in this file.
+This project adheres to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased]
+### To Change
+- Add Version number in final log record.
+- Change computation logic for TPI and CCPI.
+- Generalize the algorithm to find the cell length of the report table.
+- The scripts shall be adapted to manage program developed in multiple files.
+
+### Added
+-
+
+### Changed
+-
+
+## 0.0.1 - 2016-08-09
+### Added
+- This CHANGELOG file to hopefully serve as an evolving description of MIPSC project.
+- README:
+-* Requisites: which are the tools used by mipsc process, which needs to be installed in a previous phase.
+-* How to install: mipsc installation procedure, in order to use mipsc by "mipsc" terminal command
+-* How to use: addresses procedures to manage input incites and project general name
+- makefile :
+-* build commands for gcc and sdcc
+-* stats commands for gcov and isasim
+-* installation commands gcc, sdcc, gcov, isasim
+- mipsc.pl :
+-* parse gcov and isasim oputputs
+-* compute TPI avarage, CCPI avarage and variance
+-* report
+-** report for each input incite: number of executed instruction, execution time, TPI, CCPI
+-** report CCPI min, max, avarage, variance, standard deviation.
+- mipsc.sh :
+-* calls makefile and mipsc.pl in order to perform the whole mipsc calculation process.
+
+[Unreleased]: ./versions/0.0.0/
+[0.0.1]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.2.0...v0.3.0
