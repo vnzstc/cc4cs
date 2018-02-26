@@ -11,6 +11,7 @@ function total_statem
 {	
 	res=0
 	while read p; do 
+		# Gets the first column of a .c.gcov file 
     	temp=$(echo $p | awk '{ print $1 }' | grep -o -m 1 -E '[0-9]+')
     	if [ -n $temp ]; then 
     		res=$((res+temp))

@@ -87,4 +87,4 @@ echo "*********"
 echo ""
 
 avr_stat.sh > atmega328_report.txt
-cat atmega328_report.txt
+# cat atmega328_report.txt
