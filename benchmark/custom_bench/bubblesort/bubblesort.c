@@ -19,9 +19,9 @@ void swap(TARGET_INDEX index_1, TARGET_INDEX index_2)
 }
 
 /*
- * This is the main function of the program. For each element check if the element in i+1 position is less than the
- * current element. If yes, swap the elements.
- * the process is executed as many times as the number of nodes. 
+ * This is the main function of the program. For each element checks if the element in i+1 position is less than the
+ * current element. In the positive case, swaps the elements.
+ * the process is executed many times as the number of nodes. 
  * This function returns the sorted array.
  */
 
