@@ -51,5 +51,5 @@ void selection_sort()
 void main()
 {
 	selection_sort();
-  resetValues();
+	resetValues();
 }
