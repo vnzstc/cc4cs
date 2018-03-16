@@ -2,6 +2,7 @@ import sys, mmap, re
 import random as rn
 from itertools import product
 from functools import reduce
+import os
 
 scalars = {}
 arrays = {}
@@ -27,7 +28,6 @@ def getSizes(variable):
 Given a list of parameters, returns the name of each element
 Divides the latters looking at the type (scalar or not)
 """
-
 def parametersFilter(lineStr):
 	global scalars
 	tempScalars = []
@@ -42,8 +42,6 @@ def parametersFilter(lineStr):
 
 	scalars = {variable : "" for variable in set(tempScalars) - set(sizes.keys())}
 
-
-
 def insertInput(variable, regexStr):
 	inputStr = input('Enter input for '  + '"' + variable + '"' + ': ')
 
@@ -54,7 +52,6 @@ def insertInput(variable, regexStr):
 For each parameter, asks to re.match('\[(\d,\d)\]', input_str)	- a range used to generate random values between min and max
 	- the number of inputs to create, for scalar variable
 """
-
 def askForInputs():
 	print("- Enter a range [min,max] for array variables\n"+
 		  "- Enter a range [min,max];inputs for scalar variables\n")
@@ -71,7 +68,6 @@ def askForInputs():
 This function opens a .c program, searches for a function with the same name of the file
 in which are defined the parameters that the function takes in input
 """
-
 def discoverParameters(filename):
 	file = open(filename + '.c')
 	mm = mmap.mmap(file.fileno(), 0, access = mmap.ACCESS_READ)
@@ -87,7 +83,6 @@ def discoverParameters(filename):
 	For each scalar variable in "ranges" dictionary, generates a list that contains the values to 
 	write in each output file.
 """
-
 def splitScalarInput(rangeStr):
 	currentInput = rangeStr.split(';')
 	vaRange = eval(currentInput[0])
@@ -117,11 +112,10 @@ def listCreator(varType):
 	This function creates the output file.
 	Returns the object that rappresents the file
 """
-
-def createHeader(firstIndex, secondIndex):
+def createHeader():
 	basic = "#ifndef VALUES\n#define VALUES\n"
 
-	output = open('values_' + str(firstIndex) + str(secondIndex) + '.h', 'w+')
+	output = open('values.h', 'w+')
 	output.write(basic)
 
 	return output
@@ -159,18 +153,16 @@ def writeArray(headerFile, value, varType, arraySizes):
 
 	headerFile.write(toWrite)
 
-
 """
-	This function write variables in the output file.
+	This function writes variables in the output file.
 """
-
 def writeVariables(combination, headerFile, varType):
 	cont = 0
 	currentSizeValues = {}
 
 	for key, value in scalars.items():
 		pos = combination[cont]
-		headerFile.write("\t" + key + " = " + str(value[pos]) + ";\n")
+		headerFile.write("\t" + varType + " " + key + " = " + str(value[pos]) + ";\n")
 		cont += 1
 
 	for key,value in sizes.items():
@@ -187,18 +179,33 @@ def writeVariables(combination, headerFile, varType):
 """ 
 	This function generates combinations of the values of previously calculated lists.
 	Combines indexes and then accesses by index, the correspondent list, to get the value.
+	Furthermore, for each header a directory is created 
 """
-
 def generateHeaders(varType):
 	counts = [len(singleList) for singleList in list(scalars.values()) + list(sizes.values())]
 	iterate = [range(length) for length in counts]
-
 	fileIndex = 0
+
+	# Includes directory creation 
+	os.makedirs("includes")
+	# Change working directory
+	os.chdir("includes")
+
 	for combination in product(*iterate):
 		# For each combination will be generated 10 random array
 		for index in range(1):
-			headerFile = createHeader(fileIndex, index)
+			# Creates the directory in which the header will be placed 
+			dirName = "values_" + str(fileIndex) + str(index)
+			os.makedirs(dirName)
+
+			headerFile = createHeader()
 			writeVariables(combination, headerFile, varType)
 			closeHeader(headerFile)
+
+			# Moves the file in the above created directory  
+			os.rename("values.h", dirName + "/values.h")
 				
 		fileIndex += 1
+
+	# Return to the previous directory
+	os.chdir('..')
