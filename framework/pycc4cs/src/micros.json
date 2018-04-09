@@ -1,0 +1,10 @@
+{
+	"atmega328": {
+		"iss": "simulavr -d atmega328 -T exit -f",
+		"compiler": "avr-gcc -g -O2 -mmcu=atmega329"
+	},
+	"8051": {
+		"8051sim": "flags",
+		"sdcc": "flags"
+	}
+}
