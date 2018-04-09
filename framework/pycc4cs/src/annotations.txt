@@ -5,6 +5,7 @@ Annotations:
 		- Function for creation of directories and move files has different implementation for each phase. Could be unique? 
 		- Executables can be found into custom directories
 		- Distinguish debug from normal workflow
-
+		- The resultAnalyzer module should be optional
+		- Possibility to do chosen phases 
 	Low priority: 
 		- Delete duplicate import of libraries from modules

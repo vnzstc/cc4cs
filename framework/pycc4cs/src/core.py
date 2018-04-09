@@ -1,4 +1,4 @@
-import os, subprocess, json
+import os, subprocess, json, csv
 from preprocessor import getListfromRegex
 
 # Gets the script directory 
@@ -74,3 +74,27 @@ def parseSimulationOutput():
 	with open('executionOutput.txt') as execFile:
 		content = execFile.read()
 		return getListfromRegex(r'\d+', content)[0]
+
+
+def createFileWriter(fileDescriptor):
+	return csv.writer(fileDescriptor, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
+
+def writeTuple(label, value, writerId):
+	writerId.writerow([label, value])
+
+def createFileReader(fileDescriptor):
+	return csv.reader(fileDescriptor, delimiter=',', quotechar='|')
+
+def cc4csCalculator():
+	with open("cStatements.csv", "r") as inputFile1:
+		cStatementsDict = dict(createFileReader(inputFile1))
+
+	print(cStatementsDict)
+
+	with open("clockCycles.csv", "r") as inputFile2, open("cc4csValues.csv", "w") as outputFile:
+		valuesWriter = createFileWriter(outputFile)
+
+		for element in createFileReader(inputFile2):
+			directory = element[0]
+			cc4csValue = "%0.3f" % (int(element[1]) / int(cStatementsDict[directory]))
+			writeTuple(directory, cc4csValue, valuesWriter)
