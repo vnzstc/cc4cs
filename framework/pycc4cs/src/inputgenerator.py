@@ -1,4 +1,4 @@
-import sys, mmap, re, os  
+import mmap, re, os  
 import random as rn
 from itertools import product
 from functools import reduce
@@ -124,7 +124,6 @@ def closeHeader(fileObject):
 	fileObject.write("#endif")
 	fileObject.close()
 
-
 def removeLastOccurence(character, string):
 	k = string.rfind(character)
 	string = string[:k] + "" + string[k+1:]
@@ -196,7 +195,9 @@ def generateHeaders(varType):
 		# For each combination will be generated 10 random array
 		for index in range(1):
 			# Creates the directory in which the header will be placed 
-			dirName = "values_" + str(fileIndex) + str(index)
+			dirName = "values_" + str(fileIndex)
+			# + str(index)
+						
 			os.makedirs(dirName)
 
 			headerFile = createHeader()

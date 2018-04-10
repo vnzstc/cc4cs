@@ -1,7 +1,6 @@
 Annotations: 
 
 	High priority: 
-		- Function to delete previous computation
 		- Function for creation of directories and move files has different implementation for each phase. Could be unique? 
 		- Executables can be found into custom directories
 		- Distinguish debug from normal workflow

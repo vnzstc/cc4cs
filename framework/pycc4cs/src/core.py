@@ -1,9 +1,44 @@
 import os, subprocess, json, csv
+from shutil import rmtree
 from preprocessor import getListfromRegex
 
 # Gets the script directory 
 scriptPath = os.path.dirname(os.path.realpath(__file__))
 microList = []
+
+def createDir(dirName):
+	os.makedirs(dirName)
+
+def returnListDir(topDir):
+	return os.listdir(topDir)
+
+def getExtensionFilename(fileName):
+	"""
+	Given the file name, returns a list containing the file name without the extension and this one
+	"""
+	return os.path.splitext(fileName)
+
+def mvFiles(destination, listFileName):
+	if os.path.isdir(destination):	
+		for fileName in listFileName:
+			os.rename(fileName, destination + fileName)
+
+def deletePreviousComputation():
+	"""
+	Removes the directories created by previous computations
+	TODO: delete other files .csv, .txt
+	"""
+	if os.path.isdir('includes'):
+		rmtree('includes')
+
+	if os.path.isdir('profiling'):
+		rmtree('profiling')
+
+	if os.path.isdir('results'):
+		rmtree('results')
+
+	if os.path.isdir('simulation'):
+		rmtree('simulation')
 
 def printMicroprocessors():
 	"""
@@ -75,7 +110,6 @@ def parseSimulationOutput():
 		content = execFile.read()
 		return getListfromRegex(r'\d+', content)[0]
 
-
 def createFileWriter(fileDescriptor):
 	return csv.writer(fileDescriptor, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
 
@@ -89,8 +123,8 @@ def cc4csCalculator():
 	with open("cStatements.csv", "r") as inputFile1:
 		cStatementsDict = dict(createFileReader(inputFile1))
 
-	print(cStatementsDict)
-
+	# print(cStatementsDict)
+	
 	with open("clockCycles.csv", "r") as inputFile2, open("cc4csValues.csv", "w") as outputFile:
 		valuesWriter = createFileWriter(outputFile)
 
