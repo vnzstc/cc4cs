@@ -15,6 +15,7 @@ usage:
 options:
 	--debug		enables debug options 
 """
+
 debugOpt = False
 if "--debug" in sys.argv: debugOpt = True
 
@@ -31,7 +32,6 @@ print("\n\n ██████╗ ██████╗██╗  ██╗ █�
 	cwd = os.getcwd()
 	print(cwd)
 """
-
 def profilingPhase(headerDir):
 	core.compileProgram(fileName, headerDir, 'gcc -fprofile-arcs -ftest-coverage')
 	core.executeProgram("./" + fileName)
@@ -70,7 +70,6 @@ for flnm in core.returnListDir('.'):
 		inputgenerator.generateHeaders("float")		
 		
 		# Profiling Phase
-		# Creation of CSV File 
 		with open('cStatements.csv', 'w') as statementFile:
 			fileWriter = core.createFileWriter(statementFile)
 

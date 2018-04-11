@@ -4,7 +4,13 @@ from preprocessor import getListfromRegex
 
 # Gets the script directory 
 scriptPath = os.path.dirname(os.path.realpath(__file__))
+frameworkPath = os.path.dirname(scriptPath)
 microList = []
+
+"""
+def getBinPath():
+	return frameworkPath + "/bin" 
+"""
 
 def createDir(dirName):
 	os.makedirs(dirName)
@@ -14,7 +20,7 @@ def returnListDir(topDir):
 
 def getExtensionFilename(fileName):
 	"""
-	Given the file name, returns a list containing the file name without the extension and this one
+		Given the file name, returns a list containing the file name without the extension and this one
 	"""
 	return os.path.splitext(fileName)
 
@@ -25,8 +31,7 @@ def mvFiles(destination, listFileName):
 
 def deletePreviousComputation():
 	"""
-	Removes the directories created by previous computations
-	TODO: delete other files .csv, .txt
+		Removes the directories created by previous computations
 	"""
 	if os.path.isdir('includes'):
 		rmtree('includes')
@@ -42,7 +47,7 @@ def deletePreviousComputation():
 
 def printMicroprocessors():
 	"""
-	Function that prints the list of known microprocessors
+		Function that prints the list of known microprocessors
 	"""
 	print("List of available microprocessors:\n")
 	for i, ele in enumerate(microList):
@@ -50,8 +55,8 @@ def printMicroprocessors():
 
 def chooseMicro():
 	"""
-	Reads the available microprocessors from a json file and allows the user to choose one
-	Return: a dictionary that contains ISS and compiler used by the chosen microprocessor
+		Reads the available microprocessors from a json file and allows the user to choose one
+		Return: a dictionary that contains ISS and compiler used by the chosen microprocessor
 	"""
 	with open(scriptPath + '/micros.json', 'r') as jsonFile:
 		frameworkData = json.load(jsonFile)
@@ -74,7 +79,7 @@ def chooseMicro():
 
 def compileProgram(filePath, tracePath, flags):
 	"""
-	This function is needed to compile a couple (algorithm + the trace)
+		This function is needed to compile a couple (algorithm + the trace)
 	"""
 	cmd = []
 	flagList = flags.split(" ")	
@@ -103,8 +108,8 @@ def parseGcovOutput(txtFilePath):
 
 def parseSimulationOutput():
 	"""
-	Generic parsing for a simulation output file 
-	TODO: Not Generic, it works only with the simulavr output, for now ;)
+		Generic parsing for a simulation output file 
+		TODO: Not Generic, it works only with the simulavr output, for now ;)
 	"""
 	with open('executionOutput.txt') as execFile:
 		content = execFile.read()
