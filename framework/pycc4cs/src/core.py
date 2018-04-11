@@ -79,7 +79,7 @@ def chooseMicro():
 
 def compileProgram(filePath, tracePath, flags):
 	"""
-		This function is needed to compile a couple (algorithm + the trace)
+		This function is needed to compile a couple (algorithm + the trace) with a gcc based compiler
 	"""
 	cmd = []
 	flagList = flags.split(" ")	
@@ -113,7 +113,9 @@ def parseSimulationOutput():
 	"""
 	with open('executionOutput.txt') as execFile:
 		content = execFile.read()
-		return getListfromRegex(r'\d+', content)[0]
+		cycleStr = getListfromRegex(r'[cC]ycles.*?\d+', content)[0]
+		
+		return getListfromRegex(r'\d+', cycleStr)[0] 
 
 def createFileWriter(fileDescriptor):
 	return csv.writer(fileDescriptor, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)

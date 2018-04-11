@@ -3,8 +3,15 @@
 		"iss": "simulavr -d atmega328 -T exit -f",
 		"compiler": "avr-gcc -g -O2 -mmcu=atmega329"
 	},
+
 	"8051": {
-		"8051sim": "flags",
-		"sdcc": "flags"
+		"iss": "sdcc -mmcs51 --iram-size 128",
+		"compiler" : "8051sim flags"
+		
+	},
+	
+	"Leon3": {
+		"iss": "tsim-leon3 -c tsim_cmd ",
+		"compiler": "sparc-gaisler-elf-gcc -o0"
 	}
 }
