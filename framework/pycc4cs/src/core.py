@@ -1,22 +1,38 @@
 import os, subprocess, json, csv
 from shutil import rmtree
-from preprocessor import getListfromRegex
+from inputgenerator import getListfromRegex
 
 # Gets the script directory 
 scriptPath = os.path.dirname(os.path.realpath(__file__))
 frameworkPath = os.path.dirname(scriptPath)
+prjPath = os.getcwd()
 microList = []
 
+""" 
+	Placeholder System:
+	Directives that are expanded at run-time during an execution
+	Only the custom filename 
 """
-def getBinPath():
-	return frameworkPath + "/bin" 
-"""
+def getCustomFilename(compressedCmd):
+	plcholder = str(getListfromRegex(r'{(.*?)}', compressedCmd))
+
+	if not plcholder:
+		return None
+
+	return plcholder
+	
+# ----------------------------------------------------
 
 def createDir(dirName):
 	os.makedirs(dirName)
 
+# ----------------------------------------------------
+def returnListFiles(topDir):
+	return [f for f in os.listdir(topDir) if os.path.isfile(os.path.join(topDir, f))]
+
 def returnListDir(topDir):
-	return os.listdir(topDir)
+	return [f for f in os.listdir(topDir) if os.path.isdir(os.path.join(topDir, f))]
+# ---------------------------------------------------
 
 def getExtensionFilename(fileName):
 	"""
@@ -28,6 +44,13 @@ def mvFiles(destination, listFileName):
 	if os.path.isdir(destination):	
 		for fileName in listFileName:
 			os.rename(fileName, destination + fileName)
+
+def mvAllFiles(destination):
+	print("moveAllFiles " + destination)
+	if os.path.isdir(destination):	
+		for fileName in returnListFiles(prjPath):
+			if getExtensionFilename(fileName)[1] != ".c":
+				os.rename(fileName, destination + fileName)
 
 def deletePreviousComputation():
 	"""
@@ -60,19 +83,17 @@ def chooseMicro():
 	"""
 	with open(scriptPath + '/micros.json', 'r') as jsonFile:
 		frameworkData = json.load(jsonFile)
-
 		for line in frameworkData:
 			microList.append(line)
 
 		printMicroprocessors()
-		
 		microId = input('\nInsert the identifier of a microprocessor: ')
 		if int(microId) >= len(frameworkData):
 			raise ValueError("The id doesn't exist")
 
 		chosenMicro = microList[int(microId)]
 
-		print(frameworkData)
+		# print(frameworkData)
 		# A dictionary that contains the instruction set simulator and the compiler flags specified
 		# for the chosen micro
 		return frameworkData[chosenMicro]
@@ -85,16 +106,17 @@ def compileProgram(filePath, tracePath, flags):
 	flagList = flags.split(" ")	
 	cmd.extend([flagList[0], filePath + ".c"])
 	cmd.extend(flagList[1:])
-	cmd.extend(["-Iincludes", "-I" + tracePath, "-o", filePath])
+	cmd.extend(["-I" + tracePath, "-o", filePath])
+	print(cmd)
 	subprocess.call(cmd)
 
 def executeProgram(flags):
 	flagList = flags.split(" ")
-
+	print(flagList)
 	# File created to store the output of an execution 
-	with open('executionOutput.txt', 'w') as execFile:
+	with open(outputFile, 'w') as execFile:
 		subprocess.call(flagList, stdout=execFile)
-
+	
 def parseGcovOutput(txtFilePath):
 	result = 0
 	with open(txtFilePath, "r") as file:
@@ -103,7 +125,7 @@ def parseGcovOutput(txtFilePath):
 			number = number.strip()
 			if number.isdigit():
 				result += int(number)
-
+				
 	return result
 
 def parseSimulationOutput():
@@ -113,8 +135,8 @@ def parseSimulationOutput():
 	"""
 	with open('executionOutput.txt') as execFile:
 		content = execFile.read()
+		print(content)
 		cycleStr = getListfromRegex(r'[cC]ycles.*?\d+', content)[0]
-		
 		return getListfromRegex(r'\d+', cycleStr)[0] 
 
 def createFileWriter(fileDescriptor):

@@ -2,7 +2,6 @@
 import csv, sys
 
 # Custom modules
-import preprocessor 
 import inputgenerator
 import core
 
@@ -33,7 +32,13 @@ print("\n\n ██████╗ ██████╗██╗  ██╗ █�
 	print(cwd)
 """
 def profilingPhase(headerDir):
-	core.compileProgram(fileName, headerDir, 'gcc -fprofile-arcs -ftest-coverage')
+	proFlags = ""
+
+	# This branch is needed to add custum flags to the profiling phase
+	if "profilingFlags" in microSpec:
+		proFlags = microSpec["profilingFlags"]
+
+	core.compileProgram(fileName, headerDir, 'gcc -fprofile-arcs -ftest-coverage ' + proFlags)
 	core.executeProgram("./" + fileName)
 	core.executeProgram("gcov " + fileName)
 
@@ -41,9 +46,17 @@ def profilingPhase(headerDir):
 
 def simulationPhase(headerDir):
 	core.compileProgram(fileName, headerDir, microSpec['compiler'])
-	core.executeProgram(microSpec['iss'] + " " + fileName)
-	return core.parseSimulationOutput()
+	
+	# Checks if the are dependencies before the sw simulation
+	dependencies = microSpec["dependencies"].split(" ")
 
+	for command in dependencies:
+		#customFilename = core.getCustomFilename(microSpec[command])
+		core.executeProgram(microSpec[command] + " " + fileName)
+
+	# return core.parseSimulationOutput()
+	return 0
+	
 microSpec = core.chooseMicro()
 print(microSpec)
 
@@ -56,18 +69,25 @@ core.createDir('results')
 # --------------------------------------
 
 # Searches for all the '.c' files in the current directory
-for flnm in core.returnListDir('.'):
+for flnm in core.returnListFiles('.'):
 	extension =  core.getExtensionFilename(flnm)
 	fileName = extension[0]
 
 	if extension[1] == '.c':
 		# Preprocessing Part
-		preprocessor.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_TYPE', "typedef int TARGET_TYPE;\n")
+		inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_TYPE', "typedef int TARGET_TYPE;\n")
 		
 		# InputGenerator Part
 		inputgenerator.discoverParameters(fileName)
-		inputgenerator.listCreator("float")
-		inputgenerator.generateHeaders("float")		
+		inputgenerator.listCreator("int")
+		inputgenerator.generateHeaders("int")
+
+		# This part is needed to execute commands on additional files 
+		if "additionalFiles" in microSpec:
+			addFiles = microSpec["additionalFiles"].split(" ")
+
+			for files in addFiles:
+				core.executeProgram(microSpec[files])		
 		
 		# Profiling Phase
 		with open('cStatements.csv', 'w') as statementFile:
@@ -94,7 +114,7 @@ for flnm in core.returnListDir('.'):
 				# -----------------------------------------
 				simulationDir = 'simulation/' + directory + '/'
 				core.createDir(simulationDir)
-				core.mvFiles(simulationDir, [fileName, "executionOutput.txt"])
+				core.mvAllFiles(simulationDir)
 				# --------------------------------------
 
 		# Calculate metric 

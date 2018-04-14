@@ -1,17 +1,25 @@
 {
 	"atmega328": {
 		"iss": "simulavr -d atmega328 -T exit -f",
-		"compiler": "avr-gcc -g -O2 -mmcu=atmega329"
+		"compiler": "avr-gcc -g -O2 -mmcu=atmega329",
+		"dependencies": "iss"
 	},
 
 	"8051": {
-		"iss": "sdcc -mmcs51 --iram-size 128",
-		"compiler" : "8051sim flags"
-		
+		"profilingFlags": "-Iincludes",
+		"additionalFiles": "file1",
+		"file1" : "cp /home/cerbero/mipsc/8051.h includes/",
+		"compiler": "sdcc -mmcs51 --iram-size 128",
+		"iss": "isasim packihx",
+		"packihx": "packihx",
+		"dependencies" : "packihx"	
 	},
 	
 	"Leon3": {
-		"iss": "tsim-leon3 -c tsim_cmd ",
-		"compiler": "sparc-gaisler-elf-gcc -o0"
+		"additionalFiles": "file1",
+		"file1": "cp /home/cerbero/mipsc/tsim_cmd includes/",
+		"iss": "tsim-leon3 -c includes/tsim_cmd ",
+		"compiler": "sparc-gaisler-elf-gcc -o0",
+		"dependencies": "iss"
 	}
 }
