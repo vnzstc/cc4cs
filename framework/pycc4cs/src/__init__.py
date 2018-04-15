@@ -82,12 +82,15 @@ for flnm in core.returnListFiles('.'):
 		inputgenerator.listCreator("int")
 		inputgenerator.generateHeaders("int")
 
+		# ---------------------------------------------------------------
 		# This part is needed to execute commands on additional files 
 		if "additionalFiles" in microSpec:
 			addFiles = microSpec["additionalFiles"].split(" ")
 
 			for files in addFiles:
-				core.executeProgram(microSpec[files])		
+				core.executeProgram(microSpec[files])	
+		# ---------------------------------------------------------------	
+		
 		
 		# Profiling Phase
 		with open('cStatements.csv', 'w') as statementFile:

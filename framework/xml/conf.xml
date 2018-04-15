@@ -1,0 +1,24 @@
+<configuration>
+	<profiling> 
+		<compiler inputFile="prova.c" outputFile="prova">gcc -fprofile-arcs -ftest-coverage -o</compiler>
+		<gcov inputFile="prova">gcov</gcov>
+		<exec inputFile="/home/cerbero/Desktop/xml/prova/prova"></exec>
+		<dependencies>compiler exec gcov</dependencies>
+	</profiling>
+	<micro name="8051"> 
+		<requiredFile>/home/cerbero/mipsc/8051.h</requiredFile>
+		<iss inputFile="program.hex" outputFile="simStats.txt">isasim</iss>
+		<compiler outputFile="program.ihx">sdcc -mmcs51 --iram-size 128 -o</compiler>
+		<packihx inputFile="program.ihx" outputFile="program.hex">packihx</packihx>
+		<dependencies>packihx iss</dependencies>
+	</micro> 
+	<micro name="atmega328"> 
+		<iss inputFile="">simulavr -d atmega328 -T exit -f</iss>
+		<compiler>avr-gcc -g -O2 -mmcu=atmega329 -o</compiler>
+	</micro>
+	<micro name="Leon3">
+		<requiredFile>/home/cerbero/mipsc/tsim_cmd</requiredFile>
+		<iss inputFile="">tsim-leon3 -c includes/tsim_cmd</iss>
+		<compiler>sparc-gaisler-elf-gcc -o0 -o</compiler>
+	</micro> 
+</configuration>
