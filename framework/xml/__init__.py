@@ -47,13 +47,16 @@ for flnm in core.returnListFiles('.'):
 
 	if extension[1] == '.c':
 	
-	#	core.expandConfigFile(fileName)		
 		# Preprocessing Part
 		inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_TYPE', "typedef int TARGET_TYPE;\n")
-		
+
 		# InputGenerator Part
 		inputgenerator.discoverParameters(fileName)
 		inputgenerator.listCreator("int")
 		inputgenerator.generateHeaders("int")
 
-		core.executePhase(fileName, 'out.csv', 'profiling')
+		chosenMicro = core.chooseMicro()
+		core.executeFileSet(chosenMicro)
+
+		core.executePhase(fileName, 'cStatements.csv', 'profiling')
+		core.executePhase(fileName, 'clockCycles.csv', chosenMicro)

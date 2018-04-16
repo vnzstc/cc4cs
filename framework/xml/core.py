@@ -13,11 +13,6 @@ root = tree.getroot()
 """
 	Operations at System-Level
 """
-def checkKeyExistence(keyName, dictName):
-	if keyName in dictName:
-		return dictName[keyName]
-	return None
-
 def printMicros():
 	"""
 		Function that prints the list of known microprocessors
@@ -46,6 +41,9 @@ def createDir(dirName):
 	os.makedirs(dirName)
 
 def mvAllFiles(destination):
+	"""
+		Moves all files except those with extension .c and .csv in the indicated directory "destination"
+	"""
 	print("moveAllFiles " + destination)
 	if os.path.isdir(destination):	
 		for fileName in returnListFiles(prjPath):
@@ -66,44 +64,72 @@ def getExtensionFilename(fileName):
 	"""
 	return os.path.splitext(fileName)
 
-def executeCommands(phaseName):
+def checkKeyExistence(keyName, dictName):
+	if keyName in dictName:
+		return dictName[keyName]
+	return None
 
-	phaseEle = tree.find(phaseName)
-	depEle = tree.find(phaseName + '/dependencies')
+def executeCmd(flagList, elementObj):
+	inputFile = checkKeyExistence('inputFile', elementObj.attrib)
+	outputFile = checkKeyExistence('outputFile', elementObj.attrib)
+
+	if inputFile != None:
+		flagList.insert(1, inputFile)
+
+	if outputFile != None:
+		flagList.insert(len(flagList), outputFile)
+
+		print(flagList)
+		with open(outputFile, 'w') as execFile:
+			subprocess.call(flagList, stdout=execFile)
+	else:
+		subprocess.call(flagList)
+
+def executeFileSet(microName):
+	phaseEle = tree.find('fileSet')
+	microFiles = phaseEle.findall('.//file[@name="%s"]' % microName)
+
+	for file in microFiles:
+		executeCmd(file.text.split(" "), file)
+
+def executeCommandSet(setName, currentDirectory):
+	phaseEle = tree.find('.//commandSet[@name="%s"]' % setName)
+	# Searches for dependencies tag in the tagName subTree
+	depEle = phaseEle.find('dependencies')
 
 	for cmd in depEle.text.split(" "):
 		flagList = []
 		cmdEle = phaseEle.find(cmd)
-
-		inputFile = checkKeyExistence('inputFile', cmdEle.attrib)
-		outputFile = checkKeyExistence('outputFile', cmdEle.attrib)
-
+		
 		if cmdEle.text != None:
 			flagList = cmdEle.text.split(" ")
 
-		print(cmdEle, inputFile, outputFile, flagList)
-
-		if inputFile != None:
-			flagList.insert(1, inputFile)
-
-		if outputFile != None:
-			flagList.insert(len(flagList), outputFile)
-
-			with open(outputFile, 'w') as execFile:
-				subprocess.call(flagList, stdout=execFile)
-		else:
-			subprocess.call(flagList)
+		if cmdEle.tag == 'compiler': 
+			flagList.extend(['-Iincludes/', "-Iincludes/" + currentDirectory, "-o"])
+		
+		executeCmd(flagList, cmdEle)
 
 def parseGcovOutput(txtFilePath):
 	result = 0
 	with open(txtFilePath + ".c.gcov", "r") as file:
 		for line in file:
-			number = file.readline().split(':')[0]
+			number = line.split(':')[0]
 			number = number.strip()
 			if number.isdigit():
 				result += int(number)
 
 	return result
+
+def parseSimulationOutput(simFileName):
+	"""
+		Generic parsing for a simulation output file 
+		TODO: Not Generic, it works only with the micros already tested
+	"""
+	with open(simFileName) as execFile:
+		content = execFile.read()
+		print(content)
+		cycleStr = getListfromRegex(r'[cC]ycles.*?\d+', content)[0]
+		return getListfromRegex(r'\d+', cycleStr)[0] 
 """ 
 	Operation on the conf XML File
 """
@@ -112,8 +138,7 @@ def chooseMicro():
 		Reads the available microprocessors from a json file and allows the user to choose one
 		Return: the xml object containing all the operation about the chosen micro
 	"""
-
-	for ele in tree.findall('micro'):
+	for ele in tree.findall('.//commandSet[@type="micro"]'):
 		microList.append(ele.get('name'))
 
 	printMicros()
@@ -122,8 +147,8 @@ def chooseMicro():
 		raise ValueError("The id doesn't exist")
 
 	chosenMicro = microList[int(microId)]
-	
-	return root.find('.//micro[@name="%s"]' % chosenMicro)
+
+	return chosenMicro
 
 """ 
 	Operation on CSV Files
@@ -134,18 +159,28 @@ def writeTuple(label, value, writerId):
 def createFileWriter(fileDescriptor):
 	return csv.writer(fileDescriptor, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
 
-
-
 def executePhase(inputFileName, outputFileName, phaseName):
 	with open(outputFileName, 'w') as outputFile:
 		fileWriter = createFileWriter(outputFile)
-		
-		if phaseName == 'profiling':
-		
-			for directory in returnListDir('includes'):
+
+		for directory in returnListDir('includes'):
+
+			if phaseName == 'profiling':
 				outputPath = "profiling/" + directory + '/'
 				createDir(outputPath)
-				executeCommands('profiling')
+				executeCommandSet('profiling', directory)
 				numberCstat = parseGcovOutput(inputFileName)
 				writeTuple(directory, numberCstat, fileWriter)
-				mvAllFiles(outputPath)
+
+			else:
+
+				outputPath = "simulation/" + directory + '/'
+				createDir(outputPath)
+				executeCommandSet(phaseName, directory)
+				#clockCycles = parseSimulationOutput()
+				clockCycles = 0
+				writeTuple(directory, clockCycles, fileWriter)
+
+			# ----------------------------------------------
+			mvAllFiles(outputPath)
+			# ----------------------------------------------
