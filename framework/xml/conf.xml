@@ -16,8 +16,9 @@
 		<dependencies>compiler packihx iss</dependencies>
 	</commandSet> 
 	<commandSet type="micro" name="atmega328"> 
-		<iss inputFile="">simulavr -d atmega328 -T exit -f</iss>
-		<compiler>avr-gcc -g -O2 -mmcu=atmega329 -o</compiler>
+		<iss>simulavr -d atmega328 -T exit -f</iss>
+		<compiler inputFile="prova.c" outputFile="prova">avr-gcc -g -O2 -mmcu=atmega329 -o</compiler>
+		<dependencies>compiler iss</dependencies>
 	</commandSet>
 	<commandSet type="micro" name="Leon3">
 		<iss inputFile="prova" outputFile="simStats.txt">tsim-leon3 -c includes/tsim_cmd</iss>

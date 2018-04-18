@@ -58,5 +58,5 @@ for flnm in core.returnListFiles('.'):
 		chosenMicro = core.chooseMicro()
 		core.executeFileSet(chosenMicro)
 
-		core.executePhase(fileName, 'cStatements.csv', 'profiling')
-		core.executePhase(fileName, 'clockCycles.csv', chosenMicro)
+		core.executeCommandSet(fileName, 'cStatements.csv', 'profiling')
+		core.executeCommandSet(fileName, 'clockCycles.csv', chosenMicro)

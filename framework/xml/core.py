@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as et
 import os, csv
 import subprocess
+from inputgenerator import getListfromRegex
 from shutil import rmtree
 
 microList = []
@@ -9,6 +10,7 @@ prjPath = os.getcwd()
 
 tree = et.parse(scriptPath + '/conf.xml')
 root = tree.getroot()
+chosenMicro = ""
 
 """
 	Operations at System-Level
@@ -21,6 +23,7 @@ def printMicros():
 	for i, ele in enumerate(microList):
 		print('(' + str(i) + ') ' + ele)
 
+# ------------------------------------------------------------------------------------
 def deletePreviousComputation():
 	"""
 		Removes the directories created by previous computations
@@ -37,6 +40,7 @@ def deletePreviousComputation():
 	if os.path.isdir('simulation'):
 		rmtree('simulation')
 
+# ------------------------------------------------------------------------------------
 def createDir(dirName):
 	os.makedirs(dirName)
 
@@ -69,6 +73,14 @@ def checkKeyExistence(keyName, dictName):
 		return dictName[keyName]
 	return None
 
+def executeFileSet(microName):
+	fileSetObj = tree.find('fileSet')
+	microFiles = fileSetObj.findall('.//file[@name="%s"]' % microName)
+
+	for file in microFiles:
+		executeCmd(file.text.split(" "), file)
+
+
 def executeCmd(flagList, elementObj):
 	inputFile = checkKeyExistence('inputFile', elementObj.attrib)
 	outputFile = checkKeyExistence('outputFile', elementObj.attrib)
@@ -77,37 +89,14 @@ def executeCmd(flagList, elementObj):
 		flagList.insert(1, inputFile)
 
 	if outputFile != None:
-		flagList.insert(len(flagList), outputFile)
-
-		print(flagList)
 		with open(outputFile, 'w') as execFile:
 			subprocess.call(flagList, stdout=execFile)
+
+			return outputFile
 	else:
 		subprocess.call(flagList)
 
-def executeFileSet(microName):
-	phaseEle = tree.find('fileSet')
-	microFiles = phaseEle.findall('.//file[@name="%s"]' % microName)
-
-	for file in microFiles:
-		executeCmd(file.text.split(" "), file)
-
-def executeCommandSet(setName, currentDirectory):
-	phaseEle = tree.find('.//commandSet[@name="%s"]' % setName)
-	# Searches for dependencies tag in the tagName subTree
-	depEle = phaseEle.find('dependencies')
-
-	for cmd in depEle.text.split(" "):
-		flagList = []
-		cmdEle = phaseEle.find(cmd)
-		
-		if cmdEle.text != None:
-			flagList = cmdEle.text.split(" ")
-
-		if cmdEle.tag == 'compiler': 
-			flagList.extend(['-Iincludes/', "-Iincludes/" + currentDirectory, "-o"])
-		
-		executeCmd(flagList, cmdEle)
+	return None
 
 def parseGcovOutput(txtFilePath):
 	result = 0
@@ -127,7 +116,6 @@ def parseSimulationOutput(simFileName):
 	"""
 	with open(simFileName) as execFile:
 		content = execFile.read()
-		print(content)
 		cycleStr = getListfromRegex(r'[cC]ycles.*?\d+', content)[0]
 		return getListfromRegex(r'\d+', cycleStr)[0] 
 """ 
@@ -149,7 +137,6 @@ def chooseMicro():
 	chosenMicro = microList[int(microId)]
 
 	return chosenMicro
-
 """ 
 	Operation on CSV Files
 """
@@ -159,28 +146,40 @@ def writeTuple(label, value, writerId):
 def createFileWriter(fileDescriptor):
 	return csv.writer(fileDescriptor, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
 
-def executePhase(inputFileName, outputFileName, phaseName):
+def executeCommandSet(inputFileName, outputFileName, microName):
 	with open(outputFileName, 'w') as outputFile:
 		fileWriter = createFileWriter(outputFile)
 
 		for directory in returnListDir('includes'):
+			# Finds the chosen micro commandSet in the xml, returns a list of subtree
+			currentObj = tree.findall('.//commandSet[@name="%s"]' % microName)
+			# Searches for dependencies tag in the currentObj subtree
+			for currentElement in currentObj:
+				dependenciesObj = currentElement.find('dependencies')
+				# Commands and flags are specified in the tag value, separated by a space
+				for cmd in dependenciesObj.text.split(" "):
+					cmdObj = currentElement.find(cmd)
 
-			if phaseName == 'profiling':
-				outputPath = "profiling/" + directory + '/'
-				createDir(outputPath)
-				executeCommandSet('profiling', directory)
-				numberCstat = parseGcovOutput(inputFileName)
-				writeTuple(directory, numberCstat, fileWriter)
+					flagList = []
+					# If the command flag field is not empty
+					if cmdObj.text != None:
+						flagList = cmdObj.text.split(" ")
+					# If the tag is the compiler one, adds the "includes" flags 
+					if cmdObj.tag == 'compiler': 
+						flagList.extend(['-Iincludes/', "-Iincludes/" + directory, "-o", inputFileName])
+					
+					simOutput = executeCmd(flagList, cmdObj)
 
-			else:
+				if microName == 'profiling':
+					outputPath = 'profiling/' + directory + '/'
+					createDir(outputPath)
+					value = parseGcovOutput(inputFileName)
+				else:
+					outputPath = 'simulation/' + directory + '/'
+					createDir(outputPath)
+					value = parseSimulationOutput(simOutput)
 
-				outputPath = "simulation/" + directory + '/'
-				createDir(outputPath)
-				executeCommandSet(phaseName, directory)
-				#clockCycles = parseSimulationOutput()
-				clockCycles = 0
-				writeTuple(directory, clockCycles, fileWriter)
-
-			# ----------------------------------------------
-			mvAllFiles(outputPath)
-			# ----------------------------------------------
+				# ----------------------------------------------
+				writeTuple(directory, value, fileWriter)
+				mvAllFiles(outputPath)
+				# ----------------------------------------------
