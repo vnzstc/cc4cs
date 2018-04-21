@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as et
-import os, csv
+import os, csv, re
 import subprocess
 from inputgenerator import getListfromRegex
 from shutil import rmtree
@@ -15,6 +15,7 @@ chosenMicro = ""
 """
 	Operations at System-Level
 """
+
 def printMicros():
 	"""
 		Function that prints the list of known microprocessors
@@ -23,24 +24,13 @@ def printMicros():
 	for i, ele in enumerate(microList):
 		print('(' + str(i) + ') ' + ele)
 
-# ------------------------------------------------------------------------------------
-def deletePreviousComputation():
+def removeDir(dirName):
 	"""
-		Removes the directories created by previous computations
+		Removes the directory specified in dirName
 	"""
-	if os.path.isdir('includes'):
-		rmtree('includes')
+	if os.path.isdir(dirName):
+		rmtree(dirName)
 
-	if os.path.isdir('profiling'):
-		rmtree('profiling')
-
-	if os.path.isdir('results'):
-		rmtree('results')
-
-	if os.path.isdir('simulation'):
-		rmtree('simulation')
-
-# ------------------------------------------------------------------------------------
 def createDir(dirName):
 	os.makedirs(dirName)
 
@@ -69,9 +59,13 @@ def getExtensionFilename(fileName):
 	return os.path.splitext(fileName)
 
 def checkKeyExistence(keyName, dictName):
+
 	if keyName in dictName:
-		return dictName[keyName]
-	return None
+		flagList = dictName[keyName].split(" ")
+		print(flagList)
+		return flagList
+
+	return []
 
 def executeFileSet(microName):
 	fileSetObj = tree.find('fileSet')
@@ -84,17 +78,21 @@ def executeFileSet(microName):
 def executeCmd(flagList, elementObj):
 	inputFile = checkKeyExistence('inputFile', elementObj.attrib)
 	outputFile = checkKeyExistence('outputFile', elementObj.attrib)
+	
+	if len(inputFile) > 0:
+		flagList[1:1] = inputFile
 
-	if inputFile != None:
-		flagList.insert(1, inputFile)
+	if len(outputFile) >= 2:
+		flagList[len(flagList):len(flagList)] = outputFile
 
-	if outputFile != None:
-		with open(outputFile, 'w') as execFile:
+	if len(outputFile) > 0:
+		print(flagList)
+		with open(outputFile[-1], 'w') as execFile:
 			subprocess.call(flagList, stdout=execFile)
+		return outputFile[-1]
 
-			return outputFile
-	else:
-		subprocess.call(flagList)
+	print(flagList)
+	subprocess.call(flagList)
 
 	return None
 
@@ -116,8 +114,8 @@ def parseSimulationOutput(simFileName):
 	"""
 	with open(simFileName) as execFile:
 		content = execFile.read()
-		cycleStr = getListfromRegex(r'[cC]ycles.*?\d+', content)[0]
-		return getListfromRegex(r'\d+', cycleStr)[0] 
+		cycleStr = re.search(r'([cC]ycles.*?:\s*)(\d+)', content)
+		return cycleStr.group(2)
 """ 
 	Operation on the conf XML File
 """
@@ -164,9 +162,10 @@ def executeCommandSet(inputFileName, outputFileName, microName):
 					# If the command flag field is not empty
 					if cmdObj.text != None:
 						flagList = cmdObj.text.split(" ")
+
 					# If the tag is the compiler one, adds the "includes" flags 
 					if cmdObj.tag == 'compiler': 
-						flagList.extend(['-Iincludes/', "-Iincludes/" + directory, "-o", inputFileName])
+						flagList.extend(["-Iincludes/" + directory])
 					
 					simOutput = executeCmd(flagList, cmdObj)
 

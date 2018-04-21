@@ -4,25 +4,25 @@
 		<file name="Leon3" inputFile="/home/cerbero/mipsc/tsim_cmd">cp includes/</file>
 	</fileSet>
 	<commandSet name="profiling"> 
-		<compiler inputFile="prova.c" outputFile="prova">gcc -fprofile-arcs -ftest-coverage</compiler>
+		<compiler inputFile="prova.c" outputFile="-o prova">gcc -fprofile-arcs -ftest-coverage -Iincludes/</compiler>
 		<gcov inputFile="prova">gcov</gcov>
 		<exec inputFile="/home/cerbero/Desktop/xml/prova/prova"></exec>
 		<dependencies>compiler exec gcov</dependencies>
 	</commandSet>
 	<commandSet type="micro" name="8051"> 
 		<iss inputFile="program.hex" outputFile="simStats.txt">isasim</iss>
-		<compiler inputFile="prova.c" outputFile="program.ihx">sdcc -mmcs51 --iram-size 128 -o</compiler>
-		<packihx inputFile="program.ihx" outputFile="program.hex">packihx</packihx>
+		<compiler inputFile="prova.c">sdcc -mmcs51 --iram-size 128</compiler>
+		<packihx inputFile="prova.ihx" outputFile="program.hex">packihx</packihx>
 		<dependencies>compiler packihx iss</dependencies>
 	</commandSet> 
 	<commandSet type="micro" name="atmega328"> 
-		<iss>simulavr -d atmega328 -T exit -f</iss>
-		<compiler inputFile="prova.c" outputFile="prova">avr-gcc -g -O2 -mmcu=atmega329 -o</compiler>
+		<iss inputFile="-f prova" outputFile="simStats.txt">simulavr -d atmega328 -T exit</iss>
+		<compiler inputFile="prova.c" outputFile="-o prova">avr-gcc -g -mmcu=atmega329</compiler>
 		<dependencies>compiler iss</dependencies>
 	</commandSet>
 	<commandSet type="micro" name="Leon3">
 		<iss inputFile="prova" outputFile="simStats.txt">tsim-leon3 -c includes/tsim_cmd</iss>
-		<compiler inputFile="prova.c" outputFile="prova">sparc-gaisler-elf-gcc -o0</compiler>
+		<compiler inputFile="prova.c" outputFile="-o prova">sparc-gaisler-elf-gcc -o0</compiler>
 		<dependencies>compiler iss</dependencies>
 	</commandSet> 
 </configuration>

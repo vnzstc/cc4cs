@@ -32,7 +32,12 @@ print("\n\n ██████╗ ██████╗██╗  ██╗ █�
 	cwd = os.getcwd()
 	print(cwd)
 """
-core.deletePreviousComputation()
+
+# Deletes previous computations
+core.removeDir('includes')
+core.removeDir('profiling')
+core.removeDir('simulation')
+core.removeDir('results')
 
 # --------------------------------------
 core.createDir('profiling')
@@ -55,6 +60,7 @@ for flnm in core.returnListFiles('.'):
 		inputgenerator.listCreator("int")
 		inputgenerator.generateHeaders("int")
 
+		# Simulation Part
 		chosenMicro = core.chooseMicro()
 		core.executeFileSet(chosenMicro)
 
