@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as et
 import os, csv, re
 import subprocess
-from inputgenerator import getListfromRegex
+from inputgenerator import getListfromRegex, searchRegex
 from shutil import rmtree
 
 microList = []
@@ -34,6 +34,11 @@ def removeDir(dirName):
 def createDir(dirName):
 	os.makedirs(dirName)
 
+
+def mvFile(filename, destination):
+	if os.path.isdir(destination):	
+		os.rename(filename, destination + filename)
+
 def mvAllFiles(destination):
 	"""
 		Moves all files except those with extension .c and .csv in the indicated directory "destination"
@@ -41,7 +46,7 @@ def mvAllFiles(destination):
 	print("moveAllFiles " + destination)
 	if os.path.isdir(destination):	
 		for fileName in returnListFiles(prjPath):
-			if getExtensionFilename(fileName)[1] != ".c" and getExtensionFilename(fileName)[1] != '.csv':
+			if getExtensionFilename(fileName)[1] != ".c" and getExtensionFilename(fileName)[1] != ".csv":
 				os.rename(fileName, destination + fileName)
 
 # ------------------------------------------------------------------------------------
@@ -114,7 +119,7 @@ def parseSimulationOutput(simFileName):
 	"""
 	with open(simFileName) as execFile:
 		content = execFile.read()
-		cycleStr = re.search(r'([cC]ycles.*?:\s*)(\d+)', content)
+		cycleStr = searchRegex(r'([cC]ycles.*?:\s*)(\d+)', content)
 		return cycleStr.group(2)
 """ 
 	Operation on the conf XML File
@@ -182,3 +187,18 @@ def executeCommandSet(inputFileName, outputFileName, microName):
 				writeTuple(directory, value, fileWriter)
 				mvAllFiles(outputPath)
 				# ----------------------------------------------
+	
+"""
+CC4CS Calculation and Plotting
+"""
+
+def calculateMetric(cyclesFilename, statementsFilename):
+
+	with open(cyclesFilename) as cyclesFile, open(statementsFilename) as statementsFile, open("cc4csValues.csv", "w") as outputFile:
+		cyclesContent = csv.reader(cyclesFile)
+		statementsContent = csv.reader(statementsFile)
+		fileWriter = createFileWriter(outputFile)
+
+		for (c1, c2) in zip(cyclesContent, statementsContent):
+			cc4csValue = (int(c1[1]) / int(c2[1]))
+			writeTuple(c1[0], "%.3f" %  cc4csValue, fileWriter)

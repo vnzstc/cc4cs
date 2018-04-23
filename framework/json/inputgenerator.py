@@ -7,7 +7,6 @@ scalars = {}
 arrays = {}
 sizes = {}
 
-
 def replaceStr(filename, regexStr, replacementStr):
 	"""
 	If a line, in the file called 'filename', matches the regex specified with 'regexStr' is replaced 
@@ -28,6 +27,8 @@ def replaceStr(filename, regexStr, replacementStr):
 def getListfromRegex(regexStr, lineStr):
 	return re.findall(regexStr, lineStr)
 
+def searchRegex(regexStr, content):
+	return re.search(regexStr, content)
 
 def initializeSizes(variable):
 	matched = getSizes(variable)

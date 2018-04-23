@@ -44,7 +44,6 @@ core.createDir('profiling')
 core.createDir('simulation')
 core.createDir('results')
 # --------------------------------------
-
 cycleFile = "clockCycles.csv"
 statementsFile = "cStatements.csv"
 
@@ -65,11 +64,10 @@ for flnm in core.returnListFiles('.'):
 
 		# Simulation Part
 		chosenMicro = core.chooseMicro()
-		core.executeFileSet(chosenMicro)
+		# core.executeFileSet(chosenMicro)
 
-		core.executeCommandSet(fileName, statementsFile, 'profiling')
-		core.executeCommandSet(fileName, cycleFile, chosenMicro)
+		core.executeCommandSet(fileName, 'cStatements.csv', 'profiling')
+		core.executeCommandSet(fileName, 'clockCycles.csv', chosenMicro)
 
 		# Calculate Statistics 
 		core.calculateMetric(cycleFile, statementsFile)
-		

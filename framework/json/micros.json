@@ -1,0 +1,28 @@
+{
+	"profiling": {
+		"compiler": "gcc [programName].c -fprofile-arcs -ftest-coverage -Iincludes/ -Iincludes/[directoryName] -o [programName]",
+		"exec": "[prjPath][programName]",
+		"gcov": "gcov [programName]",
+		"dependencies": "compiler exec gcov"
+	},
+
+	"Atmega328": {
+		"iss": "simulavr -f [programName] -d atmega328 -T exit {[programName].txt}",
+		"compiler": "avr-gcc [programName].c -g -mmcu=atmega329 -Iincludes/[directoryName] -o [programName]",
+		"dependencies": "compiler iss"
+	},
+
+	"8051": {
+		"compiler": "sdcc [programName].c -mmcs51 --iram-size 128 -Iincludes/[directoryName]",
+		"iss": "isasim [programName].hex",
+		"packihx": "packihx [programName].ihx {[programName].hex}",
+		"dependencies" : "compiler packihx iss"	
+	},
+
+	"Leon3": {
+		"additionalFile": "cp [scriptPath]/tsim_cmd includes/",
+		"iss": "tsim-leon3 [programName] -c includes/tsim_cmd {[programName].txt}",
+		"compiler": "sparc-gaisler-elf-gcc [programName].c -o0 -Iincludes/[directoryName] -o [programName]",
+		"dependencies": "additionalFile compiler iss"
+	}
+}
