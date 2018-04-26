@@ -1,9 +1,11 @@
 {
+
 	"profiling": {
+		"additionalFile": "cp [scriptPath]/8051.h includes/",
 		"compiler": "gcc [programName].c -fprofile-arcs -ftest-coverage -Iincludes/ -Iincludes/[directoryName] -o [programName]",
 		"exec": "[prjPath][programName]",
 		"gcov": "gcov [programName]",
-		"dependencies": "compiler exec gcov"
+		"dependencies": "additionalFile compiler exec gcov"
 	},
 
 	"Atmega328": {
@@ -14,7 +16,7 @@
 
 	"8051": {
 		"compiler": "sdcc [programName].c -mmcs51 --iram-size 128 -Iincludes/[directoryName]",
-		"iss": "isasim [programName].hex",
+		"iss": "isasim [programName].hex {[programName].txt}",
 		"packihx": "packihx [programName].ihx {[programName].hex}",
 		"dependencies" : "compiler packihx iss"	
 	},

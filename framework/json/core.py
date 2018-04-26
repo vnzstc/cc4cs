@@ -11,13 +11,20 @@ microList = []
 
 
 def removeDir(dirName):
-	"""
-		Removes the directory specified in dirName
+	"""Removes the specified directory
+	
+	Args:
+		dirName (string): the name of the directory to delete
 	"""
 	if os.path.isdir(dirName):
 		rmtree(dirName)
 
 def createDir(dirName):
+	"""Creates the specified directory in the working directory
+	
+	Args:
+		dirName (string): the name of the directory to create
+	"""
 	os.makedirs(dirName)
 
 # ----------------------------------------------------
@@ -28,9 +35,14 @@ def returnListDir(topDir):
 	return [f for f in os.listdir(topDir) if os.path.isdir(os.path.join(topDir, f))]
 # ---------------------------------------------------
 
-def getExtensionFilename(fileName):
-	"""
-		Given the file name, returns a list containing the file name without the extension and this one
+def getExtensionFilename(filename):
+	"""Extracts the extension from the filename
+	
+	Args:
+		filename (string): the name of the file to be processed
+	
+	Returns:
+		list: a list of two elements containing the filename and his extension
 	"""
 	return os.path.splitext(fileName)
 
@@ -40,11 +52,19 @@ def mvFiles(destination, listFileName):
 			os.rename(fileName, destination + fileName)
 
 def writeTuple(label, value, writerId):
+	"""Writes a tuple (label, value) in a file
+	
+	Args:
+		label (string): label to be written in the file
+		value (string): value to be written in the file
+	"""
 	writerId.writerow([label, value])
 
 def mvAllFiles(destination):
-	"""
-		Moves all files except those with extension .c and .csv in the indicated directory "destination"
+	"""Moves all files except those with extension .c and .csv in the indicated directory 
+
+	Args:
+		destination (string): the path of the directory in which the files have to be moved
 	"""
 	print("moveAllFiles " + destination)
 	if os.path.isdir(destination):	
@@ -53,17 +73,17 @@ def mvAllFiles(destination):
 				os.rename(fileName, destination + fileName)
 
 def printMicroprocessors():
-	"""
-		Function that prints the list of known microprocessors
+	"""Function that prints the list of known microprocessorss
 	"""
 	print("List of available microprocessors:\n")
 	for i, ele in enumerate(microList):
 		print('(' + str(i) + ') ' + ele)
 
 def chooseMicro():
-	"""
-		Reads the available microprocessors from a json file and allows the user to choose one
-		Return: a dictionary that contains ISS and compiler used by the chosen microprocessor
+	"""Reads the available microprocessors from a json file and allows the user to choose one
+	
+	Returns: 
+		string: the name of the chosen microprocessor
 	"""
 	with open(scriptPath + '/micros.json', 'r') as jsonFile:
 		global frameworkData
@@ -83,6 +103,15 @@ def chooseMicro():
 		return chosenMicro
 	
 def parseGcovOutput(txtFilePath):
+	"""Analyzes the output of GCov profiler 
+
+	Args:
+		txtfilePath (string): the name of the .c.gcov file.
+
+	Returns: 
+		int: the number of executed C statements
+	"""
+
 	result = 0
 	with open(txtFilePath + ".c.gcov", "r") as file:
 		for line in file:
@@ -93,18 +122,33 @@ def parseGcovOutput(txtFilePath):
 
 	return result
 
-def parseSimulationOutput(simFileName):
+def parseSimulationOutput(simFilename):
+	"""Generic parsing for a simulation output file 
+
+	Args:
+		simFilename (string):  the name of the file that contains simulation information
+
+	Returns:
+		string: number of clock cycles
+
+	Todo: 
+		* Not Generic, it works only with the micros already tested
 	"""
-		Generic parsing for a simulation output file 
-		TODO: Not Generic, it works only with the micros already tested
-	"""
-	with open(simFileName) as execFile:
+	with open(simFilename) as execFile:
 		content = execFile.read()
 		cycleStr = searchRegex(r'([cC]ycles.*?:\s*)(\d+)', content)
 		
 		return cycleStr.group(2)
 
 def createFileWriter(fileDescriptor):
+	"""Prepares a file to be written that uses the comma as delimiter
+	
+	Args:
+		fileDescription (obj): the object that represents a file
+
+	Returns:
+		obj: writer object responsible for converting the user’s data into delimited strings on the given file-like object
+	"""
 	return csv.writer(fileDescriptor, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
 
 """
@@ -112,9 +156,26 @@ def createFileWriter(fileDescriptor):
 """
 
 def splitBySpace(customString):
+	"""Function used to split a string that contains spaces 
+	
+	Args:
+		customString (string): the string to be split
+
+	Returns: 
+		list: the list that contains the elements separated by a space
+	"""
 	return customString.split(" ")
 
 def expandCommand(reducedCommand, directory = None):
+	"""Replaces the placeholder, inserted in .json file, with the appropriate values
+
+	Args:
+		reducedCommand (string): the string with the placeholders 
+		directory (string, optional):  a string that contains a directory path. Defaults to None.
+
+	Returns:
+		string: the expanded string 
+	"""
 	expandendCommand = reducedCommand
 
 	if '[programName]' in reducedCommand:
@@ -132,14 +193,36 @@ def expandCommand(reducedCommand, directory = None):
 	return expandendCommand
 
 def getOutputFilename(commandString):
-	print("getOut:", commandString)
+	"""Searches for the placeholder that indicates the output file
+
+	Args:
+		commandString (string): 
+
+	Examples:
+		Output File placeholder: {content.format}  
+
+	Returns: 
+		string: if present, the content of the output file placeholder otherwise None
+	"""
 	outputFilename = searchRegex(r'\{(.*?)\}', commandString)
 
 	if outputFilename != None:
 		return outputFilename.group(1)
 	return None
 
-def executeCommandSet(inputFilename, resultFile, microName):
+def executeCommandSet(filename, resultFile, microName):
+	""" Executes the set of commands incated under microName label in the .json file
+
+	Args:	
+		filename (string): the filename of the c program
+		resultFile (string): the file in which are stored the information about the execution 
+		microName (string): the label of the .json file 
+
+
+	Todo:
+		* delete filename parameter
+		* insert comments in the algorithm
+	"""
 	with open(resultFile, 'w') as outputFile:
 		fileWriter = createFileWriter(outputFile)
 		commandSet = frameworkData[microName]
@@ -157,8 +240,10 @@ def executeCommandSet(inputFilename, resultFile, microName):
 				print(flags)
 				if outputFilename != None:
 
+					# ---------------------------------------
 					flags.remove('{' + outputFilename + '}')
-
+					# ---------------------------------------
+					
 					print(flags)
 					with open(outputFilename, 'w') as execFile:
 						subprocess.call(flags, stdout=execFile)
@@ -172,7 +257,6 @@ def executeCommandSet(inputFilename, resultFile, microName):
 			else:
 				outputPath = 'simulation/' + directory + '/'
 				createDir(outputPath)
-				#---- CRITICAL: TO BE CHECKED 
 				value = parseSimulationOutput(outputFilename)
 			
 			# ----------------------------------------------
@@ -184,7 +268,12 @@ CC4CS Calculation and Plotting
 """
 
 def calculateMetric(cyclesFilename, statementsFilename):
+"""Analyzes the content of the files with the clock cycles, used by the microprocessoe, and the number of C statements.
 
+Args:
+	cyclesFilename (string): path of the file obtained from the simulation phase
+	statementsFilename (string): path of the file obtained from the profiling phase
+"""
 	with open(cyclesFilename) as cyclesFile, open(statementsFilename) as statementsFile, open("cc4csValues.csv", "w") as outputFile:
 		cyclesContent = csv.reader(cyclesFile)
 		statementsContent = csv.reader(statementsFile)

@@ -5,21 +5,8 @@ import csv, sys
 import inputgenerator
 import core
 
-"""
-CC4CS Evaluation Framework
-
-usage:
-	__init__.py --debug 
-
-options:
-	--debug		enables debug options 
-"""
 types = ["int", "long", "float"]
 
-"""
-debugOpt = False
-if "--debug" in sys.argv: debugOpt = True
-"""
 
 print("\n\n ██████╗ ██████╗██╗  ██╗ ██████╗███████╗\n"+
 	  "██╔════╝██╔════╝██║  ██║██╔════╝██╔════╝\n"+
