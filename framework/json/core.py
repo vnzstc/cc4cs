@@ -1,4 +1,4 @@
-import os, subprocess, json, csv
+import os, subprocess, json, csv, fnmatch
 from shutil import rmtree
 from inputgenerator import searchRegex
 
@@ -9,6 +9,14 @@ prjPath = os.getcwd()
 
 microList = []
 
+def setCurrentFile(filename):
+	"""Sets the global variable that indicates the current program that is under analysis
+	
+	Args:
+		filename (string): the filename of the c program 
+	"""
+	global currentFilename
+	currentFilename = filename
 
 def removeDir(dirName):
 	"""Removes the specified directory
@@ -27,6 +35,28 @@ def createDir(dirName):
 	"""
 	os.makedirs(dirName)
 
+def findFileByExtension(directory, extension):
+	"""
+	Find the files with the specified extension.
+
+	Args:
+		directory: indicates the directory in which the file has to be searched
+		extension: indicates the extension of the file
+
+	Returns:
+		list: the list of elements with the specified extension else None 
+	"""
+	fileList = returnListFiles(directory)
+	results = []
+
+	for element in fileList:
+		# the asterisk is needed to indicate 
+		if fnmatch.fnmatch(element, '*' + extension):
+			results.append(element)
+
+	return results
+
+
 # ----------------------------------------------------
 def returnListFiles(topDir):
 	return [f for f in os.listdir(topDir) if os.path.isfile(os.path.join(topDir, f))]
@@ -44,12 +74,12 @@ def getExtensionFilename(filename):
 	Returns:
 		list: a list of two elements containing the filename and his extension
 	"""
-	return os.path.splitext(fileName)
+	return os.path.splitext(filename)
 
-def mvFiles(destination, listFileName):
+def mvFiles(destination, listFilename):
 	if os.path.isdir(destination):	
-		for fileName in listFileName:
-			os.rename(fileName, destination + fileName)
+		for filename in listFilename:
+			os.rename(filename, destination + filename)
 
 def writeTuple(label, value, writerId):
 	"""Writes a tuple (label, value) in a file
@@ -68,9 +98,9 @@ def mvAllFiles(destination):
 	"""
 	print("moveAllFiles " + destination)
 	if os.path.isdir(destination):	
-		for fileName in returnListFiles(prjPath):
-			if getExtensionFilename(fileName)[1] != ".c" and getExtensionFilename(fileName)[1] != '.csv':
-				os.rename(fileName, destination + fileName)
+		for filename in returnListFiles(prjPath):
+			if getExtensionFilename(filename)[1] != ".c" and getExtensionFilename(filename)[1] != '.csv':
+				os.rename(filename, destination + filename)
 
 def printMicroprocessors():
 	"""Function that prints the list of known microprocessorss
@@ -102,7 +132,7 @@ def chooseMicro():
 
 		return chosenMicro
 	
-def parseGcovOutput(txtFilePath):
+def parseGcovOutput():
 	"""Analyzes the output of GCov profiler 
 
 	Args:
@@ -111,9 +141,8 @@ def parseGcovOutput(txtFilePath):
 	Returns: 
 		int: the number of executed C statements
 	"""
-
 	result = 0
-	with open(txtFilePath + ".c.gcov", "r") as file:
+	with open(currentFilename + ".c.gcov", "r") as file:
 		for line in file:
 			number = line.split(':')[0]
 			number = number.strip()
@@ -151,10 +180,6 @@ def createFileWriter(fileDescriptor):
 	"""
 	return csv.writer(fileDescriptor, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
 
-"""
-	Command Execution Phase 
-"""
-
 def splitBySpace(customString):
 	"""Function used to split a string that contains spaces 
 	
@@ -165,6 +190,7 @@ def splitBySpace(customString):
 		list: the list that contains the elements separated by a space
 	"""
 	return customString.split(" ")
+
 
 def expandCommand(reducedCommand, directory = None):
 	"""Replaces the placeholder, inserted in .json file, with the appropriate values
@@ -178,8 +204,9 @@ def expandCommand(reducedCommand, directory = None):
 	"""
 	expandendCommand = reducedCommand
 
+	# ----------------------------------------------
 	if '[programName]' in reducedCommand:
-		expandendCommand = expandendCommand.replace('[programName]', 'prova')
+		expandendCommand = expandendCommand.replace('[programName]', currentFilename)
 
 	if '[prjPath]' in reducedCommand:
 		expandendCommand = expandendCommand.replace('[prjPath]', prjPath + '/')
@@ -189,6 +216,7 @@ def expandCommand(reducedCommand, directory = None):
 
 	if '[directoryName]' in reducedCommand:
 		expandendCommand = expandendCommand.replace('[directoryName]', directory)
+	# ----------------------------------------------
 
 	return expandendCommand
 
@@ -210,14 +238,13 @@ def getOutputFilename(commandString):
 		return outputFilename.group(1)
 	return None
 
-def executeCommandSet(filename, resultFile, microName):
-	""" Executes the set of commands incated under microName label in the .json file
+def executeCommandSet(resultFile, microName):
+	"""Executes the set of commands incated under microName label in the .json file
 
 	Args:	
 		filename (string): the filename of the c program
 		resultFile (string): the file in which are stored the information about the execution 
 		microName (string): the label of the .json file 
-
 
 	Todo:
 		* delete filename parameter
@@ -253,7 +280,7 @@ def executeCommandSet(filename, resultFile, microName):
 			if microName == 'profiling':
 				outputPath = 'profiling/' + directory + '/'
 				createDir(outputPath)
-				value = parseGcovOutput(inputFilename)
+				value = parseGcovOutput()
 			else:
 				outputPath = 'simulation/' + directory + '/'
 				createDir(outputPath)
@@ -268,12 +295,12 @@ CC4CS Calculation and Plotting
 """
 
 def calculateMetric(cyclesFilename, statementsFilename):
-"""Analyzes the content of the files with the clock cycles, used by the microprocessoe, and the number of C statements.
+	"""Analyzes the content of the files with the clock cycles, used by the microprocessoe, and the number of C statements.
 
-Args:
-	cyclesFilename (string): path of the file obtained from the simulation phase
-	statementsFilename (string): path of the file obtained from the profiling phase
-"""
+	Args:
+		cyclesFilename (string): path of the file obtained from the simulation phase
+		statementsFilename (string): path of the file obtained from the profiling phase
+	"""
 	with open(cyclesFilename) as cyclesFile, open(statementsFilename) as statementsFile, open("cc4csValues.csv", "w") as outputFile:
 		cyclesContent = csv.reader(cyclesFile)
 		statementsContent = csv.reader(statementsFile)

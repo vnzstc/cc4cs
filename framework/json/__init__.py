@@ -37,7 +37,8 @@ statementsFile = "cStatements.csv"
 # Searches for all the '.c' files in the current directory
 for flnm in core.returnListFiles('.'):
 	extension =  core.getExtensionFilename(flnm)
-	fileName = extension[0]
+	filename = extension[0]
+	core.setCurrentFile(filename)
 
 	if extension[1] == '.c':
 	
@@ -45,7 +46,7 @@ for flnm in core.returnListFiles('.'):
 		inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_TYPE', "typedef int TARGET_TYPE;\n")
 
 		# InputGenerator Part
-		inputgenerator.discoverParameters(fileName)
+		inputgenerator.discoverParameters(filename)
 		inputgenerator.listCreator("int")
 		inputgenerator.generateHeaders("int")
 
@@ -53,8 +54,8 @@ for flnm in core.returnListFiles('.'):
 		chosenMicro = core.chooseMicro()
 		# core.executeFileSet(chosenMicro)
 
-		core.executeCommandSet(fileName, 'cStatements.csv', 'profiling')
-		core.executeCommandSet(fileName, 'clockCycles.csv', chosenMicro)
+		core.executeCommandSet('cStatements.csv', 'profiling')
+		core.executeCommandSet('clockCycles.csv', chosenMicro)
 
 		# Calculate Statistics 
 		core.calculateMetric(cycleFile, statementsFile)
