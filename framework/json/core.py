@@ -46,7 +46,7 @@ def findFileByExtension(directory, extension):
 	Returns:
 		list: the list of elements with the specified extension else None 
 	"""
-	fileList = returnListFiles(directory)
+	fileList = returnFiles(directory)
 	results = []
 
 	for element in fileList:
@@ -56,14 +56,17 @@ def findFileByExtension(directory, extension):
 
 	return results
 
-# ----------------------------------------------------
-def returnListFiles(topDir):
-	return [f for f in os.listdir(topDir) if os.path.isfile(os.path.join(topDir, f))]
-
-def returnListDir(topDir):
-	return [f for f in os.listdir(topDir) if os.path.isdir(os.path.join(topDir, f))]
-
 def returnFiles(topDir, dirFlag = False, extension = None):
+	"""Returns the files or directories contained in the indicated directory
+		
+	Args:
+		topDir (string): indicates the directory in which the files has to be searched
+		dirFlag (boolean, optional): if specified, the function returns the list of directories in topDir
+		extension (string, optional): if specified, the function returns the list of files with the indicated extension
+
+	Returns:
+		list: the list of files or directories in the directory
+	"""
 	fileList = []
 	
 	if dirFlag == True:
@@ -73,7 +76,6 @@ def returnFiles(topDir, dirFlag = False, extension = None):
 		return [f for f in os.listdir(topDir) if os.path.isfile(os.path.join(topDir, f)) and f.endswith(extension)]
 
 	return [f for f in os.listdir(topDir) if os.path.isfile(os.path.join(topDir, f))]
-# ---------------------------------------------------
 
 def getExtensionFilename(filename):
 	"""Extracts the extension from the filename
@@ -272,7 +274,7 @@ def executeCommandSet(resultFile, microName):
 		commandSet = frameworkData[microName]
 		commandList = splitBySpace(commandSet["dependencies"])
 
-		for directory in returnListDir('includes'):
+		for directory in returnFiles('includes', True):
 			for command in commandList:
 				commandStr = commandSet[command]
 
