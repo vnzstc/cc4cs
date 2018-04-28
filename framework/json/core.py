@@ -56,13 +56,23 @@ def findFileByExtension(directory, extension):
 
 	return results
 
-
 # ----------------------------------------------------
 def returnListFiles(topDir):
 	return [f for f in os.listdir(topDir) if os.path.isfile(os.path.join(topDir, f))]
 
 def returnListDir(topDir):
 	return [f for f in os.listdir(topDir) if os.path.isdir(os.path.join(topDir, f))]
+
+def returnFiles(topDir, dirFlag = False, extension = None):
+	fileList = []
+	
+	if dirFlag == True:
+		return [f for f in os.listdir(topDir) if os.path.isdir(os.path.join(topDir, f))]
+
+	if extension != None:
+		return [f for f in os.listdir(topDir) if os.path.isfile(os.path.join(topDir, f)) and f.endswith(extension)]
+
+	return [f for f in os.listdir(topDir) if os.path.isfile(os.path.join(topDir, f))]
 # ---------------------------------------------------
 
 def getExtensionFilename(filename):
@@ -76,10 +86,17 @@ def getExtensionFilename(filename):
 	"""
 	return os.path.splitext(filename)
 
-def mvFiles(destination, listFilename):
+def mvFiles(destination, extension):
+	"""Move files with the given extension
+	
+	Args:
+		destination (string): the directory in which the files will be moved
+		extension (string): the extension of the files to move
+	"""
 	if os.path.isdir(destination):	
-		for filename in listFilename:
-			os.rename(filename, destination + filename)
+		for filename in returnFiles('.', extension):
+			if getExtensionFilename(filename)[1] != ".c":
+				os.rename(filename, destination + filename)
 
 def writeTuple(label, value, writerId):
 	"""Writes a tuple (label, value) in a file
@@ -98,9 +115,10 @@ def mvAllFiles(destination):
 	"""
 	print("moveAllFiles " + destination)
 	if os.path.isdir(destination):	
-		for filename in returnListFiles(prjPath):
-			if getExtensionFilename(filename)[1] != ".c" and getExtensionFilename(filename)[1] != '.csv':
+		for filename in returnFiles(prjPath):
+			if getExtensionFilename(filename)[1] != ".c" and getExtensionFilename(filename)[1] != ".csv":
 				os.rename(filename, destination + filename)
+
 
 def printMicroprocessors():
 	"""Function that prints the list of known microprocessorss
@@ -247,7 +265,6 @@ def executeCommandSet(resultFile, microName):
 		microName (string): the label of the .json file 
 
 	Todo:
-		* delete filename parameter
 		* insert comments in the algorithm
 	"""
 	with open(resultFile, 'w') as outputFile:

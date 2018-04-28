@@ -49,7 +49,6 @@ for flnm in core.returnListFiles('.'):
 		inputgenerator.discoverParameters(filename)
 		inputgenerator.listCreator("int")
 		inputgenerator.generateHeaders("int")
-
 		# Simulation Part
 		chosenMicro = core.chooseMicro()
 		# core.executeFileSet(chosenMicro)
@@ -59,3 +58,4 @@ for flnm in core.returnListFiles('.'):
 
 		# Calculate Statistics 
 		core.calculateMetric(cycleFile, statementsFile)
+		core.mvFiles("results/", ".csv")
