@@ -8,9 +8,12 @@ arrays = {}
 sizes = {}
 
 def replaceStr(filename, regexStr, replacementStr):
-	"""
-	If a line, in the file called 'filename', matches the regex specified with 'regexStr' is replaced 
-	with the string indicated in replacementStr
+	"""Replaces a line in a file that matches the specified regular expression
+
+		Args: 
+			filename (string): the name of the file to be opened
+			regexStr (string): a regular expression
+			replacementStr (string): the string that is inserted in the file 
 	"""
 	with open(filename, "r") as file:
 		lines = file.readlines()
@@ -25,6 +28,15 @@ def replaceStr(filename, regexStr, replacementStr):
 
 
 def getListfromRegex(regexStr, lineStr):
+	"""Finds all possible matches of a regex in a line
+
+		Args:
+			regexStr (string): a regular expression
+			lineStr (string): the string to be checked 
+
+		Returns:
+			list: the list of all matches found
+	"""
 	return re.findall(regexStr, lineStr)
 
 def searchRegex(regexStr, content):
@@ -42,12 +54,21 @@ def initializeSizes(variable):
 	return False
 
 def getSizes(variable):
+	"""Retrieves the sizes of an array variable
+
+		Args:
+			variable (string): an array variable 
+	
+		Todo:
+			* Check of the format of the string 
+
+		Returns:
+			list: a list containing the sizes of variable
+	"""
 	return getListfromRegex(r'\[(.*?)\]', variable)
 
 def parametersFilter(lineStr):
 	"""
-	Given a list of parameters, returns the name of each element
-	Divides the latters looking at the type (scalar or not)
 	"""
 	global scalars
 	tempScalars = []
@@ -63,6 +84,18 @@ def parametersFilter(lineStr):
 	scalars = {variable : "" for variable in set(tempScalars) - set(sizes.keys())}
 
 def insertInput(variable, regexStr):
+	"""Asks to the user to insert an input, for a given varaible, of the format specified by a regex
+		
+		Args:
+			variable (string): the variable under consideration
+			regexStr (string): the regex to be matched
+
+		Returns:
+			string: the data inserted
+
+		Raises:
+			ValueError: if the input string does not match the regexs
+	"""
 	inputStr = input('Enter input for '  + '"' + variable + '"' + ': ')
 
 	if not re.match(regexStr, inputStr):
@@ -70,9 +103,7 @@ def insertInput(variable, regexStr):
 	return inputStr
 
 def askForInputs():
-	""" 
-	For each parameter, asks to re.match('\[(\d,\d)\]', input_str)	- a range used to generate random values between min and max
-		- the number of inputs to create, for scalar variable
+	"""For each parameter, initializes a dictionary with the range inserted by the user
 	"""
 	print("- Enter a range [min,max] for array variables\n"+
 		  "- Enter a range [min,max];inputs for scalar variables\n")
@@ -85,10 +116,16 @@ def askForInputs():
 
 	for variable in arrays:
 		arrays[variable] = insertInput(variable, r'\[\d+,\d+\]$')
+
 def discoverParameters(filename):
-	"""
-		This function opens a .c program, searches for a function with the same name of the file
+	"""Opens a .c program, searches for a function with the same name of the file 
 		in which are defined the parameters that the function takes in input
+
+		Args:
+			filename (string): the name of the file under consideration
+
+		Raises:
+			ValuesError: if the function is not found
 	"""
 	file = open(filename + '.c')
 	mm = mmap.mmap(file.fileno(), 0, access = mmap.ACCESS_READ)
@@ -100,10 +137,16 @@ def discoverParameters(filename):
 		askForInputs()
 	else:
 		raise ValueError("function not found")
+
 def splitScalarInput(rangeStr):
-	"""
-		For each scalar variable in "ranges" dictionary, generates a list that contains the values to 
-		write in each output file.
+	"""Takes in input the string that contains the ranges and the number of values to generate
+		and divides it by the semicolon
+
+		Args:
+			rangeStr (string): the string that contains the range 
+
+		Returns:
+			tuple: The first element is the range and the second is the number of values
 	"""
 	currentInput = rangeStr.split(';')
 	vaRange = eval(currentInput[0])
