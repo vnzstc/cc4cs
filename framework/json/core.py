@@ -77,7 +77,7 @@ def returnFiles(topDir, dirFlag = False, extension = None):
 
 	return [f for f in os.listdir(topDir) if os.path.isfile(os.path.join(topDir, f))]
 
-def getExtensionFilename(filename):
+def splitFilename(filename):
 	"""Extracts the extension from the filename
 	
 	Args:
@@ -97,7 +97,7 @@ def mvFiles(destination, extension):
 	"""
 	if os.path.isdir(destination):	
 		for filename in returnFiles('.', extension):
-			if getExtensionFilename(filename)[1] != ".c":
+			if splitFilename(filename)[1] != ".c":
 				os.rename(filename, destination + filename)
 
 def writeTuple(label, value, writerId):
@@ -118,7 +118,7 @@ def mvAllFiles(destination):
 	print("moveAllFiles " + destination)
 	if os.path.isdir(destination):	
 		for filename in returnFiles(prjPath):
-			if getExtensionFilename(filename)[1] != ".c" and getExtensionFilename(filename)[1] != ".csv":
+			if splitFilename(filename)[1] != ".c" and splitFilename(filename)[1] != ".csv":
 				os.rename(filename, destination + filename)
 
 
