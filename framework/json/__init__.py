@@ -17,6 +17,7 @@ print("\n\n ██████╗ ██████╗██╗  ██╗ █�
 # Global Variables 
 cycleFile = "clockCycles.csv"
 statementsFile = "cStatements.csv"
+
 cFilesList = core.returnFiles('.', extension = '.c')
 
 # Deletes previous computations
@@ -25,7 +26,7 @@ core.removeDir('profiling')
 core.removeDir('simulation')
 core.removeDir('results')
 
-if not cFileList:
+if not cFilesList:
 	raise ValueError("At least one .c file must be in this directory")
 
 # --------------------------------------
@@ -50,7 +51,6 @@ for flnm in cFilesList:
 
 	# Simulation Part
 	chosenMicro = core.chooseMicro()
-	# core.executeFileSet(chosenMicro)
 
 	core.executeCommandSet('cStatements.csv', 'profiling')
 	core.executeCommandSet('clockCycles.csv', chosenMicro)

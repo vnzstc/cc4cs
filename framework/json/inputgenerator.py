@@ -231,14 +231,14 @@ def writeVariables(combination, headerFile, varType):
 
 	for key,value in sizes.items():
 		pos = combination[cont]
-		headerFile.write("\tenum{ " + key + " = " + str(value[pos]) + " };\n")	
+		headerFile.write("\tenum{" + key + " = " + str(value[pos]) + "};\n")	
 		currentSizeValues.update({key : value[pos]})
 		cont += 1
 
 	for key, value in arrays.items():
 		matched = getSizes(key)
 		currentSizes = [currentSizeValues[element] for element in matched]
-		headerFile.write("\t" + key + " = ")
+		headerFile.write("\t" + varType + " " + key + " = ")
 		writeArray(headerFile, value, varType, currentSizes)
 		
 def generateHeaders(varType):
