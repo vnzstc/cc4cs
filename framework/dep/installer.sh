@@ -57,15 +57,6 @@ function download_and_extract_it()
 	esac	
 }
 
-function install_bcc()
-{
-	bcc_dir_name=$(find `pwd` -type d -iname 'bcc-*')
-	global_variable_string=$EXPORT_CMD$bcc_dir_name/bin
-
-	# add "bcc" to the PATH environment variable
-	echo $global_variable_string >> $HOME/.bashrc 
-}
-
 function install_avrgcc()
 {
 	cd gcc-*
@@ -88,7 +79,3 @@ function add_dir_to_bashrc()
 	# add dir to the PATH environment variable
 	# echo $global_variable_string >> $HOME/.bashrc 
 }
-
-add_dir_to_bashrc 'tsim-eval' 'tsim/linux-x64' 
-add_dir_to_bashrc 'bcc-*' 'bin' 
-add_dir_to_bashrc 'usr' 'bin'
