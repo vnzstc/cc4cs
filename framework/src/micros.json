@@ -14,13 +14,6 @@
 		"dependencies": "compiler iss"
 	},
 
-	"8051": {
-		"compiler": "sdcc [programName].c -mmcs51 --iram-size 128 -Iincludes/[directoryName]",
-		"iss": "isasim [programName].hex {[programName].txt}",
-		"packihx": "packihx [programName].ihx {[programName].hex}",
-		"dependencies" : "compiler packihx iss"	
-	},
-
 	"Leon3": {
 		"additionalFile": "cp [scriptPath]/tsim_cmd includes/",
 		"iss": "tsim-leon3 [programName] -c includes/tsim_cmd {[programName].txt}",

@@ -22,14 +22,17 @@ function check_installation()
 			"simulavr")
 				echo "Installation procedure of SIMULAVR"
 				download_and_extract_it http://download.savannah.nongnu.org/releases/simulavr/simulavr-1.0.0-binary-linux32.tar.gz
-				simulavr_installation
+				add_dir_to_bashrc 'usr' 'bin'
 				;;
 			"sparc-gcc")
 				echo "Installation procedure for BCC"
 				download_and_extract_it https://www.gaisler.com/anonftp/bcc2/bin/bcc-2.0.1-gcc-linux64.tar.bz2
-				install_bcc 
+				add_dir_to_bashrc 'bcc-*' 'bin' 
 				;;
 			"tsim-leon3")
+				echo "Installation procedure for TSIM"
+				download_and_extract_it https://www.gaisler.com/anonftp/tsim/tsim-eval-2.0.61.tar.gz
+				add_dir_to_bashrc 'tsim-eval' 'tsim/linux-x64' 
 				;;
 		esac
 	else
@@ -40,8 +43,6 @@ function check_installation()
 function download_and_extract_it()
 {
 	filename=$(basename $1)
-	
-	echo $filename
 
 	wget $1
 	truncated_filename=$(file $filename | cut -d ' ' -f 2 )
@@ -56,17 +57,10 @@ function download_and_extract_it()
 	esac	
 }
 
-function install_simulavr()
-{
-	# add "simulavr" to the PATH environment variable
-	echo 'export PATH=$PATH:$PWD/simulavr/bin' >> $HOME/.bashrc 
-}
-
 function install_bcc()
 {
 	bcc_dir_name=$(find `pwd` -type d -iname 'bcc-*')
-	export_cmd_string='export PATH=$PATH:'
-	global_variable_string=$export_cmd_string$bcc_dir_name/bin
+	global_variable_string=$EXPORT_CMD$bcc_dir_name/bin
 
 	# add "bcc" to the PATH environment variable
 	echo $global_variable_string >> $HOME/.bashrc 
@@ -82,3 +76,19 @@ function install_avrgcc()
 	# make 
 	# make install
 } 
+
+# $1 dir-pattern $2 dir_name
+function add_dir_to_bashrc()
+{
+	dir_name=$(find `pwd` -type d -iname "$1")
+	export_cmd='export PATH=$PATH:'
+	global_variable=$export_cmd$dir_name/$2
+
+	echo $global_variable
+	# add dir to the PATH environment variable
+	# echo $global_variable_string >> $HOME/.bashrc 
+}
+
+add_dir_to_bashrc 'tsim-eval' 'tsim/linux-x64' 
+add_dir_to_bashrc 'bcc-*' 'bin' 
+add_dir_to_bashrc 'usr' 'bin'

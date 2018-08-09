@@ -140,7 +140,8 @@ def chooseMicro():
 		frameworkData = json.load(jsonFile)
 
 		for line in frameworkData:
-			microList.append(line)
+			if line != 'profiling':
+				microList.append(line)
 
 		printMicroprocessors()
 		microId = input('\nInsert the identifier of a microprocessor: ')
@@ -148,7 +149,6 @@ def chooseMicro():
 			raise ValueError("The id doesn't exist")
 
 		chosenMicro = microList[int(microId)]
-		print(frameworkData[chosenMicro])
 
 		return chosenMicro
 	
