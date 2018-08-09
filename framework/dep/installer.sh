@@ -24,7 +24,7 @@ function check_installation()
 				download_and_extract_it http://download.savannah.nongnu.org/releases/simulavr/simulavr-1.0.0-binary-linux32.tar.gz
 				add_dir_to_bashrc 'usr' 'bin'
 				;;
-			"sparc-gcc")
+			"sparc-gaisler-elf-gcc")
 				echo "Installation procedure for BCC"
 				download_and_extract_it https://www.gaisler.com/anonftp/bcc2/bin/bcc-2.0.1-gcc-linux64.tar.bz2
 				add_dir_to_bashrc 'bcc-*' 'bin' 
@@ -79,3 +79,9 @@ function add_dir_to_bashrc()
 	# add dir to the PATH environment variable
 	# echo $global_variable_string >> $HOME/.bashrc 
 }
+
+check_installation "gcc"
+check_installation "avr-gcc"
+check_installation "simulavr"
+check_installation "sparc-gaisler-elf-gcc"
+check_installation "tsim-leon3"
