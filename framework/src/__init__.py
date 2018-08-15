@@ -5,7 +5,11 @@ import csv, sys
 import inputgenerator
 import core
 
-types = ["int", "long", "float"]
+# Global Variables 
+types = ["int8_t", "int"]
+cycleFile = "clockCycles.csv"
+statementsFile = "cStatements.csv"
+cFilesList = core.returnFiles('.', extension = '.c')
 
 print("\n\n ██████╗ ██████╗██╗  ██╗ ██████╗███████╗\n"+
 	  "██╔════╝██╔════╝██║  ██║██╔════╝██╔════╝\n"+
@@ -14,26 +18,24 @@ print("\n\n ██████╗ ██████╗██╗  ██╗ █�
 	  "╚██████╗╚██████╗     ██║╚██████╗███████║\n"+
 	  " ╚═════╝ ╚═════╝     ╚═╝ ╚═════╝╚══════╝\n")
 
-# Global Variables 
-cycleFile = "clockCycles.csv"
-statementsFile = "cStatements.csv"
 
-cFilesList = core.returnFiles('.', extension = '.c')
+def deletePreviousComputations():
+	core.removeDir('includes')
+	core.removeDir('profiling')
+	core.removeDir('simulation')
 
-# Deletes previous computations
-core.removeDir('includes')
-core.removeDir('profiling')
-core.removeDir('simulation')
-core.removeDir('results')
+def createDirs():
+	core.createDir('profiling')
+	core.createDir('simulation')
+	core.createDir('results')
 
 if not cFilesList:
 	raise ValueError("At least one .c file must be in this directory")
 
-# --------------------------------------
-core.createDir('profiling')
-core.createDir('simulation')
-core.createDir('results')
-# --------------------------------------
+
+deletePreviousComputations()
+core.removeDir('results')
+createDirs()
 
 # Searches for all the '.c' files in the current directory
 for flnm in cFilesList:
@@ -41,20 +43,25 @@ for flnm in cFilesList:
 	filename =  core.splitFilename(flnm)
 	core.setCurrentFile(filename[0])
 
-	# Preprocessing Part
-	inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_TYPE', "typedef int TARGET_TYPE;\n")
+	for kind in types:
 
-	# InputGenerator Part
-	inputgenerator.discoverParameters(filename[0])
-	inputgenerator.listCreator("int")
-	inputgenerator.generateHeaders("int")
+		deletePreviousComputations()
+		# Preprocessing Part
+		inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_TYPE', "typedef " + kind + " TARGET_TYPE;\n")
 
-	# Simulation Part
-	chosenMicro = core.chooseMicro()
+		# InputGenerator Part
+		inputgenerator.discoverParameters(filename[0])
+		inputgenerator.listCreator(kind)
+		inputgenerator.generateHeaders(kind)
 
-	core.executeCommandSet('cStatements.csv', 'profiling')
-	core.executeCommandSet('clockCycles.csv', chosenMicro)
+		# Simulation Part
+		chosenMicro = core.chooseMicro()
 
-	# Calculate Statistics 
-	core.calculateMetric(cycleFile, statementsFile)
-	core.mvFiles("results/", ".csv")
+		core.executeCommandSet('cStatements.csv', 'profiling')
+		core.executeCommandSet('clockCycles.csv', chosenMicro)
+
+		# Calculate Statistics 
+		core.calculateMetric(cycleFile, statementsFile)
+
+		core.createDir("results/" + kind)
+		core.mvFiles("results/" + kind + "/", ".csv")

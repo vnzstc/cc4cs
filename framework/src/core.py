@@ -7,8 +7,6 @@ scriptPath = os.path.dirname(os.path.realpath(__file__))
 frameworkPath = os.path.dirname(scriptPath)
 prjPath = os.getcwd()
 
-microList = []
-
 def setCurrentFile(filename):
 	"""Sets the global variable that indicates the current program that is under analysis
 	
@@ -135,8 +133,13 @@ def chooseMicro():
 	Returns: 
 		string: the name of the chosen microprocessor
 	"""
+
+	global microList
+	global frameworkData
+
+	microList = []
+
 	with open(scriptPath + '/micros.json', 'r') as jsonFile:
-		global frameworkData
 		frameworkData = json.load(jsonFile)
 
 		for line in frameworkData:

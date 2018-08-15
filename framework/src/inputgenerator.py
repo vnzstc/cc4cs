@@ -23,9 +23,10 @@ def replaceStr(filename, regexStr, replacementStr):
 		if re.match(regexStr, line):
 			lines[i] = replacementStr
 
+
+	print(lines)
 	with open(filename, "w") as file: 
 		file.writelines(lines)  
-
 
 def getListfromRegex(regexStr, lineStr):
 	"""Finds all possible matches of a regex in a line
