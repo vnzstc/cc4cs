@@ -48,21 +48,10 @@
 /*                                                                       */
 /*************************************************************************/
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
-typedef long TARGET_TYPE;
+typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
-
-void prototype(long val);
-
-void resetValues()
-{
-   P0 = 0;
-   P1 = 0;
-   P2 = 0;
-   P3 = 0;
-}
 
 TARGET_TYPE myabs(TARGET_TYPE x)
 {
@@ -72,7 +61,7 @@ TARGET_TYPE myabs(TARGET_TYPE x)
       return x;
 }
 
-TARGET_TYPE sqrtfcn()
+TARGET_TYPE sqrtfnc(TARGET_TYPE val)
 {
    TARGET_TYPE x = val/10;
 
@@ -112,6 +101,5 @@ TARGET_TYPE sqrtfcn()
 
 void main()
 {
-   sqrtfcn();
-   resetValues();
+   sqrtfnc(val);
 }

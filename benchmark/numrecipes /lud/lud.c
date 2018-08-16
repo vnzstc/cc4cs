@@ -1,20 +1,14 @@
 #include <stdint.h>
-#include <stdio.h>
-#include <8051.h>
 #include <values.h>
 
 #define TINY 1.0e-20 // A small number.
-typedef int8_t TARGET_TYPE;
+typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
 
-void prototype(int8_t n, int8_t a[n][n], int8_t indx[n], int8_t d);
-
-
-
-float myabs(float n)
+TARGET_TYPE myabs(TARGET_TYPE n)
 {
 
-	float f;
+	TARGET_TYPE f;
 
 	if(n >= 0) 
 		f = n;
@@ -24,18 +18,7 @@ float myabs(float n)
 	return f;
 }
 
-
-
-void resetValues()
-{
-   P0 = 0;
-   P1 = 0;
-   P2 = 0;
-   P3 = 0;
-}
-
-
-void ludcmp()
+void lud(TARGET_INDEX n, TARGET_TYPE a[n][n], TARGET_TYPE indx[n], float d)
 /* Given a matrix a[1..n][1..n] , this routine replaces it by the LU decomposition of a rowwise
 permutation of itself. a and n are input. a is output, arranged as in equation (2.3.14) above;
 indx[1..n] is an output vector that records the row permutation effected by the partial
@@ -43,9 +26,10 @@ pivoting; d is output as ±1 depending on whether the number of row interchanges
 or odd, respectively. This routine is used in combination with lubksb to solve linear equations
 or invert a matrix. */
 {
-	int8_t i,imax,j,k;
-	int8_t big,dum,sum,temp;
-	int8_t vv[n];
+	TARGET_INDEX i,imax,j,k;
+	TARGET_TYPE sum;
+	TARGET_TYPE big, temp, dum;
+	TARGET_TYPE vv[n];
 
 
 	for(i = 0; 
@@ -149,14 +133,10 @@ or invert a matrix. */
 				i++)
 				a[i][j] *= dum;
 		}
-
-	//Go back for the next column in the reduction.
-	//free_vector(vv,1,n);
 	}
 }
 
 void main()
 {
-	ludcmp();
-	resetValues();
+	lud(n, a, indx, d);
 }

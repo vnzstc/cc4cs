@@ -1,23 +1,11 @@
 // This functions has been taken from "Numerical Recipes in C" book, Cap 8.1, pag 332
-
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
-typedef int8_t TARGET_TYPE;
+typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
 
-void prototype(int8_t size, int8_t arr[size]);
-
-void resetValues()
-{
-	P0 = 0;
-	P1 = 0;
-	P2 = 0;
-	P3 = 0;
-}
-
-void shell()
+void shell_sort(TARGET_INDEX size, TARGET_TYPE arr[size])
 // Sorts an array a[] into ascending numerical order by Shell’s method (diminishing increment
 // sort). a is replaced on output by its sorted rearrangement. Normally, the argument n should
 // be set to the size of array a , but if n is smaller than this, then only the first n elements of a
@@ -66,6 +54,5 @@ void shell()
 
 void main()
 {	
-	shell();
-	resetValues();
+	shell_sort(size, arr);
 }

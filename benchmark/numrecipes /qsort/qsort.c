@@ -40,35 +40,18 @@
 /*                                                                       */
 /*                                                                       */
 /*************************************************************************/
-
-
-
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
-#include <stdio.h>
 
-
-typedef int8_t TARGET_TYPE;
+typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
-
 
 #define SWAP(a,b) temp=(a);(a)=(b);(b)=temp;
 #define M 7
 
-void prototype(int8_t n, int8_t arr[n]);
-
 TARGET_TYPE istack[10];
 
-void resetValues()
-{
-  P0 = 0;
-  P1 = 0;
-  P2 = 0;
-  P3 = 0;
-}
-
-void sort()
+void qsort(TARGET_INDEX n, TARGET_TYPE arr[n])
 {
 	TARGET_INDEX i,ir=n,j,k,l = 1;
 
@@ -167,7 +150,6 @@ void sort()
 
 void main()
 {
-  sort();
-  resetValues();
+	qsort(n, arr);
 }
 

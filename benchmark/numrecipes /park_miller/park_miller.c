@@ -1,9 +1,7 @@
-#include <stdio.h>
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
-typedef int8_t TARGET_TYPE;
+typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
 
 #define IA 16807
@@ -13,9 +11,7 @@ typedef int8_t TARGET_INDEX;
 #define IR 2836
 #define MASK 123459876
 
-void prototype(int8_t idum);
-
-float ran0()
+TARGET_TYPE park_miller(TARGET_TYPE idum)
 /*
 “Minimal” random number generator of Park and Miller. Returns a uniform random deviate
 between 0.0 and 1.0. Set or reset idum to any integer value (except the unlikely value MASK )
@@ -42,5 +38,5 @@ a sequence.
 
 void main()
 {
-	ran0();
+	park_miller(idum);
 }

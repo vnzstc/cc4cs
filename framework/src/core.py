@@ -8,7 +8,7 @@ frameworkPath = os.path.dirname(scriptPath)
 prjPath = os.getcwd()
 
 def setCurrentFile(filename):
-	"""Sets the global variable that indicates the current program that is under analysis
+	"""The function is needed to set the global variable representing the filename of the current program
 	
 	Args:
 		filename (string): the filename of the c program 

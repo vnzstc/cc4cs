@@ -1,25 +1,11 @@
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
-typedef long TARGET_TYPE;
+typedef int TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
-
 
 #define SWAP(a,b) tempr=(a);(a)=(b);(b)=tempr
 #define PI 3.14159
-
-//isign = [-1,1]
-// nn = size / 2
-void prototype(long nn, int8_t size, long data[size], int8_t isign);
-
-void resetValues()
-{
-   P0 = 0;
-   P1 = 0;
-   P2 = 0;
-   P3 = 0;
-}
 
 TARGET_TYPE is_power_of_two()
 {	
@@ -41,10 +27,10 @@ void convert_nn()
 }
 
 //  SOURCE : Turbo C Programming for Engineering by Hyun Soon Ahn
-float myabs(float n)
+TARGET_TYPE myabs(TARGET_TYPE n)
 {
 
-  float f;
+  TARGET_TYPE f;
 
   if(n >= 0) 
   	f = n;
@@ -55,11 +41,11 @@ float myabs(float n)
 }
 
 //  SOURCE : Turbo C Programming for Engineering by Hyun Soon Ahn
-float mysin(float rad)
+TARGET_TYPE mysin(TARGET_TYPE rad)
 {
-	float app;
+	TARGET_TYPE app;
 
-	float diff;
+	TARGET_TYPE diff;
 	TARGET_TYPE inc = 1;
 
 	while (rad > 2*PI)
@@ -84,11 +70,11 @@ float mysin(float rad)
 }
 
 
-void four1()
+void fft(TARGET_TYPE nn, TARGET_INDEX size, TARGET_TYPE data[size], TARGET_INDEX isign)
 {
 	TARGET_INDEX n,mmax,m,j,istep,i;
-	float wtemp,wr,wpr,wpi,wi,theta;
-	float tempr,tempi;
+	TARGET_TYPE wtemp,wr,wpr,wpi,wi,theta;
+	TARGET_TYPE tempr,tempi;
 	// Double precision for the trigonomet-ric recurrences.
 
 	n = nn << 1;
@@ -155,8 +141,5 @@ void four1()
 
 void main()
 {
-	//convert_nn();
-	four1();
-	resetValues();
-
+	fft(nn, size, data, isign);
 }

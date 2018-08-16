@@ -1,39 +1,13 @@
 // This functions has been taken from "Numerical Recipes in C" book, Cap 8.5, pag 342
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
-typedef int8_t TARGET_TYPE;
+typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
-
-void prototype(int8_t k, int8_t size, int8_t arr[size]);
 
 #define SWAP(a,b) temp=(a);(a)=(b);(b)=temp;
 
-/* 
-void print_array()
-{
-	int k;
-	for(k = 0;
-		k < n;
-		k++)
-	{
-		printf("%d ", arr[k]);
-	}
-	puts("\n");
-}
-*/
-
-
-void resetValues()
-{
-	P0 = 0;
-	P1 = 0;
-	P2 = 0;
-	P3 = 0;
-}
-
-TARGET_TYPE select()
+TARGET_TYPE select(TARGET_INDEX k, TARGET_INDEX size, TARGET_TYPE arr[size])
 /*
 Returns the k th smallest value in the array arr[1..n] . The input array will be rearranged
 to have this value in location arr[k] , with all smaller elements moved to arr[1..k-1] (in
@@ -112,7 +86,6 @@ arbitrary order) and all larger elements in arr[k+1..n] (also in arbitrary order
 
 void main()
 {
-  select();
-  resetValues();
+  select(k, size, arr);
 }
 

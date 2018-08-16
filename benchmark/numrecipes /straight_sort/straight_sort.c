@@ -1,23 +1,11 @@
 // This functions has been taken from "Numerical Recipes in C" book, Cap 8.1, pag 330
-
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
 typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
 
-void prototype(int8_t size, float arr[size]);
-
-void resetValues()
-{
-	P0 = 0;
-	P1 = 0;
-	P2 = 0;
-	P3 = 0;
-}
-
-void piksrt()
+void straight_sort(TARGET_INDEX size, TARGET_TYPE arr[size])
 // Sorts an array arr[1..n] into ascending numerical order, by straight insertion. n is input; arr
 // is replaced on output by its sorted rearrangement.
 {
@@ -47,6 +35,5 @@ void piksrt()
 
 void main()
 {	
-	piksrt();
-	resetValues();
+	straight_sort(size, arr);
 }
