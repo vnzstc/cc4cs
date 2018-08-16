@@ -23,8 +23,6 @@ def replaceStr(filename, regexStr, replacementStr):
 		if re.match(regexStr, line):
 			lines[i] = replacementStr
 
-
-	print(lines)
 	with open(filename, "w") as file: 
 		file.writelines(lines)  
 
@@ -119,22 +117,18 @@ def askForInputs():
 		arrays[variable] = insertInput(variable, r'\[\d+,\d+\]$')
 
 def discoverParameters(filename):
-	"""Opens a .c program, searches for a function with the same name of the file 
-		in which are defined the parameters that the function takes in input
-
+	"""The function opens a .c program and searches for a function with the same name
 		Args:
 			filename (string): the name of the file under consideration
-
 		Raises:
 			ValuesError: if the function is not found
 	"""
 	file = open(filename + '.c')
 	mm = mmap.mmap(file.fileno(), 0, access = mmap.ACCESS_READ)
-	index = mm.find(str.encode(filename))
+	matchStr = re.search(str.encode(filename + '\([^\)]*\)(\.[^\)]*\))?', "utf-8"), mm).group(0)
 
-	if index != -1:
-		mm.seek(index)
-		parametersFilter(mm.readline())
+	if matchStr:
+		parametersFilter(matchStr)
 		askForInputs()
 	else:
 		raise ValueError("function not found")

@@ -113,7 +113,6 @@ def mvAllFiles(destination):
 	Args:
 		destination (string): the path of the directory in which the files have to be moved
 	"""
-	print("moveAllFiles " + destination)
 	if os.path.isdir(destination):	
 		for filename in returnFiles(prjPath):
 			if splitFilename(filename)[1] != ".c" and splitFilename(filename)[1] != ".csv":

@@ -6,7 +6,7 @@ import inputgenerator
 import core
 
 # Global Variables 
-types = ["int8_t", "int"]
+types = ["int8_t", "int", "long", "float"]
 cycleFile = "clockCycles.csv"
 statementsFile = "cStatements.csv"
 cFilesList = core.returnFiles('.', extension = '.c')

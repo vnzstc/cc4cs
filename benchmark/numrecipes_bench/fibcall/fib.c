@@ -44,26 +44,16 @@
 
 
 #include <stdint.h>
-#include <8051.h>
+#include <stdio.h>
 #include <values.h>
 
-typedef int8_t TARGET_TYPE;
+typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
 
-void prototype(int8_t n);
-
-void resetValues()
-{
-  P0 = 0;
-  P1 = 0;
-  P2 = 0;
-  P3 = 0;
-}
-
-TARGET_TYPE fib()
+TARGET_TYPE fib(TARGET_TYPE n)
 {
     TARGET_INDEX i;
-    TARGET_TYPE Fnew, Fold, temp,ans;
+    TARGET_TYPE Fnew, Fold, temp, ans;
     Fnew = 1;  Fold = 0;
 
     for(i = 2;
@@ -83,7 +73,7 @@ TARGET_TYPE fib()
 void main()
 {
 
-  fib();
+  fib(n);
 
 }
 
