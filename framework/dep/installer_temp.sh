@@ -17,6 +17,8 @@ function check_installation()
 			"avr-gcc")
 				echo "Installation procedure of avr-gcc"
 				download_and_extract_it https://ftp.gnu.org/gnu/gcc/gcc-8.2.0/gcc-8.2.0.tar.gz
+				download_and_extract_it ftp://ftp.gnu.org/gnu/m4/m4-1.4.10.tar.gz
+				exec_autoconf_cmds "m4-1.4.10" "." "--prefix=/usr/local/m4"
 				install_gcc
 				;;
 			"simulavr")
@@ -43,10 +45,9 @@ function check_installation()
 function download_and_extract_it()
 {
 	filename=$(basename $1)
+	wget $1 
+	truncated_filename=$(file $filename | cut -d ' ' -f 2)
 
-	wget $1
-	truncated_filename=$(file $filename | cut -d ' ' -f 2 )
-	
 	case $truncated_filename in 
 		"bzip2" )
 			tar xvjf $filename > /dev/null
@@ -60,22 +61,23 @@ function download_and_extract_it()
 # $1 options 
 function install_gcc()
 {
-	cd gcc-*
+	echo "#############################################"
+	cd gcc-8.2.0
 	./contrib/download_prerequisites
-	$(exec_autoconf_cmds "gmp" $(pwd)"/gmp")
-	$(exec_autoconf_cmds "mpfr" $(pwd)"/mpfr")
-	$(exec_autoconf_cmds "mpc" $(pwd)"/mpc")
+	exec_autoconf_cmds "gmp" $(pwd)"/gmp"
+	exec_autoconf_cmds "mpfr" $(pwd)"/mpfr"
+	exec_autoconf_cmds "mpc" $(pwd)"/mpc"
 	mkdir obj 
 	exec_autoconf_cmds "obj" $(pwd) $OPTS_AVRGCC
 }
 
 function exec_autoconf_cmds()
 {
+	echo $PWD
 	cd $1
 	$2/configure $3
 	make > /dev/null
 	sudo make install
-	exit
 	cd ..
 }
 
@@ -90,5 +92,6 @@ function add_dir_to_bashrc()
 	echo $global_variable >> $HOME/.bashrc 
 }
 
-# check_installation "avr-gcc"
+cd dep
+check_installation "avr-gcc"
 # check_installation "simulavr"
