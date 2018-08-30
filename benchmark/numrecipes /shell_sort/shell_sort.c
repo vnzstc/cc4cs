@@ -1,6 +1,7 @@
 // This functions has been taken from "Numerical Recipes in C" book, Cap 8.1, pag 332
 #include <stdint.h>
 #include <values.h>
+#include <stdio.h>
 
 typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
@@ -11,23 +12,24 @@ void shell_sort(TARGET_INDEX size, TARGET_TYPE arr[size])
 // be set to the size of array a , but if n is smaller than this, then only the first n elements of a
 // are sorted. This feature is used in selip .
 { 
-	TARGET_INDEX i,j,inc;
-	TARGET_TYPE v;
-
-	inc = 1;
+	TARGET_INDEX i = 0, j = 0;
+	TARGET_TYPE v = 0;
+	int inc = 1;
+	
 	// Determine the starting increment.
 	do 
 	{
 		inc *= 3;
 		inc++;
+		printf("inc: %d\n", inc);
 	} while (inc <= size);
-	
+
 	do 
 	{
 		// Loop over the partial sorts.
 		inc /= 3;
 
-		for(i = inc+1;
+		for(i = ++inc;
 			i < size;
 			i++)
 			{
