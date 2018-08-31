@@ -3,12 +3,18 @@
 #include <stdint.h>
 #include <values.h>
 
-typedef float TARGET_TYPE;
+typedef uint32_t TARGET_TYPE;
 typedef uint8_t TARGET_INDEX;
+
+TARGET_TYPE my_fmod(TARGET_TYPE a, TARGET_TYPE b)
+{
+    TARGET_TYPE quot = (TARGET_TYPE) a/b;
+    return a - (quot * b);
+}
 
 TARGET_INDEX divides(TARGET_TYPE n, TARGET_TYPE m)
 {
-  return (m % n == 0);
+  return (my_fmod(n, m) == 0);
 }
 
 TARGET_INDEX even(TARGET_TYPE n)
@@ -36,9 +42,6 @@ TARGET_INDEX prime(TARGET_TYPE n)
 
 void main ()
 {
-  TARGET_INDEX res = 0;
-  TARGET_TYPE temp = 0;
-
   prime(n);
 }
 

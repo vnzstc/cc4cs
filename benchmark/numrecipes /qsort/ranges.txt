@@ -6,3 +6,5 @@ int >
 
 long > 
 16 +  4 * size + 40   || 8 
+
+atmega328p: 

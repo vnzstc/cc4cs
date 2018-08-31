@@ -43,7 +43,7 @@
 #include <stdint.h>
 #include <values.h>
 
-typedef float TARGET_TYPE;
+typedef int8_t TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
 
 #define SWAP(a,b) temp=(a);(a)=(b);(b)=temp;
@@ -53,14 +53,10 @@ TARGET_TYPE istack[10];
 
 void qsort(TARGET_INDEX n, TARGET_TYPE arr[n])
 {
-	TARGET_INDEX i,ir=n,j,k,l = 1;
-
+	TARGET_INDEX i, ir = n, j, k, l = 1;
 	TARGET_INDEX jstack = 0;
-
-	TARGET_INDEX flag;
-	TARGET_TYPE a,temp;
-
-	flag = 0;
+	TARGET_INDEX flag = 0;
+	TARGET_TYPE a, temp;
 	
 	for (;;) 
 	{
