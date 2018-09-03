@@ -44,8 +44,8 @@
 
 
 #include <stdint.h>
-#include <stdio.h>
 #include <values.h>
+#include <stdio.h>
 
 typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
@@ -54,27 +54,27 @@ TARGET_TYPE fib(TARGET_TYPE n)
 {
     TARGET_INDEX i;
     TARGET_TYPE Fnew, Fold, temp, ans;
-    Fnew = 1;  Fold = 0;
+    Fnew = 1; 
+    Fold = 0;
 
     for(i = 2;
-	      i <= 30 && i <= n;          /* apsim_loop 1 0 */
+	      i <= n;
 	      i++)
     {
       temp = Fnew;
       Fnew = Fnew + Fold;
       Fold = temp;
+      printf("Fnew: %d\n", Fnew);
     }
 
     ans = Fnew;
-  
+
   return ans;
 }
 
 void main()
 {
-
   fib(n);
-
 }
 
 
