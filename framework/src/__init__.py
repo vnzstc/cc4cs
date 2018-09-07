@@ -6,7 +6,10 @@ import inputgenerator
 import core
 
 # Global Variables 
-types = ["int8_t", "int", "long", "float"]
+indexType = "int8_t"
+targeTypes = ["int", "long", "float"]
+# types = ["uint8_t", "uint16_t", "uint32_t", "float"]
+
 cycleFile = "clockCycles.csv"
 statementsFile = "cStatements.csv"
 cFilesList = core.returnFiles('.', extension = '.c')
@@ -21,7 +24,7 @@ print("\n\n ██████╗ ██████╗██╗  ██╗ █�
 
 def deletePreviousComputations():
 	core.removeDir('includes')
-	core.removeDir('profiling')
+	core.removeDir('profiling')	
 	core.removeDir('simulation')
 
 def createDirs():
@@ -40,19 +43,22 @@ createDirs()
 # Searches for all the '.c' files in the current directory
 for flnm in cFilesList:
 
-	filename =  core.splitFilename(flnm)
+	filename = core.splitFilename(flnm)
 	core.setCurrentFile(filename[0])
 
-	for kind in types:
-
+	for currentType in targeTypes:
+		print("Processing type: " + currentType)
 		deletePreviousComputations()
-		# Preprocessing Part
-		inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_TYPE', "typedef " + kind + " TARGET_TYPE;\n")
 
-		# InputGenerator Part
-		inputgenerator.discoverParameters(filename[0])
-		inputgenerator.listCreator(kind)
-		inputgenerator.generateHeaders(kind)
+		# Preprocessing Part
+		inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_TYPE', "typedef " + currentType + " TARGET_TYPE;\n")
+		# inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_INDEX', "typedef " + indexType + " TARGET_INDEX;\n" )
+
+		# InputGenerator Part ------------------------
+		inputgenerator.discoverParameters(filename[0], currentType, indexType)
+		inputgenerator.listCreator()
+		inputgenerator.generateHeaders()
+		# --------------------------------------------
 
 		# Simulation Part
 		chosenMicro = core.chooseMicro()
@@ -62,6 +68,5 @@ for flnm in cFilesList:
 
 		# Calculate Statistics 
 		core.calculateMetric(cycleFile, statementsFile)
-
-		core.createDir("results/" + kind)
-		core.mvFiles("results/" + kind + "/", ".csv")
+		core.createDir("results/" + currentType)
+		core.mvFiles("results/" + currentType + "/", ".csv")

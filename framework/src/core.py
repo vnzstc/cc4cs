@@ -16,8 +16,12 @@ def setCurrentFile(filename):
 	global currentFilename
 	currentFilename = filename
 
+def checkDir(dirPath):
+	return (os.path.isdir(dirPath) and os.path.exists(dirPath))
+
 def removeDir(dirName):
-	"""Removes the specified directory
+	"""removeDir uses the "isdir" function, from the library os, to check if
+	the indicated directory "dirName" is a folder and if so deletes it
 	
 	Args:
 		dirName (string): the name of the directory to delete
@@ -26,7 +30,7 @@ def removeDir(dirName):
 		rmtree(dirName)
 
 def createDir(dirName):
-	"""Creates the specified directory in the working directory
+	"""createDir creates the specified directory in the current working directory
 	
 	Args:
 		dirName (string): the name of the directory to create
@@ -35,7 +39,7 @@ def createDir(dirName):
 
 def findFileByExtension(directory, extension):
 	"""
-	Find the files with the specified extension.
+	This functions finds the files with the specified extension.
 
 	Args:
 		directory: indicates the directory in which the file has to be searched
@@ -55,7 +59,7 @@ def findFileByExtension(directory, extension):
 	return results
 
 def returnFiles(topDir, dirFlag = False, extension = None):
-	"""Returns the files or directories contained in the indicated directory
+	""" This function returns the files or directories contained in the indicated directory "topDir"
 		
 	Args:
 		topDir (string): indicates the directory in which the files has to be searched
@@ -76,7 +80,7 @@ def returnFiles(topDir, dirFlag = False, extension = None):
 	return [f for f in os.listdir(topDir) if os.path.isfile(os.path.join(topDir, f))]
 
 def splitFilename(filename):
-	"""Extracts the extension from the filename
+	"""This function retrieves the extension from the filename
 	
 	Args:
 		filename (string): the name of the file to be processed
@@ -87,7 +91,7 @@ def splitFilename(filename):
 	return os.path.splitext(filename)
 
 def mvFiles(destination, extension):
-	"""Move files with the given extension
+	""" This functions moves all the files with the given extension
 	
 	Args:
 		destination (string): the directory in which the files will be moved
@@ -99,7 +103,7 @@ def mvFiles(destination, extension):
 				os.rename(filename, destination + filename)
 
 def writeTuple(label, value, writerId):
-	"""Writes a tuple (label, value) in a file
+	""" writeTuple writes a tuple (label, value) in a file
 	
 	Args:
 		label (string): label to be written in the file
@@ -108,7 +112,7 @@ def writeTuple(label, value, writerId):
 	writerId.writerow([label, value])
 
 def mvAllFiles(destination):
-	"""Moves all files except those with extension .c and .csv in the indicated directory 
+	"""This functions moves all files except those with extension .c and .csv in the indicated directory 
 
 	Args:
 		destination (string): the path of the directory in which the files have to be moved
@@ -122,12 +126,12 @@ def mvAllFiles(destination):
 def printMicroprocessors():
 	"""Function that prints the list of known microprocessorss
 	"""
-	print("List of available microprocessors:\n")
+	print("\n- List of available microprocessors:\n")
 	for i, ele in enumerate(microList):
-		print('(' + str(i) + ') ' + ele)
+		print('\t(' + str(i) + ') ' + ele)
 
 def chooseMicro():
-	"""Reads the available microprocessors from a json file and allows the user to choose one
+	"""This function reads the available microprocessors from a json file and allows the user to choose one
 	
 	Returns: 
 		string: the name of the chosen microprocessor
@@ -146,7 +150,7 @@ def chooseMicro():
 				microList.append(line)
 
 		printMicroprocessors()
-		microId = input('\nInsert the identifier of a microprocessor: ')
+		microId = input('\n- Insert the identifier of a microprocessor: ')
 		if int(microId) >= len(frameworkData):
 			raise ValueError("The id doesn't exist")
 
@@ -155,7 +159,7 @@ def chooseMicro():
 		return chosenMicro
 	
 def parseGcovOutput():
-	"""Analyzes the output of GCov profiler 
+	"""This function analyzes the output of GCov profiler 
 
 	Args:
 		txtfilePath (string): the name of the .c.gcov file.
@@ -174,7 +178,7 @@ def parseGcovOutput():
 	return result
 
 def parseSimulationOutput(simFilename):
-	"""Generic parsing for a simulation output file 
+	"""Generic parsing for the output file of an ISS
 
 	Args:
 		simFilename (string):  the name of the file that contains simulation information
@@ -192,7 +196,7 @@ def parseSimulationOutput(simFilename):
 		return cycleStr.group(2)
 
 def createFileWriter(fileDescriptor):
-	"""Prepares a file to be written that uses the comma as delimiter
+	"""This function is specify the characteristics of a .csv file (e.g. set its delimiter)
 	
 	Args:
 		fileDescription (obj): the object that represents a file
@@ -215,7 +219,7 @@ def splitBySpace(customString):
 
 
 def expandCommand(reducedCommand, directory = None):
-	"""Replaces the placeholder, inserted in .json file, with the appropriate values
+	"""This functions replaces the placeholder, inserted in .json file, with the appropriate values
 
 	Args:
 		reducedCommand (string): the string with the placeholders 
@@ -243,7 +247,7 @@ def expandCommand(reducedCommand, directory = None):
 	return expandendCommand
 
 def getOutputFilename(commandString):
-	"""Searches for the placeholder that indicates the output file
+	"""This functions searches for the placeholder that indicates the output file
 
 	Args:
 		commandString (string): 
@@ -261,7 +265,7 @@ def getOutputFilename(commandString):
 	return None
 
 def executeCommandSet(resultFile, microName):
-	"""Executes the set of commands incated under microName label in the .json file
+	"""This functions executes the set of commands incated under microName label in the .json file
 
 	Args:	
 		filename (string): the filename of the c program
@@ -316,7 +320,8 @@ CC4CS Calculation and Plotting
 """
 
 def calculateMetric(cyclesFilename, statementsFilename):
-	"""Analyzes the content of the files with the clock cycles, used by the microprocessoe, and the number of C statements.
+	"""This function analyzes the files with the clock cycles and the number of C statements.
+	Finally, calculates the metric
 
 	Args:
 		cyclesFilename (string): path of the file obtained from the simulation phase

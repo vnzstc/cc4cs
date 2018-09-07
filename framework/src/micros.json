@@ -2,9 +2,9 @@
 
 	"profiling": {
 		"additionalFile": "cp [scriptPath]/8051.h includes/",
-		"compiler": "gcc [programName].c -fprofile-arcs -ftest-coverage -Iincludes/ -Iincludes/[directoryName] -o [programName]",
+		"compiler": "gcc-8 [programName].c -fprofile-arcs -ftest-coverage -Iincludes/ -Iincludes/[directoryName] -o [programName]",
 		"exec": "[prjPath][programName]",
-		"gcov": "gcov [programName]",
+		"gcov": "gcov-8 [programName].gcda",
 		"dependencies": "additionalFile compiler exec gcov"
 	},
 

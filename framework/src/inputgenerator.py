@@ -3,12 +3,13 @@ import random as rn
 from itertools import product
 from functools import reduce
 
+types = {}
 scalars = {}
 arrays = {}
 sizes = {}
 
 def replaceStr(filename, regexStr, replacementStr):
-	"""Replaces a line in a file that matches the specified regular expression
+	"""This function replaces a line in a file that matches the specified regular expression
 
 		Args: 
 			filename (string): the name of the file to be opened
@@ -27,7 +28,7 @@ def replaceStr(filename, regexStr, replacementStr):
 		file.writelines(lines)  
 
 def getListfromRegex(regexStr, lineStr):
-	"""Finds all possible matches of a regex in a line
+	"""This function finds all possible matches of a regex in a line
 
 		Args:
 			regexStr (string): a regular expression
@@ -43,17 +44,19 @@ def searchRegex(regexStr, content):
 
 def initializeSizes(variable):
 	matched = getSizes(variable)
+	
 	if matched:
 		arrays[variable] = ""
 
 		for element in matched:
 			sizes[element] = ""
+
 		return True
 
 	return False
 
 def getSizes(variable):
-	"""Retrieves the sizes of an array variable
+	"""getSizes retrieves the sizes of an array 
 
 		Args:
 			variable (string): an array variable 
@@ -66,24 +69,32 @@ def getSizes(variable):
 	"""
 	return getListfromRegex(r'\[(.*?)\]', variable)
 
-def parametersFilter(lineStr):
+def parametersFilter(lineStr, targeType, indexType):
 	"""
 	"""
 	global scalars
+
 	tempScalars = []
 	matched = getListfromRegex(r'\w+\s\w+(?:\[\w+\]){0,2}', lineStr.decode("utf-8"))
-	
+
 	for i, variable in enumerate(matched):
 		index = variable.index(' ')
 		varName = variable[index+1:]
 
+
+		# ------------------------------------
+		if variable[:index] == 'TARGET_TYPE':
+			types[varName] = targeType
+		else:
+			types[varName] = indexType
+		# ------------------------------------
 		if not initializeSizes(varName):
 			tempScalars.append(varName)
 
 	scalars = {variable : "" for variable in set(tempScalars) - set(sizes.keys())}
-
+	
 def insertInput(variable, regexStr):
-	"""Asks to the user to insert an input, for a given varaible, of the format specified by a regex
+	"""This function asks to the user to insert an input, for a given variable, of the format specified by a regex
 		
 		Args:
 			variable (string): the variable under consideration
@@ -104,7 +115,8 @@ def insertInput(variable, regexStr):
 def askForInputs():
 	"""For each parameter, initializes a dictionary with the range inserted by the user
 	"""
-	print("- Enter a range [min,max] for array variables\n"+
+
+	print("\n- Enter a range [min,max] for array variables\n"+
 		  "- Enter a range [min,max];inputs for scalar variables\n")
 	
 	for variable in scalars:
@@ -116,7 +128,7 @@ def askForInputs():
 	for variable in arrays:
 		arrays[variable] = insertInput(variable, r'\[\d+,\d+\]$')
 
-def discoverParameters(filename):
+def discoverParameters(filename, targeType, indexType):
 	"""The function opens a .c program and searches for a function with the same name
 		Args:
 			filename (string): the name of the file under consideration
@@ -128,13 +140,13 @@ def discoverParameters(filename):
 	matchStr = re.search(str.encode(filename + '\([^\)]*\)(\.[^\)]*\))?', "utf-8"), mm).group(0)
 
 	if matchStr:
-		parametersFilter(matchStr)
+		parametersFilter(matchStr, targeType, indexType)
 		askForInputs()
 	else:
 		raise ValueError("function not found")
 
 def splitScalarInput(rangeStr):
-	"""Takes in input the string that contains the ranges and the number of values to generate
+	"""This function takes in input the string that contains the ranges and the number of values to generate
 		and divides it by the semicolon
 
 		Args:
@@ -157,16 +169,17 @@ def genRandomList(rangeMin, rangeMax, elementNum, varType):
 
 	return lst
 
-def generateListForScalars(lst, varType):
+def generateList(lst):
+	print(types)
 	for variable in lst:
 		currentTuple = splitScalarInput(lst[variable])
-		lst[variable] = genRandomList(currentTuple[0][0], currentTuple[0][1], currentTuple[1], varType)
+		lst[variable] = genRandomList(currentTuple[0][0], currentTuple[0][1], currentTuple[1], types[variable])
 
 	return lst
 
-def listCreator(varType):
-	generateListForScalars(scalars, varType)
-	generateListForScalars(sizes, "int8_t")
+def listCreator():
+	generateList(scalars)
+	generateList(sizes)
 
 def createHeader():
 	"""
@@ -212,7 +225,7 @@ def writeArray(headerFile, value, varType, arraySizes):
 
 	headerFile.write(toWrite)
 
-def writeVariables(combination, headerFile, varType):
+def writeVariables(combination, headerFile):
 	"""
 		This function writes variables in the output file.
 	"""
@@ -221,7 +234,7 @@ def writeVariables(combination, headerFile, varType):
 
 	for key, value in scalars.items():
 		pos = combination[cont]
-		headerFile.write("\t" + varType + " " + key + " = " + str(value[pos]) + ";\n")
+		headerFile.write("\t" + types[key] + " " + key + " = " + str(value[pos]) + ";\n")
 		cont += 1
 
 	for key,value in sizes.items():
@@ -233,10 +246,10 @@ def writeVariables(combination, headerFile, varType):
 	for key, value in arrays.items():
 		matched = getSizes(key)
 		currentSizes = [currentSizeValues[element] for element in matched]
-		headerFile.write("\t" + varType + " " + key + " = ")
-		writeArray(headerFile, value, varType, currentSizes)
+		headerFile.write("\t" + types[key] + " " + key + " = ")
+		writeArray(headerFile, value, types[key], currentSizes)
 		
-def generateHeaders(varType):
+def generateHeaders():
 	""" 
 		This function generates combinations of the values of previously calculated lists.
 		Combines indexes and then accesses by index, the correspondent list, to get the value.
@@ -255,13 +268,11 @@ def generateHeaders(varType):
 		# For each combination will be generated 10 random array
 		for index in range(1):
 			# Creates the directory in which the header will be placed 
-			dirName = "values_" + str(fileIndex)
-			# + str(index)
-						
+			dirName = "values_" + str(fileIndex)						
+			
 			os.makedirs(dirName)
-
 			headerFile = createHeader()
-			writeVariables(combination, headerFile, varType)
+			writeVariables(combination, headerFile)
 			closeHeader(headerFile)
 
 			# Moves the file in the above created directory  
