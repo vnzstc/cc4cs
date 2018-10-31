@@ -1,19 +1,10 @@
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
 typedef int8_t TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
 
-void prototype(int8_t n, int8_t arr[n], int8_t key);
-
-void resetValues()
-{
-	P0 = 0;
-	P1 = 0;
-	P2 = 0;
-	P3 = 0;
-}
+//void prototype(int8_t n, int8_t arr[n], int8_t key);
 
 TARGET_TYPE divide(TARGET_TYPE nu, TARGET_TYPE de) {
 
@@ -42,7 +33,7 @@ TARGET_TYPE divide(TARGET_TYPE nu, TARGET_TYPE de) {
     return quotient;
 }
 
-TARGET_TYPE binary_search()
+TARGET_TYPE binarysearch(TARGET_INDEX n, TARGET_TYPE arr[n], TARGET_TYPE key)
 {
 	TARGET_TYPE l = 0;
 	TARGET_TYPE r = n-1;
@@ -66,6 +57,5 @@ TARGET_TYPE binary_search()
 
 void main()
 {
-	binary_search();
-	resetValues();
+	binarysearch(n, arr[n], key);
 }

@@ -44,7 +44,6 @@ void bellman_ford()
 {
 
 	TARGET_TYPE dist[size];
-
 	TARGET_TYPE total_edges = edge_counter();
 
 	for(i = 0;

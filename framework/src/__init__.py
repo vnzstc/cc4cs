@@ -7,7 +7,7 @@ import core
 
 # Global Variables 
 indexType = "int8_t"
-targeTypes = ["int", "long", "float"]
+targeTypes = ["int8_t", "int16_t", "int32_t", "float"]
 # types = ["uint8_t", "uint16_t", "uint32_t", "float"]
 
 cycleFile = "clockCycles.csv"

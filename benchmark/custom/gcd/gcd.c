@@ -1,19 +1,8 @@
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
-typedef int8_t TARGET_TYPE;
+typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
-
-void prototype(int8_t n, int8_t m);
-
-void resetValues()
-{
-    P0 = 0;
-    P1 = 0;
-    P2 = 0;
-    P3 = 0;
-}
 
 TARGET_TYPE modulo(TARGET_TYPE x, TARGET_TYPE y)
 {
@@ -25,7 +14,7 @@ TARGET_TYPE modulo(TARGET_TYPE x, TARGET_TYPE y)
     return result;
 }
 
-TARGET_TYPE gcd()
+TARGET_TYPE gcd(TARGET_TYPE m, TARGET_TYPE n)
 {
 
     TARGET_TYPE r = 0;
@@ -52,6 +41,5 @@ TARGET_TYPE gcd()
 
 void main()
 {
-    gcd();
-    resetValues();
+    gcd(m, n);
 }

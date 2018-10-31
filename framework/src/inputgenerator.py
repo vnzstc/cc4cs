@@ -77,17 +77,24 @@ def parametersFilter(lineStr, targeType, indexType):
 	tempScalars = []
 	matched = getListfromRegex(r'\w+\s\w+(?:\[\w+\]){0,2}', lineStr.decode("utf-8"))
 
+	print(matched)
+
 	for i, variable in enumerate(matched):
 		index = variable.index(' ')
 		varName = variable[index+1:]
 
+		print(varName, variable[:index])
 
 		# ------------------------------------
 		if variable[:index] == 'TARGET_TYPE':
 			types[varName] = targeType
 		else:
+
+			print(indexType)
 			types[varName] = indexType
 		# ------------------------------------
+
+		print(types)
 		if not initializeSizes(varName):
 			tempScalars.append(varName)
 
@@ -120,13 +127,13 @@ def askForInputs():
 		  "- Enter a range [min,max];inputs for scalar variables\n")
 	
 	for variable in scalars:
-		scalars[variable] = insertInput(variable, r'\[\d+,\d+\];[1-9][0-9]*')
+		scalars[variable] = insertInput(variable, r'\[\-?\d+,\d+\];[1-9][0-9]*')
 
 	for variable in sizes:
-		sizes[variable] = insertInput(variable, r'\[\d+,\d+\];[1-9][0-9]*')
+		sizes[variable] = insertInput(variable, r'\[\-?\d+,\d+\];[1-9][0-9]*')
 
 	for variable in arrays:
-		arrays[variable] = insertInput(variable, r'\[\d+,\d+\]$')
+		arrays[variable] = insertInput(variable, r'\[\-?\d+,\d+\]$')
 
 def discoverParameters(filename, targeType, indexType):
 	"""The function opens a .c program and searches for a function with the same name
