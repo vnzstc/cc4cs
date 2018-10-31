@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <values.h>
 
-typedef int TARGET_TYPE;
+typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
 
 #define SWAP(a,b) tempr=(a);(a)=(b);(b)=tempr
