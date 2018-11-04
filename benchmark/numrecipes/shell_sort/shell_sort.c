@@ -1,7 +1,6 @@
 // This functions has been taken from "Numerical Recipes in C" book, Cap 8.1, pag 332
 #include <stdint.h>
 #include <values.h>
-#include <stdio.h>
 
 typedef float TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
@@ -21,7 +20,6 @@ void shell_sort(TARGET_INDEX size, TARGET_TYPE arr[size])
 	{
 		inc *= 3;
 		inc++;
-		printf("inc: %d\n", inc);
 	} while (inc <= size);
 
 	do 
