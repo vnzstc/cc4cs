@@ -1,4 +1,4 @@
-Incite; Executed C Instr; Executed Ass Instr; Execution Time; Clock Cycle Effective; Average Clock Cycle per Instruction; ;;;;;; 
+Incite; Executed C Instr; Executed Ass Instr; Execution Time; Clock Cycle Effective; CC4CS; ;;;;;; 
  values_00; 18; 16442; 0.67 ms; 33542; 1863.44444444444;
  values_01; 18; 16442; 0.67 ms; 33542; 1863.44444444444;
  values_02; 18; 16442; 0.67 ms; 33542; 1863.44444444444;
