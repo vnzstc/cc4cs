@@ -67,8 +67,8 @@ TARGET_TYPE sqrtfnc(TARGET_TYPE val)
 
    TARGET_TYPE dx;
 
-   float diff;
-   float min_tol = 0.00001;
+   TARGET_TYPE diff;
+   TARGET_TYPE min_tol = 0.00001;
 
    TARGET_INDEX i, flag;
 
