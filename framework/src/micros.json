@@ -19,5 +19,12 @@
 		"iss": "tsim-leon3 [programName] -c includes/tsim_cmd {[programName].txt}",
 		"compiler": "sparc-gaisler-elf-gcc [programName].c -o0 -Iincludes/[directoryName] -o [programName]",
 		"dependencies": "additionalFile compiler iss"
+	},
+
+	"8051": {
+		"compiler": "sdcc [programName].c -mmcs51 --iram-size 128 -Iincludes/[directoryName]",
+		"iss": "isasim [programName].hex {[programName].txt}",
+		"packihx": "packihx [programName].ihx {[programName].hex}",
+		"dependencies" : "compiler packihx iss"	
 	}
 }

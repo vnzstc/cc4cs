@@ -119,7 +119,7 @@ def mvAllFiles(destination):
 	"""
 	if os.path.isdir(destination):	
 		for filename in returnFiles(prjPath):
-			if splitFilename(filename)[1] != ".c" and splitFilename(filename)[1] != ".csv":
+			if splitFilename(filename)[1] != ".c" and splitFilename(filename)[1] != ".csv" and splitFilename(filename)[1] != "data.json":
 				os.rename(filename, destination + filename)
 
 
@@ -313,7 +313,7 @@ def executeCommandSet(resultFile, microName):
 			
 			# ----------------------------------------------
 			writeTuple(directory, value, fileWriter)
-			mvAllFiles(outputPath)
+			# mvAllFiles(outputPath)
 			# ----------------------------------------------
 """
 CC4CS Calculation and Plotting

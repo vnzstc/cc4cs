@@ -35,7 +35,6 @@ def createDirs():
 if not cFilesList:
 	raise ValueError("At least one .c file must be in this directory")
 
-
 deletePreviousComputations()
 core.removeDir('results')
 createDirs()
@@ -59,7 +58,7 @@ for flnm in cFilesList:
 		inputgenerator.listCreator()
 		inputgenerator.generateHeaders()
 		# --------------------------------------------
-
+		
 		# Simulation Part
 		chosenMicro = core.chooseMicro()
 
@@ -69,4 +68,4 @@ for flnm in cFilesList:
 		# Calculate Statistics 
 		core.calculateMetric(cycleFile, statementsFile)
 		core.createDir("results/" + currentType)
-		core.mvFiles("results/" + currentType + "/", ".csv")
+		# core.mvFiles("results/" + currentType + "/", ".csv")

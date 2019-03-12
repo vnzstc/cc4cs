@@ -1,11 +1,8 @@
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
-typedef int8_t TARGET_TYPE;
+typedef int16_t TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
-
-void prototype(int8_t size, int8_t a[size][size], int8_t goal);
 
 TARGET_TYPE frontier[size];
 TARGET_TYPE frontier_size = 0;
@@ -16,14 +13,6 @@ TARGET_INDEX current = 0;
 TARGET_TYPE priority = 0;
 TARGET_INDEX i;
 TARGET_INDEX j;
-
-void resetValues()
-{
-	P0 = 0;
-	P1 = 0;
-	P2 = 0;
-	P3 = 0;
-}
 
 /*
 void print_matrix()
@@ -161,7 +150,7 @@ TARGET_TYPE heuristic(TARGET_INDEX goal, TARGET_INDEX current, TARGET_TYPE path_
 	return absolute((int8_t)0 - (size/2)) + absolute(path_cost - (size/2));
 }
 
-void astar()
+void astar(TARGET_INDEX size, TARGET_TYPE a[size][size], TARGET_TYPE goal)
 {
 	set_estimates();
 	insert(0,0);
@@ -194,6 +183,5 @@ void astar()
 void main()
 {	
 	make_oriented();
-	astar();
-	resetValues();
+	astar(size, a, goal);
 }

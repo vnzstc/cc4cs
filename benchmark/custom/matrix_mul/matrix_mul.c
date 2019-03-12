@@ -1,23 +1,11 @@
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
-typedef long TARGET_TYPE;
+typedef int8_t TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
 
-void prototype(long row_num_a, long column_num_a, long a[row_num_a][column_num_a], long row_num_b, long column_num_b, long b[row_num_b][column_num_b]);
-
-
-void resetValues()
-{
-	P0 = 0;
-	P1 = 0;
-	P2 = 0;
-	P3 = 0;
-}
-
-
-TARGET_TYPE matrix_mul(TARGET_TYPE c, TARGET_TYPE d, TARGET_TYPE res[row_num_a][column_num_b])
+TARGET_TYPE matrix_mul(TARGET_TYPE row_num_a, TARGET_TYPE column_num_a, TARGET_TYPE a[row_num_a][column_num_a], TARGET_TYPE row_num_b, TARGET_TYPE column_num_b, 
+			TARGET_TYPE b[row_num_b][column_num_b], TARGET_TYPE c, TARGET_TYPE d, TARGET_TYPE res[row_num_a][column_num_b])
 {
 	TARGET_INDEX i; 
 	TARGET_INDEX j;
@@ -66,6 +54,5 @@ TARGET_TYPE matrix_mul(TARGET_TYPE c, TARGET_TYPE d, TARGET_TYPE res[row_num_a][
 void main()
 {
 	TARGET_TYPE res[row_num_a][column_num_b];
-	matrix_mul(column_num_a, row_num_b, res);
-	resetValues();
+	matrix_mul(row_num_a, column_num_a, a, row_num_b, column_num_b, b, c, d, res);
 }

@@ -1,24 +1,12 @@
 #include <stdint.h>
 #include <values.h>
-#include <8051.h>
 
 
-typedef float TARGET_TYPE;
+typedef int16_t TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
-
-void prototype(int8_t size, float a[size][size]);
 
 TARGET_INDEX i; 
 TARGET_INDEX j;
-
-
-void resetValues()
-{
-	P0 = 0;
-	P1 = 0;
-	P2 = 0;
-	P3 = 0;
-}
 
 TARGET_TYPE edge_counter()
 {
@@ -40,7 +28,7 @@ TARGET_TYPE edge_counter()
 	return total_edges;
 }
 
-void bellman_ford()
+void bellman_ford(TARGET_INDEX size, TARGET_TYPE a[size][size])
 {
 
 	TARGET_TYPE dist[size];
@@ -112,6 +100,5 @@ void main()
 {
 
 	make_oriented();
-	bellman_ford();
-	resetValues();
+	bellman_ford(size, a);
 }
