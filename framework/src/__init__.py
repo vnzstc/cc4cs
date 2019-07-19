@@ -1,5 +1,5 @@
 # Built-in modules
-import csv, sys
+import csv, sys, os
 
 # Custom modules
 import inputgenerator
@@ -13,6 +13,7 @@ targeTypes = ["int8_t", "int16_t", "int32_t", "float"]
 cycleFile = "clockCycles.csv"
 statementsFile = "cStatements.csv"
 cFilesList = core.returnFiles('.', extension = '.c')
+prjPath = os.getcwd()
 
 print("\n\n ██████╗ ██████╗██╗  ██╗ ██████╗███████╗\n"+
 	  "██╔════╝██╔════╝██║  ██║██╔════╝██╔════╝\n"+
@@ -45,9 +46,14 @@ for flnm in cFilesList:
 	filename = core.splitFilename(flnm)
 	core.setCurrentFile(filename[0])
 
+	chosenMicro = core.chooseMicro()
+
 	for currentType in targeTypes:
-		print("Processing type: " + currentType)
+		print("\nProcessing type: " + currentType + "\n")
 		deletePreviousComputations()
+
+		# Loads parameters from the file named parameters.json
+		parametersFile = core.loadJSONFile(prjPath + '/parameters')
 
 		# Preprocessing Part
 		inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_TYPE', "typedef " + currentType + " TARGET_TYPE;\n")
@@ -55,17 +61,17 @@ for flnm in cFilesList:
 
 		# InputGenerator Part ------------------------
 		inputgenerator.discoverParameters(filename[0], currentType, indexType)
+		inputgenerator.getParametersFromFile(parametersFile, currentType)
 		inputgenerator.listCreator()
 		inputgenerator.generateHeaders()
 		# --------------------------------------------
 		
 		# Simulation Part
-		chosenMicro = core.chooseMicro()
-
 		core.executeCommandSet('cStatements.csv', 'profiling')
 		core.executeCommandSet('clockCycles.csv', chosenMicro)
 
 		# Calculate Statistics 
 		core.calculateMetric(cycleFile, statementsFile)
 		core.createDir("results/" + currentType)
-		# core.mvFiles("results/" + currentType + "/", ".csv")
+		core.moveFile("results/" + currentType + "/", ".csv")
+		print("Done!")

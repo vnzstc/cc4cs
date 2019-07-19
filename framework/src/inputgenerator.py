@@ -77,66 +77,60 @@ def parametersFilter(lineStr, targeType, indexType):
 	tempScalars = []
 	matched = getListfromRegex(r'\w+\s\w+(?:\[\w+\]){0,2}', lineStr.decode("utf-8"))
 
-	print(matched)
 
 	for i, variable in enumerate(matched):
 		index = variable.index(' ')
 		varName = variable[index+1:]
-
-		print(varName, variable[:index])
 
 		# ------------------------------------
 		if variable[:index] == 'TARGET_TYPE':
 			types[varName] = targeType
 		else:
 
-			print(indexType)
 			types[varName] = indexType
 		# ------------------------------------
 
-		print(types)
 		if not initializeSizes(varName):
 			tempScalars.append(varName)
 
 	scalars = {variable : "" for variable in set(tempScalars) - set(sizes.keys())}
-	
-def insertInput(variable, regexStr):
-	"""This function asks to the user to insert an input, for a given variable, of the format specified by a regex
-		
-		Args:
-			variable (string): the variable under consideration
-			regexStr (string): the regex to be matched
 
-		Returns:
-			string: the data inserted
-
-		Raises:
-			ValueError: if the input string does not match the regexs
-	"""
-	inputStr = input('Enter input for '  + '"' + variable + '"' + ': ')
-
+def checkInput(regexStr, inputStr):	
 	if not re.match(regexStr, inputStr):
 		raise ValueError("Bad input for " + inputStr)
-	return inputStr
+	return True
 
-def askForInputs():
-	"""For each parameter, initializes a dictionary with the range inserted by the user
-	"""
+def askForInput():
+	return input('Enter input for '  + '"' + variable + '"' + ': ')
 
-	print("\n- Enter a range [min,max] for array variables\n"+
-		  "- Enter a range [min,max];inputs for scalar variables\n")
-	
-	for variable in scalars:
-		scalars[variable] = insertInput(variable, r'\[\-?\d+,\d+\];[1-9][0-9]*')
+def updateDict(dictionary, key, regex, inputString):
+	if checkInput(regex, inputString):
+		dictionary[key] = inputString
+		return True
+	return False
 
-	for variable in sizes:
-		sizes[variable] = insertInput(variable, r'\[\-?\d+,\d+\];[1-9][0-9]*')
+def getParametersFromFile(jsonFileObject, currentType):
+	numberOfVariables = len(scalars) + len(sizes) + len(arrays)
+	inputs = jsonFileObject[currentType]
 
-	for variable in arrays:
-		arrays[variable] = insertInput(variable, r'\[\-?\d+,\d+\]$')
+	if len(inputs) != numberOfVariables:
+		raise ValueError("The parameters file must contain an input for each variable")
+
+	for variable in inputs:
+		inputString = inputs[variable]
+
+		if variable in scalars: 
+			updateDict(scalars, variable, r'\[\-?\d+,\d+\];[1-9][0-9]*', inputString)
+		elif variable in sizes:
+			updateDict(sizes, variable, r'\[\-?\d+,\d+\];[1-9][0-9]*', inputString)
+		elif variable in arrays:
+			updateDict(arrays, variable, r'\[\-?\d+,\d+\]$', inputString)
+		else:
+			raise ValueError("Variable not found")
 
 def discoverParameters(filename, targeType, indexType):
-	"""The function opens a .c program and searches for a function with the same name
+	"""
+		The function opens a .c program and searches for a function with the same name
 		Args:
 			filename (string): the name of the file under consideration
 		Raises:
@@ -148,12 +142,12 @@ def discoverParameters(filename, targeType, indexType):
 
 	if matchStr:
 		parametersFilter(matchStr, targeType, indexType)
-		askForInputs()
 	else:
 		raise ValueError("function not found")
 
 def splitScalarInput(rangeStr):
-	"""This function takes in input the string that contains the ranges and the number of values to generate
+	"""
+		This function takes in input the string that contains the ranges and the number of values to generate
 		and divides it by the semicolon
 
 		Args:
@@ -177,7 +171,6 @@ def genRandomList(rangeMin, rangeMax, elementNum, varType):
 	return lst
 
 def generateList(lst):
-	print(types)
 	for variable in lst:
 		currentTuple = splitScalarInput(lst[variable])
 		lst[variable] = genRandomList(currentTuple[0][0], currentTuple[0][1], currentTuple[1], types[variable])

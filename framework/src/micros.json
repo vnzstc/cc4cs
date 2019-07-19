@@ -17,7 +17,7 @@
 	"Leon3": {
 		"additionalFile": "cp [scriptPath]/tsim_cmd includes/",
 		"iss": "tsim-leon3 [programName] -c includes/tsim_cmd {[programName].txt}",
-		"compiler": "sparc-gaisler-elf-gcc [programName].c -o0 -Iincludes/[directoryName] -o [programName]",
+		"compiler":"sparc-gaisler-elf-gcc [programName].c -o0 -Iincludes/[directoryName] -o [programName]",
 		"dependencies": "additionalFile compiler iss"
 	},
 

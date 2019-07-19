@@ -90,7 +90,7 @@ def splitFilename(filename):
 	"""
 	return os.path.splitext(filename)
 
-def mvFiles(destination, extension):
+def moveFile(destination, extension):
 	""" This functions moves all the files with the given extension
 	
 	Args:
@@ -98,7 +98,7 @@ def mvFiles(destination, extension):
 		extension (string): the extension of the files to move
 	"""
 	if os.path.isdir(destination):	
-		for filename in returnFiles('.', extension):
+		for filename in returnFiles('.', extension = extension):
 			if splitFilename(filename)[1] != ".c":
 				os.rename(filename, destination + filename)
 
@@ -111,15 +111,17 @@ def writeTuple(label, value, writerId):
 	"""
 	writerId.writerow([label, value])
 
-def mvAllFiles(destination):
-	"""This functions moves all files except those with extension .c and .csv in the indicated directory 
+def moveAllFiles(destination):
+	"""This functions moves all files except those with extension .c , .csv and .json in the specified directory 
 
 	Args:
 		destination (string): the path of the directory in which the files have to be moved
 	"""
 	if os.path.isdir(destination):	
 		for filename in returnFiles(prjPath):
-			if splitFilename(filename)[1] != ".c" and splitFilename(filename)[1] != ".csv" and splitFilename(filename)[1] != "data.json":
+			extension = splitFilename(filename)[1]
+			if (extension != ".c" and extension != ".json"
+				and extension != ".csv"):
 				os.rename(filename, destination + filename)
 
 
@@ -129,6 +131,12 @@ def printMicroprocessors():
 	print("\n- List of available microprocessors:\n")
 	for i, ele in enumerate(microList):
 		print('\t(' + str(i) + ') ' + ele)
+
+
+def loadJSONFile(filePath):
+	with open(filePath + '.json', 'r') as jsonFile:
+		fileObject = json.load(jsonFile)
+	return fileObject
 
 def chooseMicro():
 	"""This function reads the available microprocessors from a json file and allows the user to choose one
@@ -141,22 +149,20 @@ def chooseMicro():
 	global frameworkData
 
 	microList = []
+	frameworkData = loadJSONFile(scriptPath + '/' + 'micros')
 
-	with open(scriptPath + '/micros.json', 'r') as jsonFile:
-		frameworkData = json.load(jsonFile)
+	for line in frameworkData:
+		if line != 'profiling':
+			microList.append(line)
 
-		for line in frameworkData:
-			if line != 'profiling':
-				microList.append(line)
+	printMicroprocessors()
+	microId = input('\n- Insert the identifier of a microprocessor: ')
+	if int(microId) >= len(frameworkData):
+		raise ValueError("The id doesn't exist")
 
-		printMicroprocessors()
-		microId = input('\n- Insert the identifier of a microprocessor: ')
-		if int(microId) >= len(frameworkData):
-			raise ValueError("The id doesn't exist")
+	chosenMicro = microList[int(microId)]
 
-		chosenMicro = microList[int(microId)]
-
-		return chosenMicro
+	return chosenMicro
 	
 def parseGcovOutput():
 	"""This function analyzes the output of GCov profiler 
@@ -289,31 +295,34 @@ def executeCommandSet(resultFile, microName):
 
 				outputFilename = getOutputFilename(expandedStr)
 
-				print(flags)
 				if outputFilename != None:
 
 					# ---------------------------------------
 					flags.remove('{' + outputFilename + '}')
 					# ---------------------------------------
 					
-					print(flags)
 					with open(outputFilename, 'w') as execFile:
-						subprocess.call(flags, stdout=execFile)
+						subprocess.call(flags, stdout = execFile)
 				else:
 					subprocess.call(flags)
 
+
+			outputPath = 'debug' + directory + '/'
+			createDir(outputPath)
+
 			if microName == 'profiling':
-				outputPath = 'profiling/' + directory + '/'
-				createDir(outputPath)
+				# outputPath = 'profiling/' + directory + '/'
+				# createDir(outputPath)
 				value = parseGcovOutput()
 			else:
-				outputPath = 'simulation/' + directory + '/'
-				createDir(outputPath)
+				# outputPath = 'simulation/' + directory + '/'
+				# createDir(outputPath)
 				value = parseSimulationOutput(outputFilename)
 			
 			# ----------------------------------------------
 			writeTuple(directory, value, fileWriter)
-			# mvAllFiles(outputPath)
+			moveAllFiles(outputPath)
+			removeDir(outputPath)
 			# ----------------------------------------------
 """
 CC4CS Calculation and Plotting
