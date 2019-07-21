@@ -1,6 +1,6 @@
 import os, subprocess, json, csv, fnmatch
 from shutil import rmtree
-from inputgenerator import searchRegex
+from inputgenerator import searchRegex, getListfromRegex
 
 # Gets the needed directories 
 scriptPath = os.path.dirname(os.path.realpath(__file__))
@@ -102,14 +102,15 @@ def moveFile(destination, extension):
 			if splitFilename(filename)[1] != ".c":
 				os.rename(filename, destination + filename)
 
-def writeTuple(label, value, writerId):
+def writeTuple(label, value, writerObject):
 	""" writeTuple writes a tuple (label, value) in a file
 	
 	Args:
 		label (string): label to be written in the file
 		value (string): value to be written in the file
 	"""
-	writerId.writerow([label, value])
+	writerObject.writerow([label, value])
+
 
 def moveAllFiles(destination):
 	"""This functions moves all files except those with extension .c , .csv and .json in the specified directory 
@@ -163,6 +164,12 @@ def chooseMicro():
 	chosenMicro = microList[int(microId)]
 
 	return chosenMicro
+
+def createFile(filename, extension=""):
+	return open(filename + extension, "w")
+
+def closeFile(fileObject):
+	fileObject.close()
 	
 def parseGcovOutput():
 	"""This function analyzes the output of GCov profiler 
@@ -198,8 +205,11 @@ def parseSimulationOutput(simFilename):
 	with open(simFilename) as execFile:
 		content = execFile.read()
 		cycleStr = searchRegex(r'([cC]ycles.*?:\s*)(\d+)', content)
+		assemblyInst = searchRegex(r'([iI]nstructions.*?:\s*)(\d+(.\d+)?)', content)
+		print(cycleStr, assemblyInst.group())
 		
-		return cycleStr.group(2)
+		return cycleStr.group(2), assemblyInst.group(2)
+
 
 def createFileWriter(fileDescriptor):
 	"""This function is specify the characteristics of a .csv file (e.g. set its delimiter)
@@ -264,13 +274,13 @@ def getOutputFilename(commandString):
 	Returns: 
 		string: if present, the content of the output file placeholder otherwise None
 	"""
-	outputFilename = searchRegex(r'\{(.*?)\}', commandString)
+	outputFilename = searchRegex(r'[^:\/;]\{(.*?)\}', commandString)
 
 	if outputFilename != None:
 		return outputFilename.group(1)
 	return None
 
-def executeCommandSet(resultFile, microName):
+def executeCommandSet(resultFile, microName, headers):
 	"""This functions executes the set of commands incated under microName label in the .json file
 
 	Args:	
@@ -281,8 +291,11 @@ def executeCommandSet(resultFile, microName):
 	Todo:
 		* insert comments in the algorithm
 	"""
+
 	with open(resultFile, 'w') as outputFile:
-		fileWriter = createFileWriter(outputFile)
+		fileWriter = csv.DictWriter(outputFile, fieldnames=headers)
+		fileWriter.writeheader()
+
 		commandSet = frameworkData[microName]
 		commandList = splitBySpace(commandSet["dependencies"])
 
@@ -290,42 +303,52 @@ def executeCommandSet(resultFile, microName):
 			for command in commandList:
 				commandStr = commandSet[command]
 
+
 				expandedStr = expandCommand(commandStr, directory)
 				flags = splitBySpace(expandedStr)
-
+			
+				# Executes a command that expects an output file 
 				outputFilename = getOutputFilename(expandedStr)
-
 				if outputFilename != None:
-
 					# ---------------------------------------
 					flags.remove('{' + outputFilename + '}')
 					# ---------------------------------------
-					
 					with open(outputFilename, 'w') as execFile:
 						subprocess.call(flags, stdout = execFile)
+
 				else:
+					print("flags", flags)
 					subprocess.call(flags)
 
-
-			outputPath = 'debug' + directory + '/'
+			# Move all the products of the computation in a temporary directory
+			outputPath = 'debug_' + directory + '/'
 			createDir(outputPath)
 
+			row = {}
+			row_values = []
+			row_values.append(directory)
+
 			if microName == 'profiling':
-				# outputPath = 'profiling/' + directory + '/'
-				# createDir(outputPath)
-				value = parseGcovOutput()
+				# Gcov returns the number of C statements 
+				cInstr = parseGcovOutput()
+				row_values.append(cInstr)
 			else:
-				# outputPath = 'simulation/' + directory + '/'
-				# createDir(outputPath)
-				value = parseSimulationOutput(outputFilename)
+				# The function parses the output of the simulation to get the number of assembly instruction 
+				# and the number of cycles
+				cycleStr, assemblyInst = parseSimulationOutput(outputFilename)
+				row_values.append(cycleStr)
+				row_values.append(assemblyInst)
 			
-			# ----------------------------------------------
-			writeTuple(directory, value, fileWriter)
+			# Write the values
+			row = {key:value for key, value in zip(headers, row_values)}
+			fileWriter.writerow(row)
+			# Move all files in the debug directory 
 			moveAllFiles(outputPath)
+			# Deletes the debug directory
 			removeDir(outputPath)
-			# ----------------------------------------------
+
 """
-CC4CS Calculation and Plotting
+CC4CS Calculation
 """
 
 def calculateMetric(cyclesFilename, statementsFilename):
@@ -344,3 +367,57 @@ def calculateMetric(cyclesFilename, statementsFilename):
 		for (c1, c2) in zip(cyclesContent, statementsContent):
 			cc4csValue = (int(c1[1]) / int(c2[1]))
 			writeTuple(c1[0], "%.3f" %  cc4csValue, fileWriter)
+
+
+def calculateMetricWithHeader(cyclesFilename, statementsFilename):
+	with open(cyclesFilename) as cyclesFile, open(statementsFilename) as statementsFile, open("cc4csValues.csv", "w") as outputFile:
+		cyclesContent = csv.reader(cyclesFile)
+		statementsContent = csv.reader(statementsFile)
+		# get the header of the simulation output file
+		secondFileHeader = next(cyclesContent)
+		# get the header from the profiling phase result
+		firstFileHeader = next(statementsContent)		
+		# headers of the outputfile
+		headers = list(dict.fromkeys(firstFileHeader + secondFileHeader))
+		headers.append('cc4cs')
+		# Write headers in the file 
+		resultWriter = csv.DictWriter(outputFile, headers)
+		resultWriter.writeheader()
+
+		for (c1, c2) in zip(statementsContent, cyclesContent):
+			cc4csValue = "{0:.3f}".format(int(c2[1]) / int(c1[1]))
+			row = [str(c1[0]), str(c1[1]), str(c2[1]), str(c2[2]), str(cc4csValue)]
+			resultWriter.writerow(dict(zip(headers, row)))
+
+
+
+def getDataFromValues(filePath, getKey=False):
+	with open(filePath, 'r') as inputFile:
+		reader = csv.reader(inputFile, delimiter='=')
+		keys, values = [], []
+
+		for row in reader:
+			# if required to skip the macros 
+			if not row[0].startswith('#'):	
+				if getKey:
+					key = row[0]
+					key = key.strip()
+					key = key.replace(' ', '{')
+					key = getListfromRegex(r'(?:\{)(.*)', key)
+					keys.append(key[0])	
+				else:
+					value = row[1]
+					value = [x[0] for x in getListfromRegex(r'(\d+(\.\d+)?)', value)]
+					values.append(value)
+		if getKey: 
+			return keys 
+		return values
+
+def createInputResume():
+	with open('inputResume.csv', 'w') as outputFile:
+		keys = getDataFromValues('includes/values_0/values.h', getKey=True)
+		fileWriter = csv.DictWriter(outputFile, fieldnames=keys)
+		fileWriter.writeheader()
+		for directory in returnFiles('includes', True):
+			values = getDataFromValues('includes/' + directory + '/values.h')
+			fileWriter.writerow(dict(zip(keys, values)))

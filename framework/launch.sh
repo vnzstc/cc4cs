@@ -1,4 +1,4 @@
-SCRIPTPATH=$(dirname `which $0`)
+SCRIPTPATH=$(dirname $(readlink -f "$0"))
 
 if [ "$1" = "-i" ]; then
 	./dep/installer_temp.sh

@@ -9,9 +9,12 @@
 	},
 
 	"Atmega328": {
+		"mergeFiles" : "paste [programName].txt [programName]Moved {[programName]Final.txt}",
+		"moveString" : "sed /instructions:/{s///;s/^/instructions:/;} [programName]Trace {[programName]Moved}",
+		"stat" : "perf stat -e instructions: -o [programName]Trace [programName] ",
 		"iss": "simulavr -f [programName] -d atmega328 -T exit {[programName].txt}",
 		"compiler": "avr-gcc [programName].c -g -mmcu=atmega329 -Iincludes/[directoryName] -o [programName]",
-		"dependencies": "compiler iss"
+		"dependencies": "compiler stat iss moveString mergeFiles"
 	},
 
 	"Leon3": {

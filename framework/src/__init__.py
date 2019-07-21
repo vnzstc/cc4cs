@@ -10,8 +10,12 @@ indexType = "int8_t"
 targeTypes = ["int8_t", "int16_t", "int32_t", "float"]
 # types = ["uint8_t", "uint16_t", "uint32_t", "float"]
 
-cycleFile = "clockCycles.csv"
-statementsFile = "cStatements.csv"
+# Results file headers 
+headers = ['id', 'cInstr', 'assemblyInstr', 'clockCycles','executionTime', 'CC4CS']
+
+statementsFilename = 'cStatements.csv'
+cyclesFilename = 'clockCycles.csv'
+
 cFilesList = core.returnFiles('.', extension = '.c')
 prjPath = os.getcwd()
 
@@ -65,13 +69,16 @@ for flnm in cFilesList:
 		inputgenerator.listCreator()
 		inputgenerator.generateHeaders()
 		# --------------------------------------------
-		
-		# Simulation Part
-		core.executeCommandSet('cStatements.csv', 'profiling')
-		core.executeCommandSet('clockCycles.csv', chosenMicro)
+
+		# Executes profiling commands
+		core.executeCommandSet(statementsFilename, 'profiling', ['id', 'cInstr'])
+		# Executes cycles commands 
+		core.executeCommandSet(cyclesFilename, chosenMicro, ['id', 'clockCycles', 'assemblyInstr'])
 
 		# Calculate Statistics 
-		core.calculateMetric(cycleFile, statementsFile)
+		core.calculateMetricWithHeader(cyclesFilename, statementsFilename)
+		# Create a file containg the inputs
+		core.createInputResume()
 		core.createDir("results/" + currentType)
 		core.moveFile("results/" + currentType + "/", ".csv")
 		print("Done!")
