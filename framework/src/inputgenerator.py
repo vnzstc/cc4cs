@@ -8,6 +8,9 @@ scalars = {}
 arrays = {}
 sizes = {}
 
+def pascalCase(inputStr):
+    return ''.join(x for x in inputStr.title() if not x.isspace())
+    
 def replaceStr(filename, regexStr, replacementStr):
 	"""This function replaces a line in a file that matches the specified regular expression
 
@@ -115,7 +118,6 @@ def getParametersFromFile(jsonFileObject, currentType):
 
 	if len(inputs) != numberOfVariables:
 		raise ValueError("The parameters file must contain an input for each variable")
-
 	for variable in inputs:
 		inputString = inputs[variable]
 
@@ -207,6 +209,7 @@ def writeArray(headerFile, value, varType, arraySizes):
 	elementNum = reduce(lambda x, y: x*y, arraySizes)
 
 	toWrite = "{"
+
 	for i in range(0, arraySizes[0]):
 		arrayValues = genRandomList(arrayRange[0], arrayRange[1], elementNum, varType)
 		try:

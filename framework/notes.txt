@@ -1,0 +1,12 @@
+Notes: 
+- Change Legacy Name 
+init.py --> chosenMicro - chosenProcedure
+- The function ExecuteCommandSet works only with the simulation procedure
+- Not the clear the function of the resultFile in the executeCommandSet procedure
+- the program takes the commands when it choses the data, it does not make any sense with the static  analysis feature
+- creaton of the directories at the beginning of the computation does not make sense in this new version
+- delete the if statement in chosenMicro
+
+
+	row = core.readFramaCOutput('./staticAnalysis/' + filename[0] + 'FramaC.txt')
+s

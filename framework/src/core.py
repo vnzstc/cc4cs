@@ -1,6 +1,7 @@
 import os, subprocess, json, csv, fnmatch
 from shutil import rmtree
-from inputgenerator import searchRegex, getListfromRegex
+from inputgenerator import searchRegex, getListfromRegex, pascalCase
+from collections import OrderedDict
 
 # Gets the needed directories 
 scriptPath = os.path.dirname(os.path.realpath(__file__))
@@ -153,7 +154,7 @@ def chooseMicro():
 	frameworkData = loadJSONFile(scriptPath + '/' + 'micros')
 
 	for line in frameworkData:
-		if line != 'profiling':
+		if line != 'profiling' and line != 'staticAnalysis':
 			microList.append(line)
 
 	printMicroprocessors()
@@ -206,7 +207,6 @@ def parseSimulationOutput(simFilename):
 		content = execFile.read()
 		cycleStr = searchRegex(r'([cC]ycles.*?:\s*)(\d+)', content)
 		assemblyInst = searchRegex(r'([iI]nstructions.*?:\s*)(\d+(.\d+)?)', content)
-		print(cycleStr, assemblyInst.group())
 		
 		return cycleStr.group(2), assemblyInst.group(2)
 
@@ -284,7 +284,6 @@ def executeCommandSet(resultFile, microName, headers):
 	"""This functions executes the set of commands incated under microName label in the .json file
 
 	Args:	
-		filename (string): the filename of the c program
 		resultFile (string): the file in which are stored the information about the execution 
 		microName (string): the label of the .json file 
 
@@ -301,8 +300,8 @@ def executeCommandSet(resultFile, microName, headers):
 
 		for directory in returnFiles('includes', True):
 			for command in commandList:
+				print(command)
 				commandStr = commandSet[command]
-
 
 				expandedStr = expandCommand(commandStr, directory)
 				flags = splitBySpace(expandedStr)
@@ -317,7 +316,6 @@ def executeCommandSet(resultFile, microName, headers):
 						subprocess.call(flags, stdout = execFile)
 
 				else:
-					print("flags", flags)
 					subprocess.call(flags)
 
 			# Move all the products of the computation in a temporary directory
@@ -328,10 +326,15 @@ def executeCommandSet(resultFile, microName, headers):
 			row_values = []
 			row_values.append(directory)
 
+
 			if microName == 'profiling':
 				# Gcov returns the number of C statements 
 				cInstr = parseGcovOutput()
 				row_values.append(cInstr)
+				#########
+				staticAnalysis(currentFilename, directory)
+				#########
+
 			else:
 				# The function parses the output of the simulation to get the number of assembly instruction 
 				# and the number of cycles
@@ -416,8 +419,92 @@ def getDataFromValues(filePath, getKey=False):
 def createInputResume():
 	with open('inputResume.csv', 'w') as outputFile:
 		keys = getDataFromValues('includes/values_0/values.h', getKey=True)
+		keys.insert(0, 'inputNumber')
 		fileWriter = csv.DictWriter(outputFile, fieldnames=keys)
 		fileWriter.writeheader()
+
+
 		for directory in returnFiles('includes', True):
 			values = getDataFromValues('includes/' + directory + '/values.h')
+			values.insert(0, directory)
 			fileWriter.writerow(dict(zip(keys, values)))
+
+
+####################################  FramaC
+def executeCommand(commandStr, directory):
+	expandedStr = expandCommand(commandStr, directory)
+	flags = splitBySpace(expandedStr)
+
+	# Executes a command that expects an output file 	
+	outputFilename = getOutputFilename(expandedStr)
+	flags.remove('{' + outputFilename + '}')
+
+	with open(outputFilename, 'w') as execFile:
+		subprocess.call(flags, stdout = execFile)
+
+def executeFramaC(directory):
+	global frameworkData
+
+	frameworkData = loadJSONFile(scriptPath + '/' + 'micros')
+	commandStr = frameworkData['staticAnalysis']['mccabe']
+	executeCommand(commandStr, directory)
+
+	commandStr = frameworkData['staticAnalysis']['halsted']
+	executeCommand(commandStr, directory)
+
+	# outputPath = './staticAnalysis/'
+	# createDir(outputPath)
+	# moveFile(outputPath, '.txt')
+
+
+def readFramaCOutput(directory, filePath, regex, splitToken, linesNumber = 0):
+    row = OrderedDict()
+
+    row['inputNumber'] = directory
+
+    with open(filePath, 'r') as fp:     
+        lines = fp.readlines() if linesNumber == 0 else [next(fp) for x in range(linesNumber)]
+
+        for line in lines:
+            # foundStr = getListfromRegex(regex, line)
+            foundStr = searchRegex(regex, line)
+        
+            if foundStr:
+                foundStr = foundStr.group()
+                foundStr = foundStr.split(splitToken)
+                keyStr = pascalCase(foundStr[0])
+
+               	#############
+                value = float(foundStr[1]) if '%' not in foundStr[1] else float(foundStr[1].strip().replace('%', '')) / 100
+                #############
+
+                # add the value to the dictionary
+                row[keyStr] = value
+    return row
+
+def createFramaCSV(outputFilename, inputDict):
+
+	if os.path.exists(outputFilename):
+		fileFlag = 'a'
+	else:
+		fileFlag = 'w'
+
+	fp = open(outputFilename, fileFlag)
+	writer = csv.DictWriter(fp, fieldnames=inputDict.keys())
+
+	if fileFlag == 'w':
+		writer.writeheader()
+		
+	writer.writerow(inputDict)
+	closeFile(fp)
+
+def staticAnalysis(filename, directory):
+	mccCabeFilename = filename + 'McCabe'
+	halstedFilename = filename + 'Halsted'
+
+	executeFramaC(directory)
+	row = readFramaCOutput(directory, mccCabeFilename + '.txt', r'(\w+ )*= \d+(\.\d+\%?)?', '=')
+	createFramaCSV(mccCabeFilename + '.csv', row)
+
+	row = readFramaCOutput(directory, halstedFilename + '.txt', r'(([a-zA-Z]+\s?\_?)+: \d+(\.\d+\%?)?)', ':', 16)
+	createFramaCSV(halstedFilename + '.csv', row)

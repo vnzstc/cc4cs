@@ -29,5 +29,10 @@
 		"iss": "isasim [programName].hex {[programName].txt}",
 		"packihx": "packihx [programName].ihx {[programName].hex}",
 		"dependencies" : "compiler packihx iss"	
+	},
+
+	"staticAnalysis": {
+		"mccabe": "frama-c -metrics -metrics-value-cover -cpp-extra-args='-Iincludes/' -cpp-extra-args='-Iincludes/[directoryName]' [programName].c {[programName]McCabe.txt}",
+		"halsted": "frama-c -metrics -metrics-ast cabs -cpp-extra-args='-Iincludes/' -cpp-extra-args='-Iincludes/[directoryName]' [programName].c {[programName]Halsted.txt}"
 	}
 }

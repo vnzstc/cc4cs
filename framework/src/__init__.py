@@ -5,10 +5,14 @@ import csv, sys, os
 import inputgenerator
 import core
 
+#  ["int8_t", "int16_t", "int32_t", "long"]
 # Global Variables 
-indexType = "int8_t"
+indexTypes = ["int8_t", "int16_t", "int32_t", "long"]
 targeTypes = ["int8_t", "int16_t", "int32_t", "float"]
-# types = ["uint8_t", "uint16_t", "uint32_t", "float"]
+
+# targeTypes = ["uint8_t", "uint16_t", "uint32_t", "float"]
+# indexTypes = ["uint8_t", "uint16_t", "uint32_t", "long"]
+
 
 # Results file headers 
 headers = ['id', 'cInstr', 'assemblyInstr', 'clockCycles','executionTime', 'CC4CS']
@@ -52,7 +56,8 @@ for flnm in cFilesList:
 
 	chosenMicro = core.chooseMicro()
 
-	for currentType in targeTypes:
+	# Simulation Branch
+	for currentType, currentIndex in zip(targeTypes, indexTypes):
 		print("\nProcessing type: " + currentType + "\n")
 		deletePreviousComputations()
 
@@ -61,24 +66,25 @@ for flnm in cFilesList:
 
 		# Preprocessing Part
 		inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_TYPE', "typedef " + currentType + " TARGET_TYPE;\n")
-		# inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_INDEX', "typedef " + indexType + " TARGET_INDEX;\n" )
+		inputgenerator.replaceStr(flnm, r'typedef\s[a-z0-9_\s]+TARGET_INDEX', "typedef " + currentIndex + " TARGET_INDEX;\n" )
 
 		# InputGenerator Part ------------------------
-		inputgenerator.discoverParameters(filename[0], currentType, indexType)
+		inputgenerator.discoverParameters(filename[0], currentType, currentIndex)
 		inputgenerator.getParametersFromFile(parametersFile, currentType)
 		inputgenerator.listCreator()
 		inputgenerator.generateHeaders()
 		# --------------------------------------------
 
 		# Executes profiling commands
-		core.executeCommandSet(statementsFilename, 'profiling', ['id', 'cInstr'])
+		core.executeCommandSet(statementsFilename, 'profiling', ['id', 'cInstr'])		
+
 		# Executes cycles commands 
 		core.executeCommandSet(cyclesFilename, chosenMicro, ['id', 'clockCycles', 'assemblyInstr'])
-
 		# Calculate Statistics 
 		core.calculateMetricWithHeader(cyclesFilename, statementsFilename)
 		# Create a file containg the inputs
 		core.createInputResume()
+		core.removeDir('includes')
 		core.createDir("results/" + currentType)
 		core.moveFile("results/" + currentType + "/", ".csv")
 		print("Done!")
