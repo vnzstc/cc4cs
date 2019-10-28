@@ -1,0 +1,45 @@
+Framework Notes
+
+File "__init__.py": manages the other 2 files: core and inputgenerator. So, it delineates the execution flow.
+
+Functional Requirements:
+1 - Execute the flow for each file '.c' in the directory (Not required)
+2 - Remove previous computation (Mandatory)
+3 - Create directories to store the result and the partial files (Mandatory)
+4 - Load parameters from JSON 
+5 -  
+
+Imported libraries: 
+- csv, sys, os
+- core, inputgenerator 
+
+Global Variables: 
+
+1 - indexTypes: list of index types to be substituted in the file 
+2 - targeTypes: list of target types to be substituted in the file 
+3 - cFilesList: List of all the '.c' files in the
+4 - prjPath: Stores the absolute path of the project 
+
+
+Algorithm Steps: 
+
+1 - Get the file .c in the directory 
+	1.1 - If there is not '.c', raise error 
+
+2 - Remove previous computation
+3 - Create directories
+4 - Choose the microprocessor
+
+5 - For each couple (target_type, index_type):
+	5.1 - delete the computation for the current type 
+	5.2 - loads the parameters from the JSON file 
+	5.3 - search and replace the types in the file 
+	5.4 - searches for the function definition and gets the parameters 
+	5.5 - gets the numbers from JSON 
+	5.6 - creates list values 
+	5.7 - generate a .h combining the values in the list 
+	5.8 - execute the profiling phase and create the files 'cStatements.csv'
+	5.9 - execute the commands associated to the chosen micro 
+	6.0 - calculate and generate the file regarding the metric 
+	6.1 - create the file including the inputs 
+	6.2 - move the results in the directory results and remove the dirs 

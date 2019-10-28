@@ -51,9 +51,14 @@ createDirs()
 # Searches for all the '.c' files in the current directory
 for flnm in cFilesList:
 
+	#######
+	# Removes the extension from the filename
 	filename = core.splitFilename(flnm)
-	core.setCurrentFile(filename[0])
 
+	# Sets the global variable in the core file 
+	core.setCurrentFile(filename[0])
+	#######
+	
 	chosenMicro = core.chooseMicro()
 
 	# Simulation Branch
