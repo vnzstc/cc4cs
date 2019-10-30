@@ -3,11 +3,17 @@ Framework Notes
 File "__init__.py": manages the other 2 files: core and inputgenerator. So, it delineates the execution flow.
 
 Functional Requirements:
+
 1 - Execute the flow for each file '.c' in the directory (Not required)
 2 - Remove previous computation (Mandatory)
 3 - Create directories to store the result and the partial files (Mandatory)
 4 - Load parameters from JSON 
-5 -  
+5 - Set the correct types
+6 - Discover parameters 
+7 - Generate values for each parameter 
+8 - Generate files 
+9 - Execute commands from the json
+10 - Generate profiling and cc4cs files 
 
 Imported libraries: 
 - csv, sys, os
