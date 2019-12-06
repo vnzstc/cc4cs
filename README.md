@@ -1,4 +1,6 @@
-![CC4CS Logo](/img/logo.png)
+<p align="center">
+  <img src="/img/logo.png">
+</p>
 
-# CC4CS
+# Introduction
 A statement-level throughput metric for HW/SW Co-Design
