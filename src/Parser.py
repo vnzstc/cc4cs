@@ -122,7 +122,6 @@ class Parser:
 				value = value.replace('=', '').strip()
 				value = value.replace(';', '')
 				occurrences = value.count('}')
-				print(occurrences)
 				if occurrences <= 1:
 					value = value.replace('}', '')
 				else:

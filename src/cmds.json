@@ -23,7 +23,7 @@
 	},
 
 	"8051": {
-		"compiler": "sdcc [functionPath] -mmcs51 --iram-size 128 -I[prjPath]includes/[directoryName]",
+		"compiler": "sdcc [functionPath] --stack-auto -mmcs51 --iram-size 128 -I[prjPath]includes/[directoryName]",
 		"iss": "isasim [functionName].hex {[functionName].txt}",
 		"packihx": "packihx [functionName].ihx {[functionName].hex}",
 		"dependencies" : "compiler packihx iss"	
