@@ -1,5 +1,5 @@
 ## Dijkstra 
-This README explains how the execution flow of the algorithm and how much memory it occupies.
+This README explains the execution flow of the algorithm and how much memory it occupies.
 
 #### Variables
 * TARGET_INDEX:  
