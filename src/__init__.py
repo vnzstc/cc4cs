@@ -21,8 +21,11 @@ from json import load
 ## Microprocessors
 micros = ['8051', 'Leon3', 'Atmega328p']
 ## Types 
-indexTypes = ["long"]
-targetTypes = ["float"]
+# indexTypes = ["int8_t", "int16_t", "int32_t", "long"]
+# targetTypes = ["int8_t", "int16_t", "int32_t", "float"]
+
+indexTypes = ["int8_t"]
+targetTypes = ["int8_t"]
 
 ## Result file headers 
 headers = ['ID', 'CInstr', 'AssemblyInstr', 'ClockCycles','ExecutionTime', 'CC4CS']
@@ -202,6 +205,7 @@ def callback(algName, chosenMicro, listBoxFlag):
 		rmtree("includes/")
 		# Deletes the files produced for the current type
 		rmtree("files/")
+		print("Done!")
 
 # Start GUI
 viewInstance = GUI("CC4CS Calculator", "300x370")

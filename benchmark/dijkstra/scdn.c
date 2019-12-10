@@ -2,8 +2,8 @@
 #include <8051.h>
 #include <values.h>
 
-typedef float TARGET_TYPE;
-typedef long TARGET_INDEX;
+typedef int8_t TARGET_TYPE;
+typedef int8_t TARGET_INDEX;
 
 TARGET_TYPE dist[size];
 

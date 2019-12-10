@@ -1,14 +1,16 @@
 #include <stdint.h>
 #include <values.h>
 
-#define TARGET_TYPE int16_t
-#define TARGET_INDEX int16_t
+typedef int8_t TARGET_TYPE;
+typedef int8_t TARGET_INDEX;
+
+TARGET_TYPE dist[size];
 
 void dijkstra(TARGET_INDEX size , TARGET_TYPE a[size][size])
 {
-	TARGET_INDEX i, j, min, up, val; 
-	TARGET_TYPE new_dist, dist[size], vset[size];
-
+	TARGET_INDEX i, j, up, val, min = 0;
+	TARGET_TYPE new_dist;
+	 
 	// Calculates the maximum value for the current datatype
 	up = 1;
 	for(i = 0; i < (8*sizeof(TARGET_TYPE)) - 1; i++)
@@ -34,18 +36,15 @@ void dijkstra(TARGET_INDEX size , TARGET_TYPE a[size][size])
 	
 	// Initializes the distances array
 	for(i = 0; i < size; i++)
-	{
 		dist[i] = up;
-		vset[i] = 0;
-	}
 	
 	// Sets the source equal to zero
 	dist[0] = 0;
 
 	while(1)
 	{
-		// Checks if vset is empty
-		for(i = 0; vset[i] == 1; i++);
+		// Checks if vset is empty prev: vset[i] == 1
+		for(i = 0; a[i][i] == -1; i++);
 
 		// If yes ends the execution
 		if(i == size) 
@@ -55,8 +54,8 @@ void dijkstra(TARGET_INDEX size , TARGET_TYPE a[size][size])
 		val = up;
 		for(i = 0; i < size; i++)
 		{
-			// If the node has not been visited 
-			if(vset[i] == 0)
+			// If the node has not been visited vset[i] = 1
+			if(a[i][i] == 0)
 			{
 				if(dist[i] < val)
 				{
@@ -66,8 +65,8 @@ void dijkstra(TARGET_INDEX size , TARGET_TYPE a[size][size])
 			}
 		}
 
-		// Removes min from the vertex set
-		vset[min] = 1;
+		// Removes min from the vertex set prev vset[min] = 1
+		a[min][min] = -1;
 	
 		// Iterates through the neighbors of min
 		for(j = 0; j < size; j++)
@@ -81,12 +80,10 @@ void dijkstra(TARGET_INDEX size , TARGET_TYPE a[size][size])
 					dist[j] = new_dist;
 			}
 		}
-
 	}
 }
 
-
-void main(void)
+void main()
 {
 	dijkstra(size, a);
 }	
