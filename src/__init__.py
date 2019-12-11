@@ -60,6 +60,12 @@ def getFiles(topDir, extension):
 	"""
 	return [f for f in listdir(topDir) if isfile(join(topDir, f)) and f.endswith(extension)]
 
+def num(s):
+	try:
+		return int(s)
+	except ValueError:
+		return float(s)
+
 def calculateMetric(profPath, simPath):
 	"""The function merges the content of the files obtained from the simulation and the profiling phases. 
 	Then, it writes their content and the metric values in the "cc4csValues.csv" file
@@ -89,8 +95,10 @@ def calculateMetric(profPath, simPath):
 
 		# Iterates thorugh the content of the files 
 		for c1, c2 in zip(profilingContent, simulationContent):
+			op1 = num(c1[1])
+			op2 = num(c2[1])
 			# Calculates the values of the metric
-			cc4csValue = '%.3f' % (int(c1[1]) / int(c2[1]))
+			cc4csValue = '%.3f' % (op1 / op2)
 			# Merges the data of the files
 			c1.extend(x for x in c2 if x not in c1)
 			c1.append(cc4csValue)
@@ -202,7 +210,8 @@ def callback(algName, chosenMicro, listBoxFlag):
 		rmtree("includes/")
 		# Deletes the files produced for the current type
 		rmtree("files/")
-		print("Done!")
+
+	print("Done!")
 
 # Start GUI
 viewInstance = GUI("CC4CS Calculator", "300x370")

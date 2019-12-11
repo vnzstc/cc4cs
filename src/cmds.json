@@ -7,10 +7,10 @@
 	},
 
 	"Atmega328p": {
-		"mergeFiles" : "paste [functionName].txt [functionName]Moved {[functionName]Final.txt}",
+		"mergeFiles" : "cat [functionName]Sim.txt [functionName]Moved {[functionName].txt}",
 		"moveString" : "sed /instructions:/{s///;s/^/instructions:/;} [functionName]Trace {[functionName]Moved}",
 		"stat" : "perf stat -e instructions: -o [functionName]Trace [functionName] ",
-		"iss": "simulavr -f [functionName] -d atmega328 -T exit {[functionName].txt}",
+		"iss": "simulavr -f [functionName] -d atmega328 -T exit {[functionName]Sim.txt}",
 		"compiler": "avr-gcc [functionPath] -g -mmcu=atmega329 -I[prjPath]includes/[directoryName] -o [functionName]",
 		"dependencies": "compiler stat iss moveString mergeFiles"
 	},

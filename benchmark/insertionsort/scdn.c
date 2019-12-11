@@ -2,10 +2,10 @@
 #include <8051.h>
 #include <values.h>
 
-typedef int8_t TARGET_TYPE;
-typedef int8_t TARGET_INDEX;
+typedef float TARGET_TYPE;
+typedef long TARGET_INDEX;
 
-void insertion_sort(TARGET_INDEX size, TARGET_TYPE a[size])
+void insertionsort(TARGET_INDEX size, TARGET_TYPE a[size])
 {
     TARGET_INDEX i, j = 0;
     TARGET_TYPE key = 0;
@@ -36,6 +36,6 @@ void reset_values()
 
 void main()
 {
-	insertion_sort();
+	insertionsort(size, a);
 	reset_values();
 }
