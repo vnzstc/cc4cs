@@ -2,5 +2,5 @@
   <img src="/img/logo.png">
 </p>
 
-# Introduction
+## Introduction
 A statement-level throughput metric for HW/SW Co-Design

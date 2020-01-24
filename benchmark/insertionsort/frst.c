@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <values.h>
 
-typedef float TARGET_TYPE;
-typedef long TARGET_INDEX;
+typedef int16_t TARGET_TYPE;
+typedef int16_t TARGET_INDEX;
 
 void insertionsort(TARGET_INDEX size, TARGET_TYPE a[size])
 {
