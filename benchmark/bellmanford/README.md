@@ -4,6 +4,7 @@ This README explains the execution flow of the algorithm and how much memory it 
 #### Variables
 &nbsp;&nbsp;&nbsp;&nbsp; TARGET_INDEX:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i, j, size, up; 
+
 &nbsp;&nbsp;&nbsp;&nbsp;TARGET_TYPE:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a[size][size], total_edge, dist[size]
 
