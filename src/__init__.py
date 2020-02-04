@@ -21,8 +21,11 @@ from json import load
 ## Microprocessors
 micros = ['8051', 'Leon3', 'Atmega328p']
 ## Types 
-indexTypes = ["int8_t", "int16_t", "int32_t", "long"]
+# indexTypes = ["int8_t", "int16_t", "int32_t", "long"]
+indexTypes = ["uint8_t", "uint16_t", "uint32_t", "unsigned long"]
 targetTypes = ["int8_t", "int16_t", "int32_t", "float"]
+
+
 
 ## Result file headers 
 headers = ['ID', 'CInstr', 'AssemblyInstr', 'ClockCycles','ExecutionTime', 'CC4CS']
