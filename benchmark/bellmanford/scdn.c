@@ -3,7 +3,7 @@
 #include <values.h>
 
 typedef float TARGET_TYPE;
-typedef long TARGET_INDEX;
+typedef unsigned long TARGET_INDEX;
 
 TARGET_TYPE dist[size];
 TARGET_INDEX i, j = 0;
@@ -11,16 +11,6 @@ TARGET_INDEX i, j = 0;
 void bellmanford(TARGET_INDEX size, TARGET_TYPE a[size][size])
 {
 	TARGET_INDEX up = 0;
-	TARGET_TYPE total_edges = 0;
-
-	for(i = 0; i < size; i++)
-	{
-		for(j = 0; j < size; j++)
-		{
-			if(a[i][j] != -1)
-				++total_edges;
-		}
-	}
 
 	// Calculates the maximum value for the current datatype
 	up = 1;
@@ -32,18 +22,20 @@ void bellmanford(TARGET_INDEX size, TARGET_TYPE a[size][size])
 	for(i = 0; i < size; i++)
 		dist[i] = up;
 
+	
 	// Sets the source equal to zero
 	dist[0] = 0;
 	
 	for(i = 0; i < size; i++)
 	{
-		for(j = 0; j < total_edges; j++)
+		for(j = 0; j < size; j++)
 		{
-			if(dist[j] + a[j][i] <= dist[i] && a[j][i] != -1)
-				dist[i] = dist[j] + a[j][i];
-		}	
+			if(dist[j] + a[i][j] < dist[i] && a[i][j] != -1)
+				dist[i] = dist[j] + a[i][j]; 
+		}
 	}
-
+	
+	
 }
 
 void make_oriented()
@@ -71,14 +63,6 @@ void make_oriented()
 		}
 	}
 
-}
-
-void reset_values()
-{
-	P0 = 0;
-	P1 = 0;
-	P2 = 0;
-	P3 = 0;
 }
 
 void main()
