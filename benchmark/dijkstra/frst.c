@@ -2,7 +2,7 @@
 #include <values.h>
 
 typedef int8_t TARGET_TYPE;
-typedef int8_t TARGET_INDEX;
+typedef uint8_t TARGET_INDEX;
 
 TARGET_TYPE dist[size];
 
