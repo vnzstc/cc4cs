@@ -21,8 +21,8 @@ from json import load
 ## Microprocessors
 micros = ['8051', 'Leon3', 'Atmega328p']
 ## Types 
-# indexTypes = ["int8_t", "int16_t", "int32_t", "long"]
-indexTypes = ["uint8_t", "uint16_t", "uint32_t", "unsigned long"]
+indexTypes = ["int8_t", "int16_t", "int32_t", "long"]
+#indexTypes = ["uint8_t", "uint16_t", "uint32_t", "unsigned long"]
 targetTypes = ["int8_t", "int16_t", "int32_t", "float"]
 
 
@@ -41,7 +41,7 @@ def replaceString(filename, regexStr, replacementStr):
 			filename (string): the name of the file to be opened
 			regexStr (string): a regular expression
 			replacementStr (string): the string that is inserted in the file 
-	"""
+"""
 	with open(filename, "r") as file:
 		lines = file.readlines()
 

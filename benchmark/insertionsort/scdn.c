@@ -1,6 +1,6 @@
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
+#include <8051.h>
 
 typedef float TARGET_TYPE;
 typedef long TARGET_INDEX;
