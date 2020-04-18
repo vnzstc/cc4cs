@@ -5,7 +5,7 @@
 typedef float TARGET_TYPE;
 typedef long TARGET_INDEX;
 
-TARGET_INDEX current, i, tail, head = 0;
+int8_t current, i, j, tail, head = 0;
 TARGET_TYPE visited[size];
 
 void resetValues()
@@ -38,13 +38,22 @@ TARGET_TYPE dequeue()
 	return element;
 }
 
-void clean_input()
+void clean_input(TARGET_INDEX size, TARGET_TYPE a[size][size], TARGET_TYPE visited[size])
 {
 	head, tail = 0;
+	visited[size];
 
-	for(i = 0; i < size; i++) {
+	for(i = 0; i < size; i++) 
+	{
 		visited[i] = 0;
-		a[i][i] = -1;
+		for(j = 0; j < size; j++)
+		{
+			if(i == j)
+				a[i][i] = -1;
+
+			if(a[i][j] < 0)
+				a[i][j] *= -1;	
+		}
 	}
 }
 
@@ -73,7 +82,7 @@ void bfs(TARGET_INDEX size, TARGET_TYPE a[size][size])
 
 void main()
 {
-	clean_input();
+	clean_input(size, a, visited);
 	bfs(size, a);
 	resetValues();
 }
