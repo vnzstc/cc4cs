@@ -2,8 +2,8 @@
 #include <8051.h>
 #include <values.h>
 
-typedef float TARGET_TYPE;
-typedef long TARGET_INDEX;
+typedef int32_t TARGET_TYPE;
+typedef int8_t TARGET_INDEX;
 
 void selectionsort(TARGET_INDEX size, TARGET_TYPE a[size])
 {
