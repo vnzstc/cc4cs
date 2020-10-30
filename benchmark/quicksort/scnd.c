@@ -6,9 +6,10 @@
  */
 
 #include <stdint.h>
+#include <8051.h>
 #include <values.h>
 
-typedef int8_t TARGET_TYPE;
+typedef int16_t TARGET_TYPE;
 typedef int8_t TARGET_INDEX;
 
 //void prototype(int8_t size, float a[size]);
@@ -62,7 +63,7 @@ TARGET_TYPE partition(TARGET_INDEX init, TARGET_INDEX end)
  * the initial index and the final index of the array. This serves to call partition on subarrays.
  */
 
-void quicksort(TARGET_INDEX size, TARGET_TYPE a[size])
+void quicksort(int8_t size, int8_t a[size])
 {
 	TARGET_TYPE stack[size][2];
 	TARGET_INDEX stack_size = -1;
@@ -104,4 +105,5 @@ void quicksort(TARGET_INDEX size, TARGET_TYPE a[size])
 void main()
 {
  	quicksort(size, a);
+	resetValues();
 }

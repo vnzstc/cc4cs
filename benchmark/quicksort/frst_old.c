@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
 typedef float TARGET_TYPE;
@@ -25,18 +24,16 @@ TARGET_INDEX partition(TARGET_INDEX low, TARGET_INDEX high)
 		{
 			idx++;
 			swap(idx, j);
-			//swap(&a[idx], &a[j]);
 		}
 	}
 
 	swap(idx+1, high);
-	//swap(&a[idx + 1], &a[high]);  
 	return idx+1;
 }
 
 void quicksort_0(TARGET_INDEX low, TARGET_INDEX high)
 {
-	enum{ssize = 15};
+	enum{ssize = 130};
 	TARGET_INDEX stack[ssize];
 
 	TARGET_INDEX top = -1;
@@ -72,16 +69,7 @@ void quicksort(TARGET_INDEX size, TARGET_TYPE a[size])
 	quicksort_0(0, size-1);
 }
 
-void resetValues()
-{
-	P0 = 0;
-	P1 = 0;
-	P2 = 0;
-	P3 = 0;
-}
-
 void main()
 {
 	quicksort(size, a);
-	resetValues();
 }
