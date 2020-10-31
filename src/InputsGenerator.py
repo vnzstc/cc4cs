@@ -68,8 +68,8 @@ class InputsGenerator:
 		for var in self.scalars:
 			varType, varName = var.split(" ")
 			# Checks if the current scalar is an index or not
-			scalarType = indextype if self.isIndex(var) else currentype 
-			varRange = chosenParams[scalarType][varName]
+			scalarType = indextype if self.isIndex(var) else currentype
+			varRange = chosenParams[scalarType][varName]	
 
 			scalarList = self.expandRanges(varRange, scalarType)
 			values.append(scalarList)
@@ -96,6 +96,7 @@ class InputsGenerator:
 			# For each combination will be generated 10 random array
 			# for index in range(10):
 			dirName = "values_" + str(idxFile)
+
 			# Creates the directory containing the header		
 			makedirs(dirName)
 
@@ -126,11 +127,15 @@ class InputsGenerator:
 					_, arrayName = arrayDef.split(" ")
 					# Retrieves the specified range from the parameters.json
 					varRange = chosenParams[currentype][arrayName]
+
 					# Extracts the integers from the range
 					sizes = findall(r'\d+', array)
 					sizes = list(map(int, sizes))
 
-					if len(sizes) == 1: sizes.insert(0, 1)
+					flag = True
+					if len(sizes) == 1: 
+						flag = False
+						sizes.insert(0, 1)
 
 					# Unpacks values contained in the list
 					frstSize, scndSize = sizes
@@ -146,10 +151,12 @@ class InputsGenerator:
 
 					# Inserts commas between single dimensioned array
 					result = result.replace('}{', '},{')
+					
 					# Inserts the curly brackets at the sides of the array if the latter has size 
 					# greater than 2 
-					if frstSize > 1: result = '{' + result + '};\n'
+					if flag: result = '{' + result + '};\n'
 					else: result = result + ';\n'
+
 					# Writes the resulting array in the header file
 					fdHeader.write("\t" + currentype + " " + arrayName + " = " + result)
 			
