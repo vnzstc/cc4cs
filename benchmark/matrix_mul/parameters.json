@@ -1,4 +1,58 @@
 {
+	"Atmega328p":
+	{
+		"int8_t":{
+			"rows_a": "[1,127];2",
+			"columns_a": "[1,127];2",
+			"a[rows_a][columns_a]":"[-128,127]",
+
+			"rows_b":"[1,127];2",
+			"columns_b":"[1,127];2",
+			"b[rows_b][columns_b]":"[-128,127]"
+		},
+
+		"int16_t":{
+			"rows_a": "[1,50];2",
+			"columns_a": "[1,50];2",
+			"a[rows_a][columns_a]":"[-128,127]",
+
+			"rows_b":"[1,50];2",
+			"columns_b":"[1,50];2",
+			"b[rows_b][columns_b]":"[-128,127]"
+		},
+
+		"int32_t":{
+			"rows_a": "[1,25];2",
+			"columns_a": "[1,25];2",
+			"a[rows_a][columns_a]":"[-128,127]",
+
+			"rows_b":"[1,25];2",
+			"columns_b":"[1,25];2",
+			"b[rows_b][columns_b]":"[-128,127]"
+		},
+
+		"long":{
+			"rows_a": "[1,5];2",
+			"columns_a": "[1,5];2",
+			"a[rows_a][columns_a]":"[-128,127]",
+
+			"rows_b":"[1,5];2",
+			"columns_b":"[1,5];2",
+			"b[rows_b][columns_b]":"[-128,127]"
+		},
+
+		"float":{
+			"rows_a": "[1,5];2",
+			"columns_a": "[1,5];2",
+			"a[rows_a][columns_a]":"[-128,127]",
+
+			"rows_b":"[1,5];2",
+			"columns_b":"[1,5];2",
+			"b[rows_b][columns_b]":"[-128,127]"
+		}
+
+	},
+	
 	"Leon3":
 	{
 		"int8_t":{
