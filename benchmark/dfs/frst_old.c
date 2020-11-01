@@ -1,20 +1,11 @@
 #include <stdint.h>
-#include <8051.h>
 #include <values.h>
 
-typedef float TARGET_TYPE;
-typedef long TARGET_INDEX;
+typedef int8_t TARGET_TYPE;
+typedef int8_t TARGET_INDEX;
 
-int8_t current, i, j, tail, head = 0;
+TARGET_INDEX current, i, tail, head = 0;
 TARGET_TYPE visited[size];
-
-void resetValues()
-{
-	P0 = 0;
-	P1 = 0;
-	P2 = 0;
-	P3 = 0;
-}
 
 void enqueue(TARGET_TYPE par)
 {
@@ -38,22 +29,13 @@ TARGET_TYPE dequeue()
 	return element;
 }
 
-void clean_input(TARGET_INDEX size, TARGET_TYPE a[size][size], TARGET_TYPE visited[size])
+void clean_input()
 {
 	head, tail = 0;
-	visited[size];
 
-	for(i = 0; i < size; i++) 
-	{
+	for(i = 0; i < size; i++){
 		visited[i] = 0;
-		for(j = 0; j < size; j++)
-		{
-			if(i == j)
-				a[i][i] = -1;
-
-			if(a[i][j] < 0)
-				a[i][j] *= -1;	
-		}
+		a[i][i] = -1;
 	}
 }
 
@@ -87,9 +69,9 @@ void dfs(TARGET_INDEX size, TARGET_TYPE a[size][size])
 		}
 	}
 }
+
 void main()
 {
-	clean_input(size, a, visited);
+	clean_input();
 	dfs(size, a);
-	resetValues();
 }

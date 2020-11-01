@@ -1,8 +1,9 @@
 #include <stdint.h>
+#include <8051.h>
 #include <values.h> 
 
-typedef long TARGET_INDEX;
-typedef long TARGET_TYPE;
+typedef int16_t TARGET_INDEX;
+typedef int16_t TARGET_TYPE;
 
 #ifndef ARRAYS
 #define STACK
@@ -12,6 +13,14 @@ int8_t visited[size];
 #endif
 
 TARGET_INDEX top = -1;
+
+void reset_values()
+{
+	P0 = 0;
+	P1 = 0;
+	P2 = 0;
+	P3 = 0;
+}
 
 void create_adjacency_matrix()
 {
@@ -76,4 +85,5 @@ void main()
 
 	create_adjacency_matrix();
 	dfs(size, a);	
+	reset_values();
 }
