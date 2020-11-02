@@ -5,14 +5,13 @@
 typedef long TARGET_TYPE;
 typedef unsigned long TARGET_INDEX;
 
-void resetValues()
+void reset_values()
 {
     P0 = 0;
     P1 = 0;
     P2 = 0;
     P3 = 0;
 }
-
 
 TARGET_TYPE divide(TARGET_TYPE nu, TARGET_TYPE de) {
 
@@ -66,5 +65,5 @@ TARGET_TYPE binary_search(TARGET_INDEX n, TARGET_TYPE arr[n], TARGET_TYPE key)
 void main()
 {
 	binary_search(n, arr, key);
-    resetValues();
+    reset_values();
 }

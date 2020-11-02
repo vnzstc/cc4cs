@@ -23,9 +23,7 @@ micros = ['8051', 'Leon3', 'Atmega328p']
 ## Types 
 indexTypes = ["int8_t", "int16_t", "int32_t", "long"]
 #indexTypes = ["uint8_t", "uint16_t", "uint32_t", "unsigned long"]
-targetTypes = ["int8_t", "int16_t", "int32_t", "float"]
-
-
+targetTypes = ["int8_t", "int16_t", "int32_t", "long"]
 
 ## Result file headers 
 headers = ['ID', 'CInstr', 'AssemblyInstr', 'ClockCycles','ExecutionTime', 'CC4CS']
@@ -124,7 +122,7 @@ def callback(algName, chosenMicro, listBoxFlag):
 	# the GUI returns the index of the microprocessor in the "micros" list
 	chosenMicro = micros[chosenMicro.get()]
 	# Loads a different source file according to the microprocessor that has been chosen
-	funSrc = 'scdn.c' if chosenMicro == "8051" else 'frst.c'
+	funSrc = 'scnd.c' if chosenMicro == "8051" else 'frst.c'
 	# Absolute path of the function source code
 	absFunctionFile = absFunctionPath + funSrc
 
@@ -183,6 +181,7 @@ def callback(algName, chosenMicro, listBoxFlag):
 		parser = Parser(simulationFilename, Parser.simParser, ['id', 'clockCycles', 'assemblyInstr'])
 		cmdMan.executeCommandSet(cmdsMicro, inputsPath, parsingFunction = parser.run, debugFlag = True)
 		
+	
 		# Executes FramaC commands 
 		cmdMan.executeCommandSet(cmdsFrama, inputsPath)
 
@@ -212,12 +211,12 @@ def callback(algName, chosenMicro, listBoxFlag):
 		# Deletes the directory containing the inputs for the current type 
 		rmtree("includes/")
 		# Deletes the files produced for the current type
-		rmtree("files/")
+		# rmtree("files/")
 
 	print("Done!")
 
 # Start GUI
 viewInstance = GUI("CC4CS Calculator", "300x370")
-viewInstance.fixSize()
+# viewInstance.fixSize()
 viewInstance.fillMainWindow(micros, abspath('benchmark'), callback)
 viewInstance.start()

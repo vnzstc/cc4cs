@@ -1,11 +1,11 @@
 #include <stdint.h>
-#include <values.h>
 #include <8051.h>
+#include <values.h>
 
-typedef long TARGET_INDEX;
-typedef float TARGET_TYPE;
+typedef int8_t TARGET_TYPE;
+typedef int8_t TARGET_INDEX;
 
-void resetValues()
+void reset_values()
 {
 	P0 = 0;
 	P1 = 0;
@@ -79,5 +79,5 @@ void mergesort(TARGET_INDEX size, TARGET_TYPE a[size])
 void main()
 {
 	mergesort(size, a);
-	resetValues();
+	reset_values();
 }

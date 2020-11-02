@@ -43,7 +43,7 @@ void bubble_sort(TARGET_INDEX size, TARGET_TYPE a[size])
 	}
 }
 
-void resetValues()
+void reset_values()
 {
 	P0 = 0;
 	P1 = 0;
@@ -54,5 +54,5 @@ void resetValues()
 void main()
 {
 	bubble_sort(size, a);
-	resetValues();
+	reset_values();
 }

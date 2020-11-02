@@ -8,7 +8,7 @@ typedef long TARGET_INDEX;
 int8_t current, i, j, tail, head = 0;
 TARGET_TYPE visited[size];
 
-void resetValues()
+void reset_values()
 {
 	P0 = 0;
 	P1 = 0;
@@ -59,10 +59,7 @@ void clean_input(TARGET_INDEX size, TARGET_TYPE a[size][size], TARGET_TYPE visit
 
 void bfs(TARGET_INDEX size, TARGET_TYPE a[size][size])
 {
-	/* 
-	 * We store a -1 in a[node][node] position to indicate that a node has been already visited
-	 */
-
+	// We store a -1 in a[node][node] position to indicate that a node has been already visited
 	a[0][0] = -2;
 	enqueue(0);
 
@@ -84,5 +81,5 @@ void main()
 {
 	clean_input(size, a, visited);
 	bfs(size, a);
-	resetValues();
+	reset_values();
 }

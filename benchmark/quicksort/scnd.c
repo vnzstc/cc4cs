@@ -43,7 +43,7 @@ TARGET_TYPE partition(TARGET_INDEX lower, TARGET_INDEX upper)
 #define STACK
 TARGET_INDEX stack[size];
 #endif
-void iterative_quicksort(TARGET_INDEX size, TARGET_TYPE a[size])
+void quicksort(TARGET_INDEX size, TARGET_TYPE a[size])
 {
 	// TARGET_INDEX stack[size];
 	TARGET_INDEX top = -1;
@@ -75,13 +75,11 @@ void iterative_quicksort(TARGET_INDEX size, TARGET_TYPE a[size])
 			stack[++top] = partition_index + 1;
 			stack[++top] = end;
 		}
-
-
 	}
 	
 }
 
-void resetValues()
+void reset_values()
 {
 	P0 = 0;
 	P1 = 0;
@@ -91,6 +89,6 @@ void resetValues()
 
 void main()
 {
-	iterative_quicksort(size, a);
-	resetValues();
+	quicksort(size, a);
+	reset_values();
 }
