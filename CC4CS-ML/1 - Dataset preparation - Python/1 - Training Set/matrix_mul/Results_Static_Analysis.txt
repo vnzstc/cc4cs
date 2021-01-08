@@ -1,0 +1,301 @@
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/matrix_mul$ frama-c -metrics -metrics-ast cabs matrix_multiplication.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing matrix_multiplication.c (with preprocessing)
+[metrics] Halstead metrics
+          ================
+          Total operators: 207 
+          Distinct operators: 33 
+          Total_operands: 80 
+          Distinct operands: 35 
+          Program length: 287 
+          Vocabulary size: 68 
+          Program volume: 1747.10 
+          Effort: 65890.70 
+          Program level: 0.03 
+          Difficulty level: 37.71 
+          Time to implement: 3660.59 
+          Bugs delivered: 0.54 
+          
+          
+          Global statistics (Halstead)
+          ============================
+          Operators
+          ---------
+            typedef: 30
+            array: 6
+            for: 3
+            if: 1
+            return: 1
+            ): 5
+            ,: 13
+            {: 4
+            (: 5
+            }: 4
+            []: 6
+            ;: 24
+            ++: 3
+            -: 3
+            +=: 1
+            !=: 1
+            <: 3
+            =: 9
+            *: 1
+            enum  { row_num_b1 }: 1
+            TARGET_TYPE: 2
+            short: 4
+            enum  { column_num_b5 }: 1
+            long: 19
+            int: 10
+            enum  { column_num_a1 }: 1
+            signed: 14
+            TARGET_INDEX: 3
+            void: 3
+            unsigned: 18
+            char: 6
+            int8_t: 1
+            enum  { row_num_a3 }: 1
+            
+          Operands
+          --------
+            a: 2
+            P0: 2
+            d: 1
+            k: 6
+            matrix_mul: 1
+            tot: 4
+            b: 2
+            resetValues: 1
+            Frama_C_bzero: 1
+            P1: 2
+            column_num_a: 3
+            P2: 2
+            j: 6
+            prototype: 1
+            column_num_b: 3
+            row_num_a: 3
+            P3: 2
+            Frama_C_copy_block: 1
+            res: 3
+            row_num_b: 2
+            c: 1
+            i: 6
+            FC_BUILTIN: 2
+            51: 1
+            2: 1
+            113: 1
+            111: 1
+            76: 1
+            1: 2
+            4: 1
+            3: 1
+            121: 1
+            5: 1
+            0: 11
+            52: 1
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/matrix_mul$ frama-c -metrics -metrics-ast acsl matrix_multiplication.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing matrix_multiplication.c (with preprocessing)
+[metrics] ACSL Statistics
+          ===============
+          requires: 3 total, 3 in function contracts,0 in statement contracts
+          ensures: 2 total, 2 in function contracts, 0 in statement contracts
+          behaviors: 2 total, 2 in function contracts, 0 in statement contracts
+          assumes: 0 total, 0 in function contracts, 0 in statement contracts
+          assigns: 2 total, 2 in function contracts, 0 in statement contracts
+          froms: 2 total, 2 in function contracts, 0 in statement contracts
+          invariants: 0
+          loop assigns: 0
+          loop froms: 0
+          variants: 0
+          asserts: 0
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/matrix_mul$ frama-c -metrics -metrics-by-function matrix_multiplication.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing matrix_multiplication.c (with preprocessing)
+[metrics] Cil AST
+          
+          Stats for function <matrix_multiplication.c/main>
+          ================================================= 
+          Sloc = 3
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 0
+          Exit point = 1
+          Function = 1
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <matrix_multiplication.c/matrix_mul>
+          ======================================================= 
+          Sloc = 26
+          Decision point = 4
+          Global variables = 0
+          If = 4
+          Loop = 3
+          Goto = 0
+          Assignment = 12
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 1
+          Cyclomatic complexity = 5
+          
+          Stats for function <matrix_multiplication.c/resetValues>
+          ======================================================== 
+          Sloc = 5
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+[metrics] Defined functions (3)
+          =====================
+           main (0 call); matrix_mul (1 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 34
+          Decision point = 4
+          Global variables = 6
+          If = 4
+          Loop = 3
+          Goto = 0
+          Assignment = 16
+          Exit point = 3
+          Function = 3
+          Function call = 2
+          Pointer dereferencing = 1
+          Cyclomatic complexity = 7
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/matrix_mul$ frama-c -metrics -metrics-cover main matrix_multiplication.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing matrix_multiplication.c (with preprocessing)
+[metrics] Defined functions (3)
+          =====================
+           main (0 call); matrix_mul (1 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 34
+          Decision point = 4
+          Global variables = 6
+          If = 4
+          Loop = 3
+          Goto = 0
+          Assignment = 16
+          Exit point = 3
+          Function = 3
+          Function call = 2
+          Pointer dereferencing = 1
+          Cyclomatic complexity = 7
+[metrics] Functions syntactically reachable from main: 3
+          ----------------------------------------------
+          <matrix_multiplication.c>: resetValues; matrix_mul; main; 
+          
+          Functions syntactically unreachable from main: 0
+          ------------------------------------------------
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/matrix_mul$ frama-c -metrics -metrics-value-cover matrix_multiplication.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing matrix_multiplication.c (with preprocessing)
+[metrics] Defined functions (3)
+          =====================
+           main (0 call); matrix_mul (1 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 34
+          Decision point = 4
+          Global variables = 6
+          If = 4
+          Loop = 3
+          Goto = 0
+          Assignment = 16
+          Exit point = 3
+          Function = 3
+          Function call = 2
+          Pointer dereferencing = 1
+          Cyclomatic complexity = 7
+[value] Analyzing a complete application starting at main
+[value] Computing initial state
+[value] Initial state computed
+[value] Values of globals at initialization
+  P0 ∈ {0}
+  P1 ∈ {0}
+  P2 ∈ {0}
+  P3 ∈ {0}
+  a[0][0] ∈ {111}
+   [1][0] ∈ {76}
+   [2][0] ∈ {-2}
+  b[0][0] ∈ {-113}
+   [0][1] ∈ {4}
+   [0][2] ∈ {52}
+   [0][3] ∈ {-51}
+   [0][4] ∈ {121}
+[value] computing for function matrix_mul <- main.
+        Called from matrix_multiplication.c:69.
+[value] Recording results for matrix_mul
+[value] Done for function matrix_mul
+[value] computing for function resetValues <- main.
+        Called from matrix_multiplication.c:70.
+[value] Recording results for resetValues
+[value] Done for function resetValues
+[value] Recording results for main
+[value] done for function main
+[metrics] Value coverage statistics
+          =========================
+          Syntactically reachable functions = 3 (out of 3)
+          Semantically reached functions = 3
+          Coverage estimation = 100.0%
+[metrics] References to non-analyzed functions
+          ------------------------------------
+[metrics] Statements analyzed by Value
+          ----------------------------
+          34 stmts in analyzed functions, 13 stmts analyzed (38.2%)
+          main: 3 stmts out of 3 (100.0%)
+          resetValues: 5 stmts out of 5 (100.0%)
+          matrix_mul: 5 stmts out of 26 (19.2%)
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/matrix_mul$ 

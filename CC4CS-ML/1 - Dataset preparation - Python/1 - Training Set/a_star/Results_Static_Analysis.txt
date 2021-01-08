@@ -1,0 +1,470 @@
+---------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------
+frama-c -metrics -metrics-ast cabs a_star.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing a_star.c (with preprocessing)
+[metrics] Halstead metrics
+          ================
+          Total operators: 372 
+          Distinct operators: 41 
+          Total_operands: 205 
+          Distinct operands: 34 
+          Program length: 577 
+          Vocabulary size: 75 
+          Program volume: 3594.03 
+          Effort: 444232.48 
+          Program level: 0.01 
+          Difficulty level: 123.60 
+          Time to implement: 24679.58 
+          Bugs delivered: 1.94 
+          
+          
+          Global statistics (Halstead)
+          ============================
+          Operators
+          ---------
+            typedef: 30
+            array: 4
+            break: 1
+            if: 7
+            for: 6
+            while: 1
+            return: 3
+            ): 16
+            ,: 6
+            {: 10
+            ?: 1
+            (: 16
+            :: 1
+            }: 10
+            []: 47
+            ;: 53
+            +: 4
+            &&: 4
+            -: 13
+            ++: 7
+            !=: 4
+            ==: 2
+            <: 8
+            =: 24
+            *=: 1
+            /: 2
+            <=: 1
+            >: 3
+            --: 1
+            >=: 1
+            enum  { size2 }: 1
+            TARGET_TYPE: 4
+            short: 4
+            long: 16
+            int: 10
+            signed: 14
+            TARGET_INDEX: 4
+            void: 3
+            unsigned: 18
+            char: 6
+            int8_t: 5
+            
+          Operands
+          --------
+            a: 21
+            P0: 2
+            n: 3
+            min: 3
+            remove_min: 1
+            current: 13
+            astar: 1
+            goal: 4
+            make_oriented: 1
+            heuristic: 1
+            resetValues: 1
+            set_estimates: 1
+            node: 1
+            Frama_C_bzero: 1
+            P1: 2
+            priority: 4
+            P2: 2
+            j: 11
+            frontier: 6
+            prototype: 1
+            size: 13
+            P3: 2
+            Frama_C_copy_block: 1
+            absolute: 2
+            came_from: 3
+            insert: 2
+            frontier_size: 4
+            path_cost: 1
+            i: 48
+            FC_BUILTIN: 2
+            2: 7
+            127: 2
+            1: 11
+            0: 27
+-------------------------------------------------------------------
+
+------------------------------------------------------------
+frama-c -metrics -metrics-ast acsl a_star.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing a_star.c (with preprocessing)
+[metrics] ACSL Statistics
+          ===============
+          requires: 3 total, 3 in function contracts,0 in statement contracts
+          ensures: 2 total, 2 in function contracts, 0 in statement contracts
+          behaviors: 2 total, 2 in function contracts, 0 in statement contracts
+          assumes: 0 total, 0 in function contracts, 0 in statement contracts
+          assigns: 2 total, 2 in function contracts, 0 in statement contracts
+          froms: 2 total, 2 in function contracts, 0 in statement contracts
+          invariants: 0
+          loop assigns: 0
+          loop froms: 0
+          variants: 0
+          asserts: 0
+-------------------------------------------------------------
+frama-c -metrics -metrics-by-function a_star.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing a_star.c (with preprocessing)
+[metrics] Cil AST
+          
+          Stats for function <a_star.c/absolute>
+          ====================================== 
+          Sloc = 5
+          Decision point = 1
+          Global variables = 0
+          If = 1
+          Loop = 0
+          Goto = 0
+          Assignment = 3
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 2
+          
+          Stats for function <a_star.c/astar>
+          =================================== 
+          Sloc = 24
+          Decision point = 5
+          Global variables = 0
+          If = 5
+          Loop = 2
+          Goto = 0
+          Assignment = 5
+          Exit point = 1
+          Function = 1
+          Function call = 5
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 6
+          
+          Stats for function <a_star.c/heuristic>
+          ======================================= 
+          Sloc = 8
+          Decision point = 1
+          Global variables = 0
+          If = 1
+          Loop = 0
+          Goto = 1
+          Assignment = 2
+          Exit point = 1
+          Function = 1
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 2
+          
+          Stats for function <a_star.c/init_camefrom>
+          =========================================== 
+          Sloc = 7
+          Decision point = 1
+          Global variables = 0
+          If = 1
+          Loop = 1
+          Goto = 0
+          Assignment = 3
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 2
+          
+          Stats for function <a_star.c/insert>
+          ==================================== 
+          Sloc = 3
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 2
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <a_star.c/main>
+          ================================== 
+          Sloc = 4
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 0
+          Exit point = 1
+          Function = 1
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <a_star.c/make_oriented>
+          =========================================== 
+          Sloc = 25
+          Decision point = 6
+          Global variables = 0
+          If = 6
+          Loop = 2
+          Goto = 2
+          Assignment = 9
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 7
+          
+          Stats for function <a_star.c/remove_min>
+          ======================================== 
+          Sloc = 14
+          Decision point = 3
+          Global variables = 0
+          If = 3
+          Loop = 1
+          Goto = 0
+          Assignment = 7
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 4
+          
+          Stats for function <a_star.c/resetValues>
+          ========================================= 
+          Sloc = 5
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <a_star.c/set_estimates>
+          =========================================== 
+          Sloc = 10
+          Decision point = 2
+          Global variables = 0
+          If = 2
+          Loop = 1
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 3
+[metrics] Defined functions (10)
+          ======================
+           absolute (2 calls); astar (1 call); heuristic (1 call);
+           init_camefrom (0 call); insert (2 calls); main (0 call);
+           make_oriented (1 call); remove_min (1 call); resetValues (1 call);
+           set_estimates (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (2)
+          ==========================
+           init_camefrom; main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 105
+          Decision point = 19
+          Global variables = 13
+          If = 19
+          Loop = 7
+          Goto = 3
+          Assignment = 39
+          Exit point = 10
+          Function = 10
+          Function call = 10
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 29
+---------------------------------------------------------------------------------
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/a_star$ frama-c -metrics -metrics-cover main a_star.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing a_star.c (with preprocessing)
+[metrics] Defined functions (10)
+          ======================
+           absolute (2 calls); astar (1 call); heuristic (1 call);
+           init_camefrom (0 call); insert (2 calls); main (0 call);
+           make_oriented (1 call); remove_min (1 call); resetValues (1 call);
+           set_estimates (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (2)
+          ==========================
+           init_camefrom; main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 105
+          Decision point = 19
+          Global variables = 13
+          If = 19
+          Loop = 7
+          Goto = 3
+          Assignment = 39
+          Exit point = 10
+          Function = 10
+          Function call = 10
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 29
+[metrics] Functions syntactically reachable from main: 9
+          ----------------------------------------------
+          <a_star.c>: resetValues; make_oriented; insert; remove_min; set_estimates;
+            absolute; heuristic; astar; main; 
+          
+          Functions syntactically unreachable from main: 1
+          ------------------------------------------------
+          <a_star.c>: init_camefrom;
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/a_star$ frama-c -metrics -metrics-value-cover a_star.c
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing a_star.c (with preprocessing)
+[metrics] Defined functions (10)
+          ======================
+           absolute (2 calls); astar (1 call); heuristic (1 call);
+           init_camefrom (0 call); insert (2 calls); main (0 call);
+           make_oriented (1 call); remove_min (1 call); resetValues (1 call);
+           set_estimates (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (2)
+          ==========================
+           init_camefrom; main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 105
+          Decision point = 19
+          Global variables = 13
+          If = 19
+          Loop = 7
+          Goto = 3
+          Assignment = 39
+          Exit point = 10
+          Function = 10
+          Function call = 10
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 29
+[value] Analyzing a complete application starting at main
+[value] Computing initial state
+[value] Initial state computed
+[value] Values of globals at initialization
+  P0 ∈ {0}
+  P1 ∈ {0}
+  P2 ∈ {0}
+  P3 ∈ {0}
+  a[0][0] ∈ {1}
+   [0][1] ∈ {5}
+   [0][2] ∈ {1}
+   [0][3] ∈ {8}
+   [1][0] ∈ {6}
+   [1][1] ∈ {2}
+   [1][2] ∈ {1}
+   [1][3] ∈ {2}
+   [2..3][0..3] ∈ {0}
+  goal ∈ {0}
+  frontier[0..3] ∈ {0}
+  frontier_size ∈ {0}
+  came_from[0..3] ∈ {0}
+  current ∈ {0}
+  priority ∈ {0}
+  i ∈ {0}
+  j ∈ {0}
+[value] computing for function make_oriented <- main.
+        Called from a_star.c:196.
+a_star.c:69:[value] entering loop for the first time
+a_star.c:78:[value] entering loop for the first time
+[value] Recording results for make_oriented
+[value] Done for function make_oriented
+[value] computing for function astar <- main.
+        Called from a_star.c:197.
+[value] computing for function set_estimates <- astar <- main.
+        Called from a_star.c:166.
+a_star.c:136:[value] entering loop for the first time
+[value] Recording results for set_estimates
+[value] Done for function set_estimates
+[value] computing for function insert <- astar <- main.
+        Called from a_star.c:167.
+[value] Recording results for insert
+[value] Done for function insert
+a_star.c:169:[value] entering loop for the first time
+[value] computing for function remove_min <- astar <- main.
+        Called from a_star.c:171.
+a_star.c:118:[value] entering loop for the first time
+[value] Recording results for remove_min
+[value] Done for function remove_min
+[value] Recording results for astar
+[value] Done for function astar
+[value] computing for function resetValues <- main.
+        Called from a_star.c:198.
+[value] Recording results for resetValues
+[value] Done for function resetValues
+[value] Recording results for main
+[value] done for function main
+[metrics] Value coverage statistics
+          =========================
+          Syntactically reachable functions = 9 (out of 10)
+          Semantically reached functions = 7
+          Coverage estimation = 77.8% 
+          
+          Unseen functions (2) =
+            <a_star.c>: absolute; heuristic;
+[metrics] References to non-analyzed functions
+          ------------------------------------
+          Function astar calls heuristic (at a_star.c:184)
+[metrics] Statements analyzed by Value
+          ----------------------------
+          85 stmts in analyzed functions, 68 stmts analyzed (80.0%)
+          main: 4 stmts out of 4 (100.0%)
+          set_estimates: 10 stmts out of 10 (100.0%)
+          insert: 3 stmts out of 3 (100.0%)
+          make_oriented: 25 stmts out of 25 (100.0%)
+          resetValues: 5 stmts out of 5 (100.0%)
+          remove_min: 12 stmts out of 14 (85.7%)
+          astar: 9 stmts out of 24 (37.5%)
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/a_star$ 

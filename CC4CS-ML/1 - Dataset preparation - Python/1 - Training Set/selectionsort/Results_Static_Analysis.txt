@@ -1,0 +1,298 @@
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/selectionsort$ frama-c -metrics -metrics-ast cabs selectionsort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing selectionsort.c (with preprocessing)
+[metrics] Halstead metrics
+          ================
+          Total operators: 163 
+          Distinct operators: 28 
+          Total_operands: 62 
+          Distinct operands: 22 
+          Program length: 225 
+          Vocabulary size: 50 
+          Program volume: 1269.87 
+          Effort: 50102.05 
+          Program level: 0.03 
+          Difficulty level: 39.45 
+          Time to implement: 2783.45 
+          Bugs delivered: 0.45 
+          
+          
+          Global statistics (Halstead)
+          ============================
+          Operators
+          ---------
+            typedef: 30
+            array: 1
+            if: 1
+            for: 2
+            ): 3
+            ,: 1
+            {: 1
+            (: 3
+            }: 1
+            []: 6
+            ;: 18
+            +: 1
+            ++: 2
+            -: 1
+            <: 3
+            =: 10
+            TARGET_TYPE: 1
+            float: 2
+            short: 4
+            long: 16
+            int: 10
+            signed: 14
+            TARGET_INDEX: 3
+            void: 3
+            unsigned: 18
+            char: 6
+            int8_t: 1
+            enum  { n1 }: 1
+            
+          Operands
+          --------
+            P0: 2
+            n: 3
+            index_1: 2
+            b: 2
+            resetValues: 1
+            Frama_C_bzero: 1
+            arr: 7
+            P1: 2
+            selection_sort: 1
+            min_idx: 5
+            P2: 2
+            j: 6
+            prototype: 1
+            P3: 2
+            Frama_C_copy_block: 1
+            swap: 1
+            index_2: 2
+            i: 7
+            FC_BUILTIN: 2
+            1: 3
+            0: 8
+            29: 1
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/selectionsort$ frama-c -metrics -metrics-ast acsl selectionsort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing selectionsort.c (with preprocessing)
+[metrics] ACSL Statistics
+          ===============
+          requires: 3 total, 3 in function contracts,0 in statement contracts
+          ensures: 2 total, 2 in function contracts, 0 in statement contracts
+          behaviors: 2 total, 2 in function contracts, 0 in statement contracts
+          assumes: 0 total, 0 in function contracts, 0 in statement contracts
+          assigns: 2 total, 2 in function contracts, 0 in statement contracts
+          froms: 2 total, 2 in function contracts, 0 in statement contracts
+          invariants: 0
+          loop assigns: 0
+          loop froms: 0
+          variants: 0
+          asserts: 0
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/selectionsort$ frama-c -metrics -metrics-by-function selectionsort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing selectionsort.c (with preprocessing)
+[metrics] Cil AST
+          
+          Stats for function <selectionsort.c/main>
+          ========================================= 
+          Sloc = 3
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 0
+          Exit point = 1
+          Function = 1
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <selectionsort.c/resetValues>
+          ================================================ 
+          Sloc = 5
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <selectionsort.c/selection_sort>
+          =================================================== 
+          Sloc = 17
+          Decision point = 3
+          Global variables = 0
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 7
+          Exit point = 1
+          Function = 1
+          Function call = 1
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 4
+          
+          Stats for function <selectionsort.c/swap>
+          ========================================= 
+          Sloc = 4
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 3
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+[metrics] Defined functions (4)
+          =====================
+           main (0 call); resetValues (1 call); selection_sort (1 call); swap (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 29
+          Decision point = 3
+          Global variables = 7
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 14
+          Exit point = 4
+          Function = 4
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 7
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/selectionsort$ frama-c -metrics -metrics-cover main selectionsort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing selectionsort.c (with preprocessing)
+[metrics] Defined functions (4)
+          =====================
+           main (0 call); resetValues (1 call); selection_sort (1 call); swap (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 29
+          Decision point = 3
+          Global variables = 7
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 14
+          Exit point = 4
+          Function = 4
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 7
+[metrics] Functions syntactically reachable from main: 4
+          ----------------------------------------------
+          <selectionsort.c>: resetValues; swap; selection_sort; main; 
+          
+          Functions syntactically unreachable from main: 0
+          ------------------------------------------------
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/selectionsort$ frama-c -metrics -metrics-value-cover selectionsort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing selectionsort.c (with preprocessing)
+[metrics] Defined functions (4)
+          =====================
+           main (0 call); resetValues (1 call); selection_sort (1 call); swap (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 29
+          Decision point = 3
+          Global variables = 7
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 14
+          Exit point = 4
+          Function = 4
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 7
+[value] Analyzing a complete application starting at main
+[value] Computing initial state
+[value] Initial state computed
+[value] Values of globals at initialization
+  P0 ∈ {0}
+  P1 ∈ {0}
+  P2 ∈ {0}
+  P3 ∈ {0}
+  arr[0] ∈ {29.}
+  i ∈ {0}
+  j ∈ {0}
+[value] computing for function selection_sort <- main.
+        Called from selectionsort.c:53.
+selectionsort.c:34:[value] entering loop for the first time
+[value] Recording results for selection_sort
+[value] Done for function selection_sort
+[value] computing for function resetValues <- main.
+        Called from selectionsort.c:54.
+[value] Recording results for resetValues
+[value] Done for function resetValues
+[value] Recording results for main
+[value] done for function main
+[metrics] Value coverage statistics
+          =========================
+          Syntactically reachable functions = 4 (out of 4)
+          Semantically reached functions = 3
+          Coverage estimation = 75.0% 
+          
+          Unseen functions (1) =
+            <selectionsort.c>: swap;
+[metrics] References to non-analyzed functions
+          ------------------------------------
+          Function selection_sort calls swap (at selectionsort.c:47)
+[metrics] Statements analyzed by Value
+          ----------------------------
+          25 stmts in analyzed functions, 14 stmts analyzed (56.0%)
+          main: 3 stmts out of 3 (100.0%)
+          resetValues: 5 stmts out of 5 (100.0%)
+          selection_sort: 6 stmts out of 17 (35.3%)
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/selectionsort$ 

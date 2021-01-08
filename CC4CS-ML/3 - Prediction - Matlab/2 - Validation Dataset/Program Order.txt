@@ -1,0 +1,7 @@
+#Validation Benchmark
+1 - Import into Matlab workspace the device .csv file and the previous device .csv file (example: nBleon3.csv, leon3.csv) as Matlab table object
+2 - changeName.m
+2 - generateSubTableTransaction.m
+3 - AnalysisTransaction.m (it uses errCalc.m)
+5 - errPlot.m
+6 - timepredFDTPlot.m

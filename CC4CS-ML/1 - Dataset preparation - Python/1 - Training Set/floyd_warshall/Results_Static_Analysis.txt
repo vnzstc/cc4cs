@@ -1,0 +1,423 @@
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/floyd_warshall$ frama-c -metrics -metrics-ast cabs floyd_warshall.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing floyd_warshall.c (with preprocessing)
+[metrics] Halstead metrics
+          ================
+          Total operators: 266 
+          Distinct operators: 26 
+          Total_operands: 140 
+          Distinct operands: 88 
+          Program length: 406 
+          Vocabulary size: 114 
+          Program volume: 2774.15 
+          Effort: 57374.54 
+          Program level: 0.05 
+          Difficulty level: 20.68 
+          Time to implement: 3187.47 
+          Bugs delivered: 0.50 
+          
+          
+          Global statistics (Halstead)
+          ============================
+          Operators
+          ---------
+            typedef: 30
+            array: 2
+            if: 1
+            for: 3
+            ): 4
+            ,: 90
+            {: 3
+            (: 4
+            }: 3
+            []: 12
+            ;: 19
+            +: 2
+            ++: 3
+            <: 4
+            =: 8
+            short: 4
+            long: 16
+            int: 10
+            signed: 14
+            TARGET_INDEX: 3
+            void: 3
+            unsigned: 18
+            char: 6
+            enum  { n9 }: 1
+            uint8_t: 1
+            uint32_t: 2
+            
+          Operands
+          --------
+            h: 8
+            a: 7
+            P0: 2
+            n: 5
+            resetValues: 1
+            Frama_C_bzero: 1
+            P1: 2
+            P2: 2
+            j: 8
+            prototype: 1
+            P3: 2
+            Frama_C_copy_block: 1
+            floyd_warshall: 1
+            i: 8
+            FC_BUILTIN: 2
+            133: 1
+            233: 1
+            165: 1
+            148: 1
+            59: 1
+            245: 1
+            10: 1
+            209: 2
+            8: 1
+            41: 1
+            127: 1
+            153: 1
+            100: 1
+            203: 1
+            81: 1
+            63: 1
+            169: 1
+            159: 1
+            219: 1
+            129: 1
+            25: 2
+            71: 1
+            194: 1
+            70: 1
+            186: 1
+            27: 1
+            139: 1
+            202: 1
+            101: 1
+            135: 1
+            227: 1
+            14: 1
+            19: 1
+            96: 2
+            120: 1
+            125: 1
+            197: 1
+            119: 1
+            179: 2
+            252: 1
+            143: 1
+            84: 1
+            175: 1
+            13: 2
+            73: 1
+            103: 1
+            38: 1
+            185: 1
+            247: 1
+            36: 1
+            145: 1
+            55: 1
+            37: 1
+            46: 2
+            228: 1
+            75: 1
+            20: 1
+            207: 1
+            62: 1
+            32: 1
+            24: 1
+            136: 2
+            140: 1
+            40: 1
+            72: 1
+            137: 1
+            9: 1
+            0: 7
+            98: 1
+            65: 2
+            78: 2
+            126: 1
+            21: 2
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/floyd_warshall$ frama-c -metrics -metrics-ast acsl floyd_warshall.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing floyd_warshall.c (with preprocessing)
+[metrics] ACSL Statistics
+          ===============
+          requires: 3 total, 3 in function contracts,0 in statement contracts
+          ensures: 2 total, 2 in function contracts, 0 in statement contracts
+          behaviors: 2 total, 2 in function contracts, 0 in statement contracts
+          assumes: 0 total, 0 in function contracts, 0 in statement contracts
+          assigns: 2 total, 2 in function contracts, 0 in statement contracts
+          froms: 2 total, 2 in function contracts, 0 in statement contracts
+          invariants: 0
+          loop assigns: 0
+          loop froms: 0
+          variants: 0
+          asserts: 0
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/floyd_warshall$ frama-c -metrics -metrics-by-function floyd_warshall.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing floyd_warshall.c (with preprocessing)
+[metrics] Cil AST
+          
+          Stats for function <floyd_warshall.c/floyd_warshall>
+          ==================================================== 
+          Sloc = 21
+          Decision point = 4
+          Global variables = 0
+          If = 4
+          Loop = 3
+          Goto = 0
+          Assignment = 7
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 5
+          
+          Stats for function <floyd_warshall.c/main>
+          ========================================== 
+          Sloc = 3
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 0
+          Exit point = 1
+          Function = 1
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <floyd_warshall.c/resetValues>
+          ================================================= 
+          Sloc = 5
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+[metrics] Defined functions (3)
+          =====================
+           floyd_warshall (1 call); main (0 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 29
+          Decision point = 4
+          Global variables = 5
+          If = 4
+          Loop = 3
+          Goto = 0
+          Assignment = 11
+          Exit point = 3
+          Function = 3
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 7
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/floyd_warshall$ frama-c -metrics -metrics-cover main floyd_warshall.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing floyd_warshall.c (with preprocessing)
+[metrics] Defined functions (3)
+          =====================
+           floyd_warshall (1 call); main (0 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 29
+          Decision point = 4
+          Global variables = 5
+          If = 4
+          Loop = 3
+          Goto = 0
+          Assignment = 11
+          Exit point = 3
+          Function = 3
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 7
+[metrics] Functions syntactically reachable from main: 3
+          ----------------------------------------------
+          <floyd_warshall.c>: resetValues; floyd_warshall; main; 
+          
+          Functions syntactically unreachable from main: 0
+          ------------------------------------------------
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/floyd_warshall$ frama-c -metrics -metrics-value-cover floyd_warshall.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing floyd_warshall.c (with preprocessing)
+[metrics] Defined functions (3)
+          =====================
+           floyd_warshall (1 call); main (0 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 29
+          Decision point = 4
+          Global variables = 5
+          If = 4
+          Loop = 3
+          Goto = 0
+          Assignment = 11
+          Exit point = 3
+          Function = 3
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 7
+[value] Analyzing a complete application starting at main
+[value] Computing initial state
+[value] Initial state computed
+[value] Values of globals at initialization
+  P0 ∈ {0}
+  P1 ∈ {0}
+  P2 ∈ {0}
+  P3 ∈ {0}
+  a[0][0] ∈ {143}
+   [0][1] ∈ {63}
+   [0][2] ∈ {179}
+   [0][3] ∈ {14}
+   [0][4] ∈ {24}
+   [0][5] ∈ {136}
+   [0][6] ∈ {13}
+   [0][7] ∈ {25}
+   [0][8] ∈ {209}
+   [1][0] ∈ {186}
+   [1][1] ∈ {247}
+   [1][2] ∈ {129}
+   [1][3] ∈ {65}
+   [1][4] ∈ {25}
+   [1][5] ∈ {219}
+   [1][6] ∈ {32}
+   [1][7] ∈ {75}
+   [1][8] ∈ {70}
+   [2][0] ∈ {135}
+   [2][1] ∈ {72}
+   [2][2] ∈ {175}
+   [2][3] ∈ {96}
+   [2][4] ∈ {136}
+   [2][5] ∈ {21}
+   [2][6] ∈ {185}
+   [2][7] ∈ {78}
+   [2][8] ∈ {62}
+   [3][0] ∈ {119}
+   [3][1] ∈ {36}
+   [3][2] ∈ {153}
+   [3][3] ∈ {71}
+   [3][4] ∈ {10}
+   [3][5] ∈ {197}
+   [3][6] ∈ {59}
+   [3][7] ∈ {252}
+   [3][8] ∈ {46}
+   [4][0] ∈ {96}
+   [4][1] ∈ {179}
+   [4][2] ∈ {245}
+   [4][3] ∈ {209}
+   [4][4] ∈ {127}
+   [4][5] ∈ {125}
+   [4][6] ∈ {81}
+   [4][7] ∈ {78}
+   [4][8] ∈ {84}
+   [5][0] ∈ {38}
+   [5][1] ∈ {165}
+   [5][2] ∈ {27}
+   [5][3] ∈ {37}
+   [5][4] ∈ {120}
+   [5][5] ∈ {203}
+   [5][6] ∈ {13}
+   [5][7] ∈ {8}
+   [5][8] ∈ {194}
+   [6][0] ∈ {126}
+   [6][1] ∈ {73}
+   [6][2] ∈ {19}
+   [6][3] ∈ {41}
+   [6][4] ∈ {140}
+   [6][5] ∈ {159}
+   [6][6] ∈ {133}
+   [6][7] ∈ {101}
+   [6][8] ∈ {55}
+   [7][0] ∈ {148}
+   [7][1] ∈ {21}
+   [7][2] ∈ {169}
+   [7][3] ∈ {233}
+   [7][4] ∈ {103}
+   [7][5] ∈ {40}
+   [7][6] ∈ {202}
+   [7][7] ∈ {98}
+   [7][8] ∈ {65}
+   [8][0] ∈ {100}
+   [8][1] ∈ {227}
+   [8][2] ∈ {207}
+   [8][3] ∈ {46}
+   [8][4] ∈ {228}
+   [8][5] ∈ {139}
+   [8][6] ∈ {20}
+   [8][7] ∈ {137}
+   [8][8] ∈ {145}
+[value] computing for function floyd_warshall <- main.
+        Called from floyd_warshall.c:56.
+floyd_warshall.c:34:[value] entering loop for the first time
+floyd_warshall.c:38:[value] entering loop for the first time
+floyd_warshall.c:42:[value] entering loop for the first time
+[value] Recording results for floyd_warshall
+[value] Done for function floyd_warshall
+[value] computing for function resetValues <- main.
+        Called from floyd_warshall.c:57.
+[value] Recording results for resetValues
+[value] Done for function resetValues
+[value] Recording results for main
+[value] done for function main
+[metrics] Value coverage statistics
+          =========================
+          Syntactically reachable functions = 3 (out of 3)
+          Semantically reached functions = 3
+          Coverage estimation = 100.0%
+[metrics] References to non-analyzed functions
+          ------------------------------------
+[metrics] Statements analyzed by Value
+          ----------------------------
+          29 stmts in analyzed functions, 29 stmts analyzed (100.0%)
+          main: 3 stmts out of 3 (100.0%)
+          floyd_warshall: 21 stmts out of 21 (100.0%)
+          resetValues: 5 stmts out of 5 (100.0%)
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/floyd_warshall$ 

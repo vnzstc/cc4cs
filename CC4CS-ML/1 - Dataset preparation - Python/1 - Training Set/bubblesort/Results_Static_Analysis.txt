@@ -1,0 +1,421 @@
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bubblesort$ frama-c -metrics -metrics-ast cabs bubblesort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing bubblesort.c (with preprocessing)
+[metrics] Halstead metrics
+          ================
+          Total operators: 243 
+          Distinct operators: 29 
+          Total_operands: 105 
+          Distinct operands: 57 
+          Program length: 348 
+          Vocabulary size: 86 
+          Program volume: 2236.34 
+          Effort: 59733.82 
+          Program level: 0.04 
+          Difficulty level: 26.71 
+          Time to implement: 3318.55 
+          Bugs delivered: 0.51 
+          
+          
+          Global statistics (Halstead)
+          ============================
+          Operators
+          ---------
+            typedef: 30
+            array: 1
+            break: 1
+            if: 2
+            for: 2
+            ): 4
+            ,: 36
+            {: 3
+            (: 4
+            }: 3
+            []: 6
+            ;: 28
+            +: 2
+            ++: 2
+            -: 21
+            <: 2
+            =: 13
+            >: 1
+            TARGET_TYPE: 6
+            enum  { dim36 }: 1
+            short: 4
+            long: 16
+            int: 10
+            signed: 14
+            TARGET_INDEX: 1
+            void: 3
+            unsigned: 18
+            char: 6
+            int8_t: 3
+            
+          Operands
+          --------
+            a: 7
+            P0: 2
+            lastSwap: 3
+            dim: 3
+            currentSwap: 4
+            index_1: 2
+            b: 2
+            resetValues: 1
+            Frama_C_bzero: 1
+            P1: 2
+            P2: 2
+            j: 4
+            prototype: 1
+            P3: 2
+            Frama_C_copy_block: 1
+            is_sorted: 4
+            bubble_sort: 1
+            swap: 1
+            index_2: 2
+            i: 9
+            FC_BUILTIN: 2
+            2: 1
+            119: 1
+            125: 1
+            83: 1
+            76: 1
+            112: 1
+            84: 1
+            10: 2
+            77: 1
+            102: 1
+            41: 1
+            1: 5
+            103: 1
+            82: 1
+            43: 1
+            5: 1
+            85: 1
+            44: 1
+            36: 1
+            93: 1
+            39: 1
+            24: 1
+            90: 1
+            27: 1
+            57: 1
+            40: 2
+            97: 1
+            45: 1
+            121: 1
+            92: 1
+            0: 8
+            120: 1
+            78: 1
+            108: 1
+            21: 1
+            29: 1
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bubblesort$ frama-c -metrics -metrics-ast acsl bubblesort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing bubblesort.c (with preprocessing)
+[metrics] ACSL Statistics
+          ===============
+          requires: 3 total, 3 in function contracts,0 in statement contracts
+          ensures: 2 total, 2 in function contracts, 0 in statement contracts
+          behaviors: 2 total, 2 in function contracts, 0 in statement contracts
+          assumes: 0 total, 0 in function contracts, 0 in statement contracts
+          assigns: 2 total, 2 in function contracts, 0 in statement contracts
+          froms: 2 total, 2 in function contracts, 0 in statement contracts
+          invariants: 0
+          loop assigns: 0
+          loop froms: 0
+          variants: 0
+          asserts: 0
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bubblesort$ frama-c -metrics -metrics-by-function bubblesort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing bubblesort.c (with preprocessing)
+[metrics] Cil AST
+          
+          Stats for function <bubblesort.c/bubble_sort>
+          ============================================= 
+          Sloc = 23
+          Decision point = 4
+          Global variables = 0
+          If = 4
+          Loop = 2
+          Goto = 0
+          Assignment = 10
+          Exit point = 1
+          Function = 1
+          Function call = 1
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 5
+          
+          Stats for function <bubblesort.c/main>
+          ====================================== 
+          Sloc = 3
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 0
+          Exit point = 1
+          Function = 1
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <bubblesort.c/resetValues>
+          ============================================= 
+          Sloc = 5
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <bubblesort.c/swap>
+          ====================================== 
+          Sloc = 4
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 3
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+[metrics] Defined functions (4)
+          =====================
+           bubble_sort (1 call); main (0 call); resetValues (1 call); swap (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 35
+          Decision point = 4
+          Global variables = 5
+          If = 4
+          Loop = 2
+          Goto = 0
+          Assignment = 17
+          Exit point = 4
+          Function = 4
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 8
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bubblesort$ frama-c -metrics -metrics-cover main bubblesort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing bubblesort.c (with preprocessing)
+[metrics] Defined functions (4)
+          =====================
+           bubble_sort (1 call); main (0 call); resetValues (1 call); swap (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 35
+          Decision point = 4
+          Global variables = 5
+          If = 4
+          Loop = 2
+          Goto = 0
+          Assignment = 17
+          Exit point = 4
+          Function = 4
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 8
+[metrics] Functions syntactically reachable from main: 4
+          ----------------------------------------------
+          <bubblesort.c>: swap; bubble_sort; resetValues; main; 
+          
+          Functions syntactically unreachable from main: 0
+          ------------------------------------------------
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bubblesort$ frama-c -metrics -metrics-value-cover bubblesort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing bubblesort.c (with preprocessing)
+[metrics] Defined functions (4)
+          =====================
+           bubble_sort (1 call); main (0 call); resetValues (1 call); swap (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 35
+          Decision point = 4
+          Global variables = 5
+          If = 4
+          Loop = 2
+          Goto = 0
+          Assignment = 17
+          Exit point = 4
+          Function = 4
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 8
+[value] Analyzing a complete application starting at main
+[value] Computing initial state
+[value] Initial state computed
+[value] Values of globals at initialization
+  P0 ∈ {0}
+  P1 ∈ {0}
+  P2 ∈ {0}
+  P3 ∈ {0}
+  a[0] ∈ {0}
+   [1] ∈ {-39}
+   [2] ∈ {29}
+   [3] ∈ {41}
+   [4] ∈ {102}
+   [5] ∈ {-40}
+   [6] ∈ {-77}
+   [7] ∈ {-27}
+   [8] ∈ {78}
+   [9] ∈ {-43}
+   [10] ∈ {-120}
+   [11] ∈ {-44}
+   [12] ∈ {10}
+   [13] ∈ {21}
+   [14] ∈ {-93}
+   [15] ∈ {10}
+   [16] ∈ {-108}
+   [17] ∈ {45}
+   [18] ∈ {83}
+   [19] ∈ {84}
+   [20] ∈ {-125}
+   [21] ∈ {112}
+   [22] ∈ {85}
+   [23] ∈ {-92}
+   [24] ∈ {-90}
+   [25] ∈ {76}
+   [26] ∈ {-103}
+   [27] ∈ {-82}
+   [28] ∈ {-97}
+   [29] ∈ {-57}
+   [30] ∈ {40}
+   [31] ∈ {5}
+   [32] ∈ {-121}
+   [33] ∈ {-119}
+   [34] ∈ {24}
+   [35] ∈ {-2}
+[value] computing for function bubble_sort <- main.
+        Called from bubblesort.c:69.
+bubblesort.c:36:[value] entering loop for the first time
+bubblesort.c:42:[value] entering loop for the first time
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] computing for function swap <- bubble_sort <- main.
+        Called from bubblesort.c:48.
+[value] Recording results for swap
+[value] Done for function swap
+[value] Recording results for bubble_sort
+[value] Done for function bubble_sort
+[value] computing for function resetValues <- main.
+        Called from bubblesort.c:70.
+[value] Recording results for resetValues
+[value] Done for function resetValues
+[value] Recording results for main
+[value] done for function main
+[metrics] Value coverage statistics
+          =========================
+          Syntactically reachable functions = 4 (out of 4)
+          Semantically reached functions = 4
+          Coverage estimation = 100.0%
+[metrics] References to non-analyzed functions
+          ------------------------------------
+[metrics] Statements analyzed by Value
+          ----------------------------
+          35 stmts in analyzed functions, 35 stmts analyzed (100.0%)
+          main: 3 stmts out of 3 (100.0%)
+          resetValues: 5 stmts out of 5 (100.0%)
+          bubble_sort: 23 stmts out of 23 (100.0%)
+          swap: 4 stmts out of 4 (100.0%)
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bubblesort$ 

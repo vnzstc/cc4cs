@@ -1,0 +1,458 @@
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bfs_dfs$ frama-c -metrics -metrics-ast cabs bfs_dfs.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing bfs_dfs.c (with preprocessing)
+[metrics] Halstead metrics
+          ================
+          Total operators: 326 
+          Distinct operators: 35 
+          Total_operands: 156 
+          Distinct operands: 42 
+          Program length: 482 
+          Vocabulary size: 77 
+          Program volume: 3020.59 
+          Effort: 196338.42 
+          Program level: 0.02 
+          Difficulty level: 65 
+          Time to implement: 10907.69 
+          Bugs delivered: 1.13 
+          
+          
+          Global statistics (Halstead)
+          ============================
+          Operators
+          ---------
+            typedef: 30
+            array: 3
+            for: 3
+            if: 5
+            while: 2
+            return: 1
+            ): 13
+            ,: 20
+            {: 10
+            (: 13
+            }: 10
+            []: 24
+            ;: 46
+            &&: 2
+            +: 2
+            ++: 5
+            -: 18
+            !=: 6
+            %: 2
+            <: 3
+            =: 23
+            >: 3
+            --: 1
+            TARGET_TYPE: 2
+            float: 1
+            short: 4
+            enum  { size4 }: 1
+            long: 16
+            int: 10
+            signed: 14
+            TARGET_INDEX: 4
+            void: 3
+            unsigned: 18
+            char: 6
+            int8_t: 2
+            
+          Operands
+          --------
+            a: 10
+            P0: 2
+            depth_first_search: 1
+            current: 9
+            enqueue: 2
+            tail: 13
+            array: 7
+            resetValues: 1
+            Frama_C_bzero: 1
+            dequeue: 1
+            P1: 2
+            par: 1
+            head: 11
+            P2: 2
+            breath_first_search: 1
+            element: 3
+            prototype: 1
+            size: 9
+            P3: 2
+            Frama_C_copy_block: 1
+            clean_input: 1
+            i: 23
+            FC_BUILTIN: 2
+            2: 6
+            83: 1
+            79: 1
+            89: 1
+            12: 1
+            23: 1
+            10: 1
+            1: 6
+            38: 1
+            63: 1
+            4: 1
+            35: 1
+            92: 1
+            0: 22
+            122: 1
+            98: 1
+            68: 1
+            106: 1
+            55: 1
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bfs_dfs$ frama-c -metrics -metrics-ast acsl bfs_dfs.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing bfs_dfs.c (with preprocessing)
+[metrics] ACSL Statistics
+          ===============
+          requires: 3 total, 3 in function contracts,0 in statement contracts
+          ensures: 2 total, 2 in function contracts, 0 in statement contracts
+          behaviors: 2 total, 2 in function contracts, 0 in statement contracts
+          assumes: 0 total, 0 in function contracts, 0 in statement contracts
+          assigns: 2 total, 2 in function contracts, 0 in statement contracts
+          froms: 2 total, 2 in function contracts, 0 in statement contracts
+          invariants: 0
+          loop assigns: 0
+          loop froms: 0
+          variants: 0
+          asserts: 0
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bfs_dfs$ frama-c -metrics -metrics-by-function bfs_dfs.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing bfs_dfs.c (with preprocessing)
+[metrics] Cil AST
+          
+          Stats for function <bfs_dfs.c/breath_first_search>
+          ================================================== 
+          Sloc = 20
+          Decision point = 4
+          Global variables = 0
+          If = 4
+          Loop = 2
+          Goto = 0
+          Assignment = 5
+          Exit point = 1
+          Function = 1
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 5
+          
+          Stats for function <bfs_dfs.c/clean_input>
+          ========================================== 
+          Sloc = 11
+          Decision point = 1
+          Global variables = 0
+          If = 1
+          Loop = 1
+          Goto = 0
+          Assignment = 6
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 2
+          
+          Stats for function <bfs_dfs.c/depth_first_search>
+          ================================================= 
+          Sloc = 24
+          Decision point = 5
+          Global variables = 0
+          If = 5
+          Loop = 2
+          Goto = 0
+          Assignment = 11
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 6
+          
+          Stats for function <bfs_dfs.c/dequeue>
+          ====================================== 
+          Sloc = 5
+          Decision point = 1
+          Global variables = 0
+          If = 1
+          Loop = 0
+          Goto = 0
+          Assignment = 3
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 2
+          
+          Stats for function <bfs_dfs.c/enqueue>
+          ====================================== 
+          Sloc = 4
+          Decision point = 1
+          Global variables = 0
+          If = 1
+          Loop = 0
+          Goto = 0
+          Assignment = 2
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 2
+          
+          Stats for function <bfs_dfs.c/main>
+          =================================== 
+          Sloc = 5
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 0
+          Exit point = 1
+          Function = 1
+          Function call = 4
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <bfs_dfs.c/resetValues>
+          ========================================== 
+          Sloc = 5
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+[metrics] Defined functions (7)
+          =====================
+           breath_first_search (1 call); clean_input (1 call);
+           depth_first_search (1 call); dequeue (1 call); enqueue (2 calls);
+           main (0 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 74
+          Decision point = 12
+          Global variables = 10
+          If = 12
+          Loop = 5
+          Goto = 0
+          Assignment = 31
+          Exit point = 7
+          Function = 7
+          Function call = 7
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 19
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bfs_dfs$ frama-c -metrics -metrics-cover main bfs_dfs.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing bfs_dfs.c (with preprocessing)
+[metrics] Defined functions (7)
+          =====================
+           breath_first_search (1 call); clean_input (1 call);
+           depth_first_search (1 call); dequeue (1 call); enqueue (2 calls);
+           main (0 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 74
+          Decision point = 12
+          Global variables = 10
+          If = 12
+          Loop = 5
+          Goto = 0
+          Assignment = 31
+          Exit point = 7
+          Function = 7
+          Function call = 7
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 19
+[metrics] Functions syntactically reachable from main: 7
+          ----------------------------------------------
+          <bfs_dfs.c>: resetValues; enqueue; dequeue; clean_input; breath_first_search;
+            depth_first_search; main; 
+          
+          Functions syntactically unreachable from main: 0
+          ------------------------------------------------
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bfs_dfs$ frama-c -metrics -metrics-value-cover bfs_dfs.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing bfs_dfs.c (with preprocessing)
+[metrics] Defined functions (7)
+          =====================
+           breath_first_search (1 call); clean_input (1 call);
+           depth_first_search (1 call); dequeue (1 call); enqueue (2 calls);
+           main (0 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 74
+          Decision point = 12
+          Global variables = 10
+          If = 12
+          Loop = 5
+          Goto = 0
+          Assignment = 31
+          Exit point = 7
+          Function = 7
+          Function call = 7
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 19
+[value] Analyzing a complete application starting at main
+[value] Computing initial state
+[value] Initial state computed
+[value] Values of globals at initialization
+  P0 ∈ {0}
+  P1 ∈ {0}
+  P2 ∈ {0}
+  P3 ∈ {0}
+  a[0][0] ∈ {23}
+   [0][1] ∈ {55}
+   [0][2] ∈ {-92}
+   [0][3] ∈ {98}
+   [1][0] ∈ {89}
+   [1][1] ∈ {-79}
+   [1][2] ∈ {-63}
+   [1][3] ∈ {-35}
+   [2][0] ∈ {-106}
+   [2][1] ∈ {12}
+   [2][2] ∈ {-38}
+   [2][3] ∈ {122}
+   [3][0] ∈ {68}
+   [3][1] ∈ {-10}
+   [3][2] ∈ {1}
+   [3][3] ∈ {-83}
+  array[0..3] ∈ {0}
+  tail ∈ {0}
+  head ∈ {0}
+  current ∈ {0}
+  i ∈ {0}
+[value] computing for function breath_first_search <- main.
+        Called from bfs_dfs.c:147.
+[value] computing for function enqueue <- breath_first_search <- main.
+        Called from bfs_dfs.c:92.
+[value] Recording results for enqueue
+[value] Done for function enqueue
+bfs_dfs.c:94:[value] entering loop for the first time
+[value] computing for function dequeue <- breath_first_search <- main.
+        Called from bfs_dfs.c:96.
+[value] Recording results for dequeue
+[value] Done for function dequeue
+bfs_dfs.c:98:[value] entering loop for the first time
+[value] computing for function enqueue <- breath_first_search <- main.
+        Called from bfs_dfs.c:105.
+[value] Recording results for enqueue
+[value] Done for function enqueue
+[value] computing for function enqueue <- breath_first_search <- main.
+        Called from bfs_dfs.c:105.
+[value] Recording results for enqueue
+[value] Done for function enqueue
+[value] computing for function enqueue <- breath_first_search <- main.
+        Called from bfs_dfs.c:105.
+[value] Recording results for enqueue
+[value] Done for function enqueue
+[value] computing for function enqueue <- breath_first_search <- main.
+        Called from bfs_dfs.c:105.
+[value] Recording results for enqueue
+[value] Done for function enqueue
+[value] computing for function dequeue <- breath_first_search <- main.
+        Called from bfs_dfs.c:96.
+[value] Recording results for dequeue
+[value] Done for function dequeue
+[value] computing for function enqueue <- breath_first_search <- main.
+        Called from bfs_dfs.c:105.
+[value] Recording results for enqueue
+[value] Done for function enqueue
+[value] computing for function dequeue <- breath_first_search <- main.
+        Called from bfs_dfs.c:96.
+[value] Recording results for dequeue
+[value] Done for function dequeue
+[value] computing for function enqueue <- breath_first_search <- main.
+        Called from bfs_dfs.c:105.
+[value] Recording results for enqueue
+[value] Done for function enqueue
+[value] computing for function dequeue <- breath_first_search <- main.
+        Called from bfs_dfs.c:96.
+[value] Recording results for dequeue
+[value] Done for function dequeue
+[value] Recording results for breath_first_search
+[value] Done for function breath_first_search
+[value] computing for function clean_input <- main.
+        Called from bfs_dfs.c:152.
+bfs_dfs.c:76:[value] entering loop for the first time
+[value] Recording results for clean_input
+[value] Done for function clean_input
+[value] computing for function depth_first_search <- main.
+        Called from bfs_dfs.c:153.
+bfs_dfs.c:118:[value] entering loop for the first time
+bfs_dfs.c:127:[value] entering loop for the first time
+bfs_dfs.c:134:[kernel] warning: accessing out of bounds index [0..15]. assert tmp < 4;
+                                                         (tmp from tail++)
+bfs_dfs.c:120:[kernel] warning: accessing out of bounds index [0..15]. assert head < 4;
+bfs_dfs.c:134:[kernel] warning: accessing out of bounds index [-128..127].
+                  assert 0 ≤ tmp;
+                  (tmp from tail++)
+bfs_dfs.c:120:[kernel] warning: accessing out of bounds index [-128..127]. assert 0 ≤ head;
+[value] Recording results for depth_first_search
+[value] Done for function depth_first_search
+[value] computing for function resetValues <- main.
+        Called from bfs_dfs.c:154.
+[value] Recording results for resetValues
+[value] Done for function resetValues
+[value] Recording results for main
+[value] done for function main
+[metrics] Value coverage statistics
+          =========================
+          Syntactically reachable functions = 7 (out of 7)
+          Semantically reached functions = 7
+          Coverage estimation = 100.0%
+[metrics] References to non-analyzed functions
+          ------------------------------------
+[metrics] Statements analyzed by Value
+          ----------------------------
+          74 stmts in analyzed functions, 74 stmts analyzed (100.0%)
+          main: 5 stmts out of 5 (100.0%)
+          depth_first_search: 24 stmts out of 24 (100.0%)
+          breath_first_search: 20 stmts out of 20 (100.0%)
+          clean_input: 11 stmts out of 11 (100.0%)
+          dequeue: 5 stmts out of 5 (100.0%)
+          enqueue: 4 stmts out of 4 (100.0%)
+          resetValues: 5 stmts out of 5 (100.0%)
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/bfs_dfs$ 

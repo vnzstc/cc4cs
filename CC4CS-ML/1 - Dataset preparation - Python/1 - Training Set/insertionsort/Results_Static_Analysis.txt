@@ -1,0 +1,282 @@
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/insertionsort$ frama-c -metrics -metrics-ast cabs insertionsort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing insertionsort.c (with preprocessing)
+[metrics] Halstead metrics
+          ================
+          Total operators: 164 
+          Distinct operators: 30 
+          Total_operands: 59 
+          Distinct operands: 20 
+          Program length: 223 
+          Vocabulary size: 50 
+          Program volume: 1258.58 
+          Effort: 55692.16 
+          Program level: 0.02 
+          Difficulty level: 44.25 
+          Time to implement: 3094.01 
+          Bugs delivered: 0.49 
+          
+          
+          Global statistics (Halstead)
+          ============================
+          Operators
+          ---------
+            typedef: 30
+            array: 1
+            for: 1
+            while: 1
+            ): 2
+            ,: 3
+            {: 2
+            (: 2
+            }: 2
+            []: 5
+            ;: 16
+            +: 2
+            &&: 1
+            ++: 1
+            -: 4
+            <: 1
+            =: 10
+            >: 1
+            >=: 1
+            enum  { n3 }: 1
+            TARGET_TYPE: 1
+            short: 4
+            long: 16
+            int: 10
+            signed: 14
+            TARGET_INDEX: 2
+            void: 3
+            unsigned: 18
+            char: 6
+            int8_t: 3
+            
+          Operands
+          --------
+            P0: 2
+            n: 2
+            key: 4
+            resetValues: 1
+            Frama_C_bzero: 1
+            arr: 6
+            P1: 2
+            P2: 2
+            j: 9
+            prototype: 1
+            P3: 2
+            Frama_C_copy_block: 1
+            insertion_sort: 1
+            i: 6
+            FC_BUILTIN: 2
+            49: 1
+            41: 1
+            1: 5
+            3: 1
+            0: 9
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/insertionsort$ frama-c -metrics -metrics-ast acsl insertionsort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing insertionsort.c (with preprocessing)
+[metrics] ACSL Statistics
+          ===============
+          requires: 3 total, 3 in function contracts,0 in statement contracts
+          ensures: 2 total, 2 in function contracts, 0 in statement contracts
+          behaviors: 2 total, 2 in function contracts, 0 in statement contracts
+          assumes: 0 total, 0 in function contracts, 0 in statement contracts
+          assigns: 2 total, 2 in function contracts, 0 in statement contracts
+          froms: 2 total, 2 in function contracts, 0 in statement contracts
+          invariants: 0
+          loop assigns: 0
+          loop froms: 0
+          variants: 0
+          asserts: 0
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/insertionsort$ frama-c -metrics -metrics-by-function insertionsort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing insertionsort.c (with preprocessing)
+[metrics] Cil AST
+          
+          Stats for function <insertionsort.c/insertion_sort>
+          =================================================== 
+          Sloc = 19
+          Decision point = 3
+          Global variables = 0
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 8
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 4
+          
+          Stats for function <insertionsort.c/main>
+          ========================================= 
+          Sloc = 3
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 0
+          Exit point = 1
+          Function = 1
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <insertionsort.c/resetValues>
+          ================================================ 
+          Sloc = 5
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+[metrics] Defined functions (3)
+          =====================
+           insertion_sort (1 call); main (0 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 27
+          Decision point = 3
+          Global variables = 7
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 12
+          Exit point = 3
+          Function = 3
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 6
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/insertionsort$ frama-c -metrics -metrics-cover main insertionsort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing insertionsort.c (with preprocessing)
+[metrics] Defined functions (3)
+          =====================
+           insertion_sort (1 call); main (0 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 27
+          Decision point = 3
+          Global variables = 7
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 12
+          Exit point = 3
+          Function = 3
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 6
+[metrics] Functions syntactically reachable from main: 3
+          ----------------------------------------------
+          <insertionsort.c>: resetValues; insertion_sort; main; 
+          
+          Functions syntactically unreachable from main: 0
+          ------------------------------------------------
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/insertionsort$ frama-c -metrics -metrics-value-cover insertionsort.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing insertionsort.c (with preprocessing)
+[metrics] Defined functions (3)
+          =====================
+           insertion_sort (1 call); main (0 call); resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 27
+          Decision point = 3
+          Global variables = 7
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 12
+          Exit point = 3
+          Function = 3
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 6
+[value] Analyzing a complete application starting at main
+[value] Computing initial state
+[value] Initial state computed
+[value] Values of globals at initialization
+  P0 ∈ {0}
+  P1 ∈ {0}
+  P2 ∈ {0}
+  P3 ∈ {0}
+  arr[0] ∈ {0}
+     [1] ∈ {-41}
+     [2] ∈ {-49}
+  i ∈ {0}
+  j ∈ {0}
+[value] computing for function insertion_sort <- main.
+        Called from insertionsort.c:45.
+insertionsort.c:26:[value] entering loop for the first time
+insertionsort.c:33:[value] entering loop for the first time
+[value] Recording results for insertion_sort
+[value] Done for function insertion_sort
+[value] computing for function resetValues <- main.
+        Called from insertionsort.c:46.
+[value] Recording results for resetValues
+[value] Done for function resetValues
+[value] Recording results for main
+[value] done for function main
+[metrics] Value coverage statistics
+          =========================
+          Syntactically reachable functions = 3 (out of 3)
+          Semantically reached functions = 3
+          Coverage estimation = 100.0%
+[metrics] References to non-analyzed functions
+          ------------------------------------
+[metrics] Statements analyzed by Value
+          ----------------------------
+          27 stmts in analyzed functions, 27 stmts analyzed (100.0%)
+          main: 3 stmts out of 3 (100.0%)
+          insertion_sort: 19 stmts out of 19 (100.0%)
+          resetValues: 5 stmts out of 5 (100.0%)
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/insertionsort$ 

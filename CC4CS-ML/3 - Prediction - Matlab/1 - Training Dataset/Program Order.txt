@@ -1,0 +1,9 @@
+# Training and test benchmark
+1 - Import into Matlab workspace the two device .csv file (example: leon3.csv, leon3Val.csv) as Matlab table object
+2 - generateSubTable.m
+3 - Training.m (it uses all the Matalab function inside the directory, but not errCalcFunc.m)
+3a - TrainingNoAssembly.m (it does not consider the assembly feature in the original csv, it uses all the Matalab function inside the directory, but not errCalcFunc.m)
+4 - Analysis.m (it uses errCalc.m)
+5 - errPlot.m
+6 - timetrainPlot.m (load before the Matlab workspace timeTrain_workspace.mat)
+7 - timepredFDTPlot.m

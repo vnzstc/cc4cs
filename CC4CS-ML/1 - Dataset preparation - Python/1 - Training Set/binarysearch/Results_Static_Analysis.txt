@@ -1,0 +1,313 @@
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/binarysearch$ frama-c -metrics -metrics-ast cabs binary_search.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing binary_search.c (with preprocessing)
+[metrics] Halstead metrics
+          ================
+          Total operators: 195 
+          Distinct operators: 35 
+          Total_operands: 75 
+          Distinct operands: 25 
+          Program length: 270 
+          Vocabulary size: 60 
+          Program volume: 1594.86 
+          Effort: 83730.17 
+          Program level: 0.02 
+          Difficulty level: 52.50 
+          Time to implement: 4651.68 
+          Bugs delivered: 0.64 
+          
+          
+          Global statistics (Halstead)
+          ============================
+          Operators
+          ---------
+            typedef: 30
+            array: 1
+            if: 3
+            return: 3
+            while: 3
+            ): 7
+            ,: 1
+            {: 4
+            (: 7
+            }: 4
+            []: 2
+            ;: 25
+            +: 2
+            -: 4
+            +=: 1
+            ==: 1
+            <: 1
+            =: 6
+            <<=: 2
+            <=: 2
+            -=: 1
+            >: 1
+            >>=: 2
+            >=: 1
+            TARGET_TYPE: 4
+            short: 4
+            long: 16
+            int: 10
+            signed: 14
+            TARGET_INDEX: 1
+            void: 3
+            enum  { n1 }: 1
+            unsigned: 18
+            char: 6
+            int8_t: 4
+            
+          Operands
+          --------
+            P0: 2
+            l: 5
+            de: 5
+            n: 2
+            binary_search: 1
+            key: 3
+            divide: 1
+            nu: 3
+            resetValues: 1
+            temp: 5
+            Frama_C_bzero: 1
+            m: 6
+            arr: 3
+            P1: 2
+            P2: 2
+            prototype: 1
+            P3: 2
+            Frama_C_copy_block: 1
+            r: 4
+            quotient: 3
+            FC_BUILTIN: 2
+            2: 1
+            1: 12
+            0: 6
+            71: 1
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/binarysearch$ frama-c -metrics -metrics-ast acsl binary_search.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing binary_search.c (with preprocessing)
+[metrics] ACSL Statistics
+          ===============
+          requires: 3 total, 3 in function contracts,0 in statement contracts
+          ensures: 2 total, 2 in function contracts, 0 in statement contracts
+          behaviors: 2 total, 2 in function contracts, 0 in statement contracts
+          assumes: 0 total, 0 in function contracts, 0 in statement contracts
+          assigns: 2 total, 2 in function contracts, 0 in statement contracts
+          froms: 2 total, 2 in function contracts, 0 in statement contracts
+          invariants: 0
+          loop assigns: 0
+          loop froms: 0
+          variants: 0
+          asserts: 0
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/binarysearch$ frama-c -metrics -metrics-by-function binary_search.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing binary_search.c (with preprocessing)
+[metrics] Cil AST
+          
+          Stats for function <binary_search.c/binary_search>
+          ================================================== 
+          Sloc = 18
+          Decision point = 3
+          Global variables = 0
+          If = 3
+          Loop = 1
+          Goto = 1
+          Assignment = 7
+          Exit point = 1
+          Function = 1
+          Function call = 1
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 4
+          
+          Stats for function <binary_search.c/divide>
+          =========================================== 
+          Sloc = 18
+          Decision point = 3
+          Global variables = 0
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 8
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 4
+          
+          Stats for function <binary_search.c/main>
+          ========================================= 
+          Sloc = 3
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 0
+          Exit point = 1
+          Function = 1
+          Function call = 2
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <binary_search.c/resetValues>
+          ================================================ 
+          Sloc = 5
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+[metrics] Defined functions (4)
+          =====================
+           binary_search (1 call); divide (1 call); main (0 call);
+           resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 44
+          Decision point = 6
+          Global variables = 6
+          If = 6
+          Loop = 3
+          Goto = 1
+          Assignment = 19
+          Exit point = 4
+          Function = 4
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 10
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/binarysearch$ frama-c -metrics -metrics-cover main binary_search.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing binary_search.c (with preprocessing)
+[metrics] Defined functions (4)
+          =====================
+           binary_search (1 call); divide (1 call); main (0 call);
+           resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 44
+          Decision point = 6
+          Global variables = 6
+          If = 6
+          Loop = 3
+          Goto = 1
+          Assignment = 19
+          Exit point = 4
+          Function = 4
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 10
+[metrics] Functions syntactically reachable from main: 4
+          ----------------------------------------------
+          <binary_search.c>: resetValues; divide; binary_search; main; 
+          
+          Functions syntactically unreachable from main: 0
+          ------------------------------------------------
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/binarysearch$ frama-c -metrics -metrics-value-cover binary_search.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing binary_search.c (with preprocessing)
+[metrics] Defined functions (4)
+          =====================
+           binary_search (1 call); divide (1 call); main (0 call);
+           resetValues (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 44
+          Decision point = 6
+          Global variables = 6
+          If = 6
+          Loop = 3
+          Goto = 1
+          Assignment = 19
+          Exit point = 4
+          Function = 4
+          Function call = 3
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 10
+[value] Analyzing a complete application starting at main
+[value] Computing initial state
+[value] Initial state computed
+[value] Values of globals at initialization
+  P0 ∈ {0}
+  P1 ∈ {0}
+  P2 ∈ {0}
+  P3 ∈ {0}
+  arr[0] ∈ {71}
+  key ∈ {1}
+[value] computing for function binary_search <- main.
+        Called from binary_search.c:69.
+binary_search.c:50:[value] entering loop for the first time
+[value] computing for function divide <- binary_search <- main.
+        Called from binary_search.c:53.
+binary_search.c:23:[value] entering loop for the first time
+binary_search.c:30:[value] entering loop for the first time
+[value] Recording results for divide
+[value] Done for function divide
+[value] Recording results for binary_search
+[value] Done for function binary_search
+[value] computing for function resetValues <- main.
+        Called from binary_search.c:70.
+[value] Recording results for resetValues
+[value] Done for function resetValues
+[value] Recording results for main
+[value] done for function main
+[metrics] Value coverage statistics
+          =========================
+          Syntactically reachable functions = 4 (out of 4)
+          Semantically reached functions = 4
+          Coverage estimation = 100.0%
+[metrics] References to non-analyzed functions
+          ------------------------------------
+[metrics] Statements analyzed by Value
+          ----------------------------
+          44 stmts in analyzed functions, 32 stmts analyzed (72.7%)
+          main: 3 stmts out of 3 (100.0%)
+          resetValues: 5 stmts out of 5 (100.0%)
+          binary_search: 15 stmts out of 18 (83.3%)
+          divide: 9 stmts out of 18 (50.0%)
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/binarysearch$ 

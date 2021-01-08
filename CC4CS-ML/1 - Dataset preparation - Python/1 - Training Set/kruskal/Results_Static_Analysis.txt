@@ -1,0 +1,632 @@
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/kruskal$ frama-c -metrics -metrics-ast cabs kruskal.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing kruskal.c (with preprocessing)
+[metrics] Halstead metrics
+          ================
+          Total operators: 394 
+          Distinct operators: 34 
+          Total_operands: 194 
+          Distinct operands: 38 
+          Program length: 588 
+          Vocabulary size: 72 
+          Program volume: 3627.92 
+          Effort: 314864.91 
+          Program level: 0.01 
+          Difficulty level: 86.79 
+          Time to implement: 17492.50 
+          Bugs delivered: 1.54 
+          
+          
+          Global statistics (Halstead)
+          ============================
+          Operators
+          ---------
+            typedef: 30
+            array: 3
+            break: 1
+            if: 8
+            for: 12
+            return: 3
+            ): 20
+            ,: 6
+            {: 13
+            (: 20
+            }: 13
+            []: 33
+            ;: 67
+            &&: 3
+            ++: 13
+            -: 13
+            !=: 6
+            ==: 2
+            <: 13
+            =: 29
+            *=: 1
+            <=: 1
+            enum  { size2 }: 1
+            TARGET_TYPE: 3
+            float: 2
+            short: 4
+            long: 16
+            int: 10
+            signed: 14
+            TARGET_INDEX: 6
+            void: 3
+            unsigned: 18
+            char: 6
+            int8_t: 1
+            
+          Operands
+          --------
+            a: 14
+            P0: 2
+            find: 2
+            count_edges: 1
+            min: 4
+            k: 14
+            edge_number: 3
+            z: 10
+            find_min: 1
+            y: 7
+            union_sets: 1
+            make_set: 1
+            resetValues: 1
+            node: 3
+            union_find: 8
+            Frama_C_bzero: 1
+            is_connected: 1
+            P1: 2
+            x: 7
+            P2: 2
+            init_union_find: 1
+            j: 19
+            prototype: 1
+            size: 15
+            P3: 2
+            Frama_C_copy_block: 1
+            make_non_oriented: 1
+            kruskal: 1
+            i: 32
+            FC_BUILTIN: 2
+            2: 1
+            84: 1
+            115: 1
+            27: 1
+            2147483647.0: 1
+            1: 11
+            0: 17
+            120: 1
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/kruskal$ frama-c -metrics -metrics-ast acsl kruskal.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing kruskal.c (with preprocessing)
+[metrics] ACSL Statistics
+          ===============
+          requires: 3 total, 3 in function contracts,0 in statement contracts
+          ensures: 2 total, 2 in function contracts, 0 in statement contracts
+          behaviors: 2 total, 2 in function contracts, 0 in statement contracts
+          assumes: 0 total, 0 in function contracts, 0 in statement contracts
+          assigns: 2 total, 2 in function contracts, 0 in statement contracts
+          froms: 2 total, 2 in function contracts, 0 in statement contracts
+          invariants: 0
+          loop assigns: 0
+          loop froms: 0
+          variants: 0
+          asserts: 0
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/kruskal$ frama-c -metrics -metrics-by-function kruskal.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing kruskal.c (with preprocessing)
+[metrics] Cil AST
+          
+          Stats for function <kruskal.c/count_edges>
+          ========================================== 
+          Sloc = 15
+          Decision point = 3
+          Global variables = 0
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 5
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 4
+          
+          Stats for function <kruskal.c/find>
+          =================================== 
+          Sloc = 2
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 1
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <kruskal.c/find_min>
+          ======================================= 
+          Sloc = 20
+          Decision point = 4
+          Global variables = 0
+          If = 4
+          Loop = 2
+          Goto = 0
+          Assignment = 9
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 5
+          
+          Stats for function <kruskal.c/init_union_find>
+          ============================================== 
+          Sloc = 8
+          Decision point = 1
+          Global variables = 0
+          If = 1
+          Loop = 1
+          Goto = 0
+          Assignment = 3
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 2
+          
+          Stats for function <kruskal.c/is_connected>
+          =========================================== 
+          Sloc = 20
+          Decision point = 5
+          Global variables = 0
+          If = 5
+          Loop = 2
+          Goto = 1
+          Assignment = 6
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 6
+          
+          Stats for function <kruskal.c/kruskal>
+          ====================================== 
+          Sloc = 22
+          Decision point = 3
+          Global variables = 0
+          If = 3
+          Loop = 2
+          Goto = 0
+          Assignment = 6
+          Exit point = 1
+          Function = 1
+          Function call = 6
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 4
+          
+          Stats for function <kruskal.c/main>
+          =================================== 
+          Sloc = 7
+          Decision point = 1
+          Global variables = 0
+          If = 1
+          Loop = 0
+          Goto = 0
+          Assignment = 0
+          Exit point = 1
+          Function = 1
+          Function call = 5
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 2
+          
+          Stats for function <kruskal.c/make_non_oriented>
+          ================================================ 
+          Sloc = 18
+          Decision point = 4
+          Global variables = 0
+          If = 4
+          Loop = 2
+          Goto = 0
+          Assignment = 7
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 5
+          
+          Stats for function <kruskal.c/make_set>
+          ======================================= 
+          Sloc = 2
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 1
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <kruskal.c/resetValues>
+          ========================================== 
+          Sloc = 5
+          Decision point = 0
+          Global variables = 0
+          If = 0
+          Loop = 0
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 1
+          
+          Stats for function <kruskal.c/union_sets>
+          ========================================= 
+          Sloc = 10
+          Decision point = 2
+          Global variables = 0
+          If = 2
+          Loop = 1
+          Goto = 0
+          Assignment = 4
+          Exit point = 1
+          Function = 1
+          Function call = 0
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 3
+[metrics] Defined functions (11)
+          ======================
+           count_edges (1 call); find (2 calls); find_min (1 call);
+           init_union_find (1 call); is_connected (1 call); kruskal (1 call);
+           main (0 call); make_non_oriented (1 call); make_set (1 call);
+           resetValues (1 call); union_sets (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 129
+          Decision point = 23
+          Global variables = 14
+          If = 23
+          Loop = 12
+          Goto = 1
+          Assignment = 46
+          Exit point = 11
+          Function = 11
+          Function call = 11
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 34
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/kruskal$ frama-c -metrics -metrics-cover main kruskal.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing kruskal.c (with preprocessing)
+[metrics] Defined functions (11)
+          ======================
+           count_edges (1 call); find (2 calls); find_min (1 call);
+           init_union_find (1 call); is_connected (1 call); kruskal (1 call);
+           main (0 call); make_non_oriented (1 call); make_set (1 call);
+           resetValues (1 call); union_sets (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 129
+          Decision point = 23
+          Global variables = 14
+          If = 23
+          Loop = 12
+          Goto = 1
+          Assignment = 46
+          Exit point = 11
+          Function = 11
+          Function call = 11
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 34
+[metrics] Functions syntactically reachable from main: 11
+          -----------------------------------------------
+          <kruskal.c>: resetValues; is_connected; find_min; make_non_oriented;
+            init_union_find; union_sets; find; make_set; count_edges; kruskal; main; 
+          
+          Functions syntactically unreachable from main: 0
+          ------------------------------------------------
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/kruskal$ frama-c -metrics -metrics-value-cover kruskal.c 
+[kernel] Parsing FRAMAC_SHARE/libc/__fc_builtin_for_normalization.i (no preprocessing)
+[kernel] Parsing kruskal.c (with preprocessing)
+[metrics] Defined functions (11)
+          ======================
+           count_edges (1 call); find (2 calls); find_min (1 call);
+           init_union_find (1 call); is_connected (1 call); kruskal (1 call);
+           main (0 call); make_non_oriented (1 call); make_set (1 call);
+           resetValues (1 call); union_sets (1 call); 
+          
+          Undefined functions (0)
+          =======================
+           
+          
+          'Extern' global variables (0)
+          =============================
+           
+          
+          Potential entry points (1)
+          ==========================
+           main; 
+          
+          Global metrics
+          ============== 
+          Sloc = 129
+          Decision point = 23
+          Global variables = 14
+          If = 23
+          Loop = 12
+          Goto = 1
+          Assignment = 46
+          Exit point = 11
+          Function = 11
+          Function call = 11
+          Pointer dereferencing = 0
+          Cyclomatic complexity = 34
+[value] Analyzing a complete application starting at main
+[value] Computing initial state
+[value] Initial state computed
+[value] Values of globals at initialization
+  P0 ∈ {0}
+  P1 ∈ {0}
+  P2 ∈ {0}
+  P3 ∈ {0}
+  a[0][0] ∈ {-27.}
+   [0][1] ∈ {120.}
+   [1][0] ∈ {-115.}
+   [1][1] ∈ {-84.}
+  union_find[0..1] ∈ {0}
+  i ∈ {0}
+  j ∈ {0}
+  k ∈ {0}
+  z ∈ {0}
+  x ∈ {0}
+  y ∈ {0}
+  min ∈ {0}
+  edge_number ∈ {0}
+[value] computing for function make_non_oriented <- main.
+        Called from kruskal.c:234.
+kruskal.c:103:[value] entering loop for the first time
+kruskal.c:109:[value] entering loop for the first time
+[value] Recording results for make_non_oriented
+[value] Done for function make_non_oriented
+[value] computing for function init_union_find <- main.
+        Called from kruskal.c:235.
+kruskal.c:135:[value] entering loop for the first time
+[value] Recording results for init_union_find
+[value] Done for function init_union_find
+[value] computing for function is_connected <- main.
+        Called from kruskal.c:237.
+kruskal.c:43:[value] entering loop for the first time
+kruskal.c:47:[value] entering loop for the first time
+[value] Recording results for is_connected
+[value] Done for function is_connected
+[value] computing for function kruskal <- main.
+        Called from kruskal.c:238.
+[value] computing for function count_edges <- kruskal <- main.
+        Called from kruskal.c:206.
+kruskal.c:185:[value] entering loop for the first time
+kruskal.c:189:[value] entering loop for the first time
+[value] Recording results for count_edges
+[value] Done for function count_edges
+kruskal.c:209:[value] entering loop for the first time
+[value] computing for function make_set <- kruskal <- main.
+        Called from kruskal.c:212.
+[value] Recording results for make_set
+[value] Done for function make_set
+[value] computing for function make_set <- kruskal <- main.
+        Called from kruskal.c:212.
+[value] Recording results for make_set
+[value] Done for function make_set
+[value] computing for function make_set <- kruskal <- main.
+        Called from kruskal.c:212.
+[value] Recording results for make_set
+[value] Done for function make_set
+kruskal.c:215:[value] entering loop for the first time
+[value] computing for function find_min <- kruskal <- main.
+        Called from kruskal.c:219.
+kruskal.c:71:[value] entering loop for the first time
+kruskal.c:75:[value] entering loop for the first time
+[value] Recording results for find_min
+[value] Done for function find_min
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function union_sets <- kruskal <- main.
+        Called from kruskal.c:222.
+kruskal.c:148:[value] entering loop for the first time
+[value] Recording results for union_sets
+[value] Done for function union_sets
+[value] computing for function find_min <- kruskal <- main.
+        Called from kruskal.c:219.
+[value] Recording results for find_min
+[value] Done for function find_min
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function union_sets <- kruskal <- main.
+        Called from kruskal.c:222.
+[value] Recording results for union_sets
+[value] Done for function union_sets
+[value] computing for function find_min <- kruskal <- main.
+        Called from kruskal.c:219.
+[value] Recording results for find_min
+[value] Done for function find_min
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function union_sets <- kruskal <- main.
+        Called from kruskal.c:222.
+[value] Recording results for union_sets
+[value] Done for function union_sets
+[value] computing for function find_min <- kruskal <- main.
+        Called from kruskal.c:219.
+[value] Recording results for find_min
+[value] Done for function find_min
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function union_sets <- kruskal <- main.
+        Called from kruskal.c:222.
+[value] Recording results for union_sets
+[value] Done for function union_sets
+[value] computing for function find_min <- kruskal <- main.
+        Called from kruskal.c:219.
+[value] Recording results for find_min
+[value] Done for function find_min
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function union_sets <- kruskal <- main.
+        Called from kruskal.c:222.
+[value] Recording results for union_sets
+[value] Done for function union_sets
+[value] computing for function find_min <- kruskal <- main.
+        Called from kruskal.c:219.
+[value] Recording results for find_min
+[value] Done for function find_min
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function union_sets <- kruskal <- main.
+        Called from kruskal.c:222.
+[value] Recording results for union_sets
+[value] Done for function union_sets
+[value] computing for function find_min <- kruskal <- main.
+        Called from kruskal.c:219.
+[value] Recording results for find_min
+[value] Done for function find_min
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function union_sets <- kruskal <- main.
+        Called from kruskal.c:222.
+[value] Recording results for union_sets
+[value] Done for function union_sets
+[value] computing for function find_min <- kruskal <- main.
+        Called from kruskal.c:219.
+[value] Recording results for find_min
+[value] Done for function find_min
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function union_sets <- kruskal <- main.
+        Called from kruskal.c:222.
+[value] Recording results for union_sets
+[value] Done for function union_sets
+[value] computing for function find_min <- kruskal <- main.
+        Called from kruskal.c:219.
+[value] Recording results for find_min
+[value] Done for function find_min
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function find <- kruskal <- main.
+        Called from kruskal.c:221.
+[value] Recording results for find
+[value] Done for function find
+[value] computing for function union_sets <- kruskal <- main.
+        Called from kruskal.c:222.
+[value] Recording results for union_sets
+[value] Done for function union_sets
+[value] Recording results for kruskal
+[value] Done for function kruskal
+[value] computing for function resetValues <- main.
+        Called from kruskal.c:240.
+[value] Recording results for resetValues
+[value] Done for function resetValues
+[value] Recording results for main
+[value] done for function main
+[metrics] Value coverage statistics
+          =========================
+          Syntactically reachable functions = 11 (out of 11)
+          Semantically reached functions = 11
+          Coverage estimation = 100.0%
+[metrics] References to non-analyzed functions
+          ------------------------------------
+[metrics] Statements analyzed by Value
+          ----------------------------
+          129 stmts in analyzed functions, 129 stmts analyzed (100.0%)
+          main: 7 stmts out of 7 (100.0%)
+          kruskal: 22 stmts out of 22 (100.0%)
+          count_edges: 15 stmts out of 15 (100.0%)
+          make_set: 2 stmts out of 2 (100.0%)
+          find: 2 stmts out of 2 (100.0%)
+          union_sets: 10 stmts out of 10 (100.0%)
+          init_union_find: 8 stmts out of 8 (100.0%)
+          make_non_oriented: 18 stmts out of 18 (100.0%)
+          find_min: 20 stmts out of 20 (100.0%)
+          is_connected: 20 stmts out of 20 (100.0%)
+          resetValues: 5 stmts out of 5 (100.0%)
+cerbero@cerbero-VirtualBox:~/Desktop/PAOLO_ANALISI/DOTTORATO/kruskal$ 
