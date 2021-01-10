@@ -30,13 +30,13 @@ The simulation phase involves the execution of the toolchain of each processor s
 
 - Atmega328p: 
 	- sed: it is needed to convert the instruction set simulator output  to a format readable by the framework parser;
-	- ** [perf stat](https://man7.org/linux/man-pages/man1/perf-stat.1.html) ** : needed to get the clock cycles required by the execution on the Atmega328p;
-	- ** [simulavr](https://www.nongnu.org/simulavr/) ** : the instruction set simulator of the Atmega328p;
-	- ** [avr-gcc](https://gcc.gnu.org/wiki/avr-gcc) ** : the cross-compiler for the AVR ISA;
+	- **[perf stat](https://man7.org/linux/man-pages/man1/perf-stat.1.html)** : needed to get the clock cycles required by the execution on the Atmega328p;
+	- **[simulavr](https://www.nongnu.org/simulavr/)** : the instruction set simulator of the Atmega328p;
+	- **[avr-gcc](https://gcc.gnu.org/wiki/avr-gcc)** : the cross-compiler for the AVR ISA;
 
 - Leon3: 
-	- ** [tsim-leon3](https://www.gaisler.com/index.php/downloads/simulators)** : the instructio set simulator for the LEON3;  
-	- ** [sparc-gaisler-elf-gcc](https://www.gaisler.com/index.php/downloads/compilers): the cross-compiler for the SPARC ISA;
+	- **[tsim-leon3](https://www.gaisler.com/index.php/downloads/simulators)** : the instructio set simulator for the LEON3;  
+	- **[sparc-gaisler-elf-gcc](https://www.gaisler.com/index.php/downloads/compilers)** : the cross-compiler for the SPARC ISA;
 
 - 8051:
 
