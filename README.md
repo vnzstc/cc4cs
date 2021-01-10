@@ -28,14 +28,15 @@ The profiling phase requires the execution of [gcc-8](https://gcc.gnu.org/gcc-8/
 #### Simulation 
 The simulation phase involves the execution of the toolchain of each processor supported by the framework. The following is a description of each supported processor and the tools needed to get the information required to calculate CC4CS:
 
-* Atmega328p: 
-	** sed: it is needed to convert the instruction set simulator output  to a format readable by the framework parser;
-	** perf stat: needed to get the clock cycles required by the execution on the Atmega328p;
-	** simulavr: the instruction set simulator of the Atmega328p;
-	** avr-gcc: the cross-compiler for the AVR ISA;
-	
-* Leon3:
-* 8051:
+- Atmega328p: 
+	- sed: it is needed to convert the instruction set simulator output  to a format readable by the framework parser;
+	- perf stat: needed to get the clock cycles required by the execution on the Atmega328p;
+	- simulavr: the instruction set simulator of the Atmega328p;
+	- avr-gcc: the cross-compiler for the AVR ISA;
+
+- Leon3:
+
+- 8051:
 
 #### Metric Evaluation
 
