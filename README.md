@@ -35,10 +35,12 @@ The simulation phase involves the execution of the toolchain of each processor s
 	- **[avr-gcc](https://gcc.gnu.org/wiki/avr-gcc)** : the cross-compiler for the AVR ISA;
 
 - Leon3: 
-	- **[tsim-leon3](https://www.gaisler.com/index.php/downloads/simulators)** : the instructio set simulator for the LEON3;  
+	- **[tsim-leon3](https://www.gaisler.com/index.php/downloads/simulators)** : the instruction set simulator for the LEON3;  
 	- **[sparc-gaisler-elf-gcc](https://www.gaisler.com/index.php/downloads/compilers)** : the cross-compiler for the SPARC ISA;
 
 - 8051:
+	- **[sdcc](http://sdcc.sourceforge.net/)** : the cross-compiler for the 8051;
+	- **[isasim](http://www.newit.gsu.by/resources/CPUs/i8051/VHDL/Synthesizeable%20VHDL%20Model%20of%208051.htm)** : the simulator of the 8051;
 
 #### CC4CS Evaluation
 
