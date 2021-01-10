@@ -18,7 +18,6 @@ The number of executed C statements is obtained by profiling the benchmark funct
 
 ### Screenshots
 <p align="center">
-  <img src="/framework/img/screen1.png">
   <img src="/framework/img/screen2.png">
 </p>
 
