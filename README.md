@@ -16,6 +16,14 @@ The InputsGenerator (semi)automatically generates inputs for a function. The par
 
 The number of executed C statements is obtained by profiling the benchmark functions using the gcov profiler for each generated input. It is worth noting that such a profiling is performed one-shot on the  host platform since it is independent of the target processor technologies. Instead, the clock cycles needed by the target processor technology to execute each function in the benchmark. Depending on the processor technology there is the need for an Instruction Set Simulator (ISS) or an HDL Simulator.
 
+### Screenshots
+<p align="center">
+  <img src="/framework/img/screen1.png">
+</p>
+<p align="center">
+  <img src="/framework/img/screen2.png">
+</p>
+
 ###  Installation 
 The installation of the framework is accomplished through a few simple steps. All that is required is to install the tools exploited by the framework at each step: Profiling, Simulation, and Static Analysis. For a deeper insight of the commands executed to perform each phase, the user can look at the /framework/cmds.json file.
 
