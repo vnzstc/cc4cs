@@ -16,6 +16,29 @@ The InputsGenerator (semi)automatically generates inputs for a function. The par
 
 The number of executed C statements is obtained by profiling the benchmark functions using the gcov profiler for each generated input. It is worth noting that such a profiling is performed one-shot on the  host platform since it is independent of the target processor technologies. Instead, the clock cycles needed by the target processor technology to execute each function in the benchmark. Depending on the processor technology there is the need for an Instruction Set Simulator (ISS) or an HDL Simulator.
 
-###  Screenshots 
-
 ###  Installation 
+The installation of the framework is accomplished through a few simple steps. All that is required is to install the tools exploited by the framework at each step: Profiling, Simulation, Metric Evaluation, and Static Analysis. For a deeper insight of the commands executed to perform each phase, the user can look at the /framework/cmds.json file.
+
+#### Profiling
+The profiling phase requires the execution of [gcc-8](https://gcc.gnu.org/gcc-8/) and [gcov](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html).
+
+#### Static Analysis
+
+
+#### Simulation 
+The simulation phase involves the execution of the toolchain of each processor supported by the framework. The following is a description of each supported processor and the tools needed to get the information required to calculate CC4CS:
+
+* Atmega328p: 
+	** sed: it is needed to convert the instruction set simulator output  to a format readable by the framework parser;
+	** perf stat: needed to get the clock cycles required by the execution on the Atmega328p;
+	** simulavr: the instruction set simulator of the Atmega328p;
+	** avr-gcc: the cross-compiler for the AVR ISA;
+	
+* Leon3:
+* 8051:
+
+#### Metric Evaluation
+
+
+
+
