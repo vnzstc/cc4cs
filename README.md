@@ -19,7 +19,7 @@ The number of executed C statements is obtained by profiling the benchmark funct
 ###  Installation 
 The installation of the framework is accomplished through a few simple steps. All that is required is to install the tools exploited by the framework at each step: Profiling, Simulation, and Static Analysis. For a deeper insight of the commands executed to perform each phase, the user can look at the /framework/cmds.json file.
 
-The framework is implemented in Python3 and uses the csv, os, shutil, subprocess libriares for internal operations. Thus, Python3 and the above listed libraries should be installed for the framwork to run properly. 
+The framework is implemented in Python3 and uses the csv, os, shutil, subprocess, tkinter libraries for internal operations. Thus, Python3 and the above listed libraries should be installed for the framwork to run properly. 
 
 #### Profiling
 The profiling phase requires the execution of [gcc-8](https://gcc.gnu.org/gcc-8/) and [gcov](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html).
