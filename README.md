@@ -45,4 +45,4 @@ The simulation phase involves the execution of the toolchain of each processor s
 	- **[isasim](http://www.newit.gsu.by/resources/CPUs/i8051/VHDL/Synthesizeable%20VHDL%20Model%20of%208051.htm)** : the simulator of the 8051;
 
 
-For any bugs or doubt, it is possible to contact me at: [mailto](mailto:vincenzo.stoico@graduate.univaq.it)
+For any bugs or doubt, it is possible to contact me at: [vincenzo.stoico@graduate.univaq.it](mailto:vincenzo.stoico@graduate.univaq.it)
