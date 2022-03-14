@@ -1,8 +1,8 @@
 {	"Profiling": {
 		"additionalFile": "cp [scriptPath]/8051.h [prjPath]includes/",
-		"compiler": "gcc-8 [functionPath] -fprofile-arcs -ftest-coverage -I[prjPath]includes/ -I[prjPath]includes/[directoryName] -o [functionName]",
+		"compiler": "gcc [functionPath] -fprofile-arcs -ftest-coverage -I[prjPath]includes/ -I[prjPath]includes/[directoryName] -o [functionName]",
 		"exec": "[prjPath]/files/[directoryName]/[functionName]",
-		"gcov": "gcov-8 [functionName].gcda",
+		"gcov": "gcov [functionName].gcda",
 		"dependencies": "additionalFile compiler exec gcov"
 	},
 

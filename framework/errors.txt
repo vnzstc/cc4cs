@@ -1,0 +1,14 @@
+@error:
+ImportError: libtk8.6.so: cannot open shared object file: No such file or directory 
+solution:
+install tk
+
+@missing:
+creation of a new directory from the command line;
+
+@missing:
+overwriting existings results
+FileExistsError: [Errno 17] File exists: '/home/xeder/Desktop/projects/polimi/includes'
+
+@feature:
+the software should not catch the cntrl+c
