@@ -181,7 +181,7 @@ def callback(algName, chosenMicro, listBoxFlag):
 		parser = Parser(simulationFilename, Parser.simParser, ['id', 'clockCycles', 'assemblyInstr'])
 		cmdMan.executeCommandSet(cmdsMicro, inputsPath, parsingFunction = parser.run, debugFlag = True)
 		
-	
+		"""
 		# Executes FramaC commands 
 		cmdMan.executeCommandSet(cmdsFrama, inputsPath)
 
@@ -192,6 +192,7 @@ def callback(algName, chosenMicro, listBoxFlag):
 		# Buils a parser for the McCabe output file
 		parser.outputPath = outputDir + "/McCabe.csv"
 		parser.framaParser(outputDir + "/files", 0)
+		"""
 
 		parser = Parser(outputDir + "/inputResume.csv", Parser.inputParser)
 		parser.inputParser(inputsPath)
