@@ -29,6 +29,15 @@
 		"dependencies" : "compiler packihx iss"	
 	},
 
+	"Thumb": {
+		"vectors": "arm-none-eabi-as [functionDir]/vectors.s -o [functionDir]/vectors.o",
+		"compiler": "arm-none-eabi-gcc -mthumb -c [functionPath] -I[prjPath]includes/[directoryName] -o [functionName].o",
+		"linking": "arm-none-eabi-ld -T [functionDir]/memmap [functionDir]/vectors.o [functionName].o -o [functionName].elf",
+		"binary": "arm-none-eabi-objcopy -O binary [functionName].elf [functionName].bin",
+		"iss": "thumbulator [functionName].bin {[functionName].txt}",
+		"dependencies": "vectors compiler linking binary iss"
+	},
+
 	"FramaC": {
 		"mccabe": "frama-c -metrics -metrics-value-cover -cpp-extra-args='-I[prjPath]includes/' -cpp-extra-args='-I[prjPath]includes/[directoryName]' [functionPath] {McCabe.txt}",
 		"halsted": "frama-c -metrics -metrics-ast cabs -cpp-extra-args='-I[prjPath]includes/' -cpp-extra-args='-I[prjPath]includes/[directoryName]' [functionPath] {Halsted.txt}",

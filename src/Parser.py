@@ -5,172 +5,191 @@ from csv import DictWriter, reader
 from os.path import isfile
 
 class Parser:
-	def __init__(self, outputPath, parsingFunction, headers = []):
-		self.outputPath = outputPath
-		self.parsingFunction = parsingFunction
-		self.headers = headers
+    def __init__(self, outputPath, parsingFunction, headers = []):
+        self.outputPath = outputPath
+        self.parsingFunction = parsingFunction
+        self.headers = headers
 
-	def writeFile(self, row):
-		# output file access mode
-		flag = 'w'
+    def writeFile(self, row):
+        # output file access mode
+        flag = 'w'
 
-		if isfile(self.outputPath): flag = 'a'
-		# Creates the output file 
-		with open(self.outputPath, flag) as outFile:
-			wrt = DictWriter(outFile, fieldnames = self.headers)
+        if isfile(self.outputPath): flag = 'a'
+        # Creates the output file 
+        with open(self.outputPath, flag) as outFile:
+            wrt = DictWriter(outFile, fieldnames = self.headers)
 
-			# If headers is a field of the object, then they are written on the output file
-			if flag == 'w': wrt.writeheader()
-			wrt.writerow(row)
+            # If headers is a field of the object, then they are written on the output file
+            if flag == 'w': wrt.writeheader()
+            wrt.writerow(row)
 
-	def run(self, parserInput, values = []):
+    def run(self, parserInput, values = []):
 
-		# Executes the parsing function 
-		results = self.parsingFunction(parserInput)
-		values.extend(results)
+        # Executes the parsing function 
+        results = self.parsingFunction(parserInput)
+        values.extend(results)
 
-		# Writes the values
-		self.writeFile({key:value for key, value in zip(self.headers, values)})
+        # Writes the values
+        self.writeFile({key:value for key, value in zip(self.headers, values)})
 
-	def gcovParser(filePath):
-		"""This function analyzes the output of GCov profiler 
+    def gcovParser(filePath):
+        """This function analyzes the output of GCov profiler
 
-		Args:
-			txtfilePath (string): the name of the .c.gcov file.
+        Args:
+            txtfilePath (string): the name of the .c.gcov file.
 
-		Returns: 
-			int: the number of executed C statements
-		"""
-		result = 0
-		with open(filePath + ".c.gcov", "r") as file:
-			for line in file:
-				number = line.split(':')[0]
-				number = number.strip()
-				if number.isdigit():
-					result += int(number)
+        Returns:
+            int: the number of executed C statements
+        """
+        result = 0
+        with open(filePath + ".c.gcov", "r") as file:
+            for line in file:
+                number = line.split(':')[0]
+                number = number.strip()
+                if number.isdigit():
+                    result += int(number)
 
-		return [result]
+        return [result]
 
-	def simParser(filePath):
-		"""Generic parsing for the output file of an ISS
+    def thumbParser(filePath):
+        results = []
+        with open(filePath + ".txt", "r") as execFile:
+            content = execFile.read()
 
-		Args:
-			simFilename (string):  the name of the file that contains simulation information
+            cycleStr = search(r'(\d+)\s+ticks', content)
+            assemblyInst = search(r'(\d+)\s+instructions', content)
 
-		Returns:
-			string: number of clock cycles
+            print(cycleStr.group(1))
+            print(assemblyInst.group(1))
 
-		Todo: 
-			* Not Generic, it works only with the micros already tested
-		"""
-		results = []
-		with open(filePath + ".txt", "r") as execFile:
-			content = execFile.read()
+            if cycleStr: results.append(cycleStr.group(1))
+            if assemblyInst: results.append(assemblyInst.group(1))
 
-			cycleStr = search(r'([cC]ycles.*?:\s*)(\d+)', content)
-			assemblyInst = search(r'([iI]nstructions.*?:\s*)(\d+(.\d+)?)', content)
+        return results
 
-			if cycleStr: results.append(cycleStr.group(2))
-			if assemblyInst: results.append(assemblyInst.group(2))
+    def simParser(filePath):
+        """Generic parsing for the output file of an ISS
 
-		return results
+        Args:
+            simFilename (string):  the name of the file that contains simulation information
 
-	def getHeaders(self, args, pascalCase = False):
-		""" This functions extracts the needed information from a FramaC output file
-		"""
-		filePath, idxStart, idxEnd, regex = args
-		headers = []
+        Returns:
+            string: number of clock cycles
 
-		with open(filePath, 'r') as fp:     
-			lines = fp.readlines()[idxStart:idxEnd]			
-			for ln in lines:
-				key = search(regex, ln)
+        Todo:
+            * Not Generic, it works only with the micros already tested
+        """
+        results = []
+        with open(filePath + ".txt", "r") as execFile:
+            content = execFile.read()
 
-				if key:
-					# Removes the last char (e.g. :)
-					key = key.group()[:-1]
-					# Puts the string in pascal case
-					if pascalCase: key = ''.join(x for x in key.title() if not x.isspace())
+            cycleStr = search(r'([cC]ycles.*?:\s*)(\d+)', content)
+            assemblyInst = search(r'([iI]nstructions.*?:\s*)(\d+(.\d+)?)', content)
 
-					headers.append(key)
+            print(cycleStr.group(2))
+            print(assemblyInst.group(2))
 
-		return headers
+            if cycleStr: results.append(cycleStr.group(2))
+            if assemblyInst: results.append(assemblyInst.group(2))
 
-	def getFramaRow(args):
-		filePath, idxStart, idxEnd = args
-		content = []
+        return results
 
-		with open(filePath, 'r') as fp:     
-			lines = fp.readlines()[idxStart:idxEnd]			
-			for ln in lines:
-				value = search(r'\d+\.?\d+', ln)
-				if value: content.append(value.group())
+    def getHeaders(self, args, pascalCase = False):
+        """ This functions extracts the needed information from a FramaC output file
+        """
+        filePath, idxStart, idxEnd, regex = args
+        headers = []
 
-		return content
+        with open(filePath, 'r') as fp:
+            lines = fp.readlines()[idxStart:idxEnd]
+            for ln in lines:
+                key = search(regex, ln)
 
-	def getInputsRow(self, args, values = []):
-		filePath, idxStart, idxEnd = args
+                if key:
+                    # Removes the last char (e.g. :)
+                    key = key.group()[:-1]
+                    # Puts the string in pascal case
+                    if pascalCase: key = ''.join(x for x in key.title() if not x.isspace())
 
-		with open(filePath, 'r') as fp:
-			lines = fp.readlines()[idxStart:idxEnd]		
-			# Removes the last element from the array that is a useless line
-			lines = lines[:-1]
-			content = []
+                    headers.append(key)
 
-			for ln in lines:
-				value = ln.split('=')[1]
-				value = value.replace('=', '').strip()
-				value = value.replace(';', '')
-				occurrences = value.count('}')
-				if occurrences <= 1:
-					value = value.replace('}', '')
-				else:
-					value = value.replace('{', '[')
-					value = value.replace('}', ']')
+        return headers
 
-				content.append(value)
+    def getFramaRow(args):
+        filePath, idxStart, idxEnd = args
+        content = []
 
-		self.writeFile({key:value for key, value in zip(self.headers, content)})
+        with open(filePath, 'r') as fp:
+            lines = fp.readlines()[idxStart:idxEnd]
+            for ln in lines:
+                value = search(r'\d+\.?\d+', ln)
+                if value: content.append(value.group())
 
-	def framaParser(self, inputsPath, analysisFlag):
-		dirs = [f for f in listdir(inputsPath) if isdir(join(inputsPath, f))]
-		# Gets the headers from the output file
-		self.headers = ["inputName"]
-		idxStart = 4
+        return content
 
-		# Halsted output parsing
-		if analysisFlag: 
-			fileName = "Halsted.txt"
-			idxEnd = 15
-			# Parameters for the Halsted file
-			filesPath = inputsPath + "/values_0/" + fileName
-			params = [filesPath, idxStart, idxEnd, r'([a-zA-Z_]+\s?)*:']
+    def getInputsRow(self, args, values = []):
+        filePath, idxStart, idxEnd = args
 
-		else:
-			# McCabe output parameters 
-			fileName = "McCabe.txt"
-			idxEnd = None
-			filesPath = inputsPath + "/values_0/" + fileName
-			params = [filesPath, idxStart, idxEnd, r'(\w+\s)+=']
-		
-		self.headers.extend(self.getHeaders(params, pascalCase = True))
-		
-		for dirName in dirs:
-			filesPath = inputsPath + '/' + dirName + '/' + fileName
-			params = [filesPath, idxStart, idxEnd]
-			self.run(params, values = [dirName])
+        with open(filePath, 'r') as fp:
+            lines = fp.readlines()[idxStart:idxEnd]
+            # Removes the last element from the array that is a useless line
+            lines = lines[:-1]
+            content = []
 
-	def inputParser(self, inputsPath):
-		dirs = [f for f in listdir(inputsPath) if isdir(join(inputsPath, f))]
-		# Gets the headers from the output file
-		self.headers = ["inputName"]
-		filesPath = inputsPath + "/values_0/values.h"
-		params = [filesPath, 2, None, r'[a-z\[\]]+\s=']
+            for ln in lines:
+                value = ln.split('=')[1]
+                value = value.replace('=', '').strip()
+                value = value.replace(';', '')
+                occurrences = value.count('}')
+                if occurrences <= 1:
+                    value = value.replace('}', '')
+                else:
+                    value = value.replace('{', '[')
+                    value = value.replace('}', ']')
 
-		tempHeaders = map(str.strip, self.getHeaders(params))
-		self.headers.extend(tempHeaders)
+                content.append(value)
 
-		for dirName in dirs:
-			filesPath = inputsPath + '/' + dirName + '/values.h'
-			params = [filesPath, 2, None]
-			self.getInputsRow(params, values = [dirName])
+        self.writeFile({key:value for key, value in zip(self.headers, content)})
+
+    def framaParser(self, inputsPath, analysisFlag):
+        dirs = [f for f in listdir(inputsPath) if isdir(join(inputsPath, f))]
+        # Gets the headers from the output file
+        self.headers = ["inputName"]
+        idxStart = 4
+
+        # Halsted output parsing
+        if analysisFlag:
+            fileName = "Halsted.txt"
+            idxEnd = 15
+            # Parameters for the Halsted file
+            filesPath = inputsPath + "/values_0/" + fileName
+            params = [filesPath, idxStart, idxEnd, r'([a-zA-Z_]+\s?)*:']
+
+        else:
+            # McCabe output parameters 
+            fileName = "McCabe.txt"
+            idxEnd = None
+            filesPath = inputsPath + "/values_0/" + fileName
+            params = [filesPath, idxStart, idxEnd, r'(\w+\s)+=']
+
+        self.headers.extend(self.getHeaders(params, pascalCase = True))
+
+        for dirName in dirs:
+            filesPath = inputsPath + '/' + dirName + '/' + fileName
+            params = [filesPath, idxStart, idxEnd]
+            self.run(params, values = [dirName])
+
+    def inputParser(self, inputsPath):
+        dirs = [f for f in listdir(inputsPath) if isdir(join(inputsPath, f))]
+        # Gets the headers from the output file
+        self.headers = ["inputName"]
+        filesPath = inputsPath + "/values_0/values.h"
+        params = [filesPath, 2, None, r'[a-z\[\]]+\s=']
+
+        tempHeaders = map(str.strip, self.getHeaders(params))
+        self.headers.extend(tempHeaders)
+
+        for dirName in dirs:
+            filesPath = inputsPath + '/' + dirName + '/values.h'
+            params = [filesPath, 2, None]
+            self.getInputsRow(params, values = [dirName])

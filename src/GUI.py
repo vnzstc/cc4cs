@@ -25,9 +25,9 @@ class GUI:
 
 	def createLabel(self, referenceFrame, text):
 		labelText = tk.StringVar()
-		labelText.set(text)		
+		labelText.set(text)
 		return tk.Label(referenceFrame, textvariable=labelText, relief=tk.RIDGE)
-	
+
 	def setSelection(self, lbox, rbtn):
 		self.lbox = lbox.get(tk.ACTIVE)
 		self.rbtn = rbtn.get()
@@ -37,7 +37,7 @@ class GUI:
 
 	def quit(self):
 		self.root.destroy()
-	
+
 	def fillMainWindow(self, micros, benchmarkPath, customCallback):
 		# First Frame Section - Listbox code
 		## Frame used for the listbox 
@@ -75,7 +75,7 @@ class GUI:
 		trdFrame = tk.Frame(self.root, relief=tk.GROOVE, height=10, padx=10, pady=15)
 		trdFrame.pack(fill=tk.X)
 
-		button = tk.Button(trdFrame, text="Calculate CC4CS", 
+		button = tk.Button(trdFrame, text="Calculate CC4CS",
 			command=partial(customCallback, lbox, var, tk.ACTIVE))
 
 		button.pack(fill=tk.X)

@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <values.h>
 
-typedef int8_t TARGET_TYPE;
-typedef int8_t TARGET_INDEX;
+typedef int32_t TARGET_TYPE;
+typedef int32_t TARGET_INDEX;
 
 void swap(TARGET_INDEX index_1, TARGET_INDEX index_2)
 {
@@ -11,7 +11,7 @@ void swap(TARGET_INDEX index_1, TARGET_INDEX index_2)
 	a[index_2] = b;
 }
 
-void bubble_sort(TARGET_INDEX size, TARGET_TYPE a[size])
+void bubble_sort()
 {
 	TARGET_INDEX i;
 	TARGET_TYPE j;
@@ -40,9 +40,4 @@ void bubble_sort(TARGET_INDEX size, TARGET_TYPE a[size])
 		if(is_sorted) break;
 		lastSwap = currentSwap;
 	}
-}
-
-void main()
-{
-	bubble_sort(size, a);
 }
