@@ -15,7 +15,9 @@ configsrc = dirname(realpath(__file__))
 
 # TODO: automatic switching between signed and unsigned types
 # Global Variables
-files = {'8051': 'scnd.c', 'Leon3':'frst.c', 'Thumb':'thrd.c'}
+files = {
+    '8051': 'scnd.c', 'Leon3':'frst.c', 'Thumb':'thrd.c', 'Atmega328p':'frst.c'
+}
 targets = ["int8_t", "int16_t"] # TARGET_INDEX types
 indexes = ["int8_t", "int16_t"] # TARGET_TYPE types
 headers = [

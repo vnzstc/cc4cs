@@ -37,4 +37,3 @@ _start:
     b .
 
 .end
-

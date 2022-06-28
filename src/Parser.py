@@ -199,5 +199,6 @@ class Parser:
     PARSERS = {
         'Thumb': thumbParser,
         'Leon3': simParser,
-        '8051': simParser
+        '8051': simParser,
+        'Atmega328p': simParser
     }
