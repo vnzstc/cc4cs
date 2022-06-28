@@ -1,2 +1,2 @@
-# CC4CS automake building
+# CC4CS ARM
 
