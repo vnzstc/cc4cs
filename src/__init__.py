@@ -1,68 +1,41 @@
-# graphical user interface
-from tkinter.filedialog import askdirectory
+#!/usr/bin/env python
 from GUI import GUI
-
-# cmd manager
-from CommandsManager import CommandsMananger
 from InputsGenerator import InputsGenerator
 from Parser import Parser
+from CommandsManager import CommandsManager
 
-# os operations 
-from os.path import abspath, expanduser, isdir, isfile, dirname, realpath, splitext, join
-from os import mkdir, makedirs, replace, listdir, chdir
+from os.path import dirname, realpath, abspath, isdir, isfile, join
+from os import makedirs, chdir, listdir
+from json import load
+from csv import reader, DictWriter
 from shutil import move, rmtree
 
-# others
-from re import match
-from csv import reader, DictWriter
-from json import load
+# Absolute path of the directory containing the configuration files 
+configsrc = dirname(realpath(__file__))
 
-# Global Variables 
-## Microprocessors
-micros = ['8051', 'Leon3', 'Atmega328p', 'Thumb']
-## Types 
-# indexTypes = ["uint8_t", "uint16_t", "uint32_t", "unsigned long"]
-# indexTypes = ["int8_t", "int16_t", "int32_t", "long"]
-# targetTypes = ["int8_t", "int16_t", "int32_t", "long"]
-indexTypes = ["int8_t"]
-targetTypes = ["int8_t"]
+# TODO: automatic switching between signed and unsigned types
+# Global Variables
+files = {'8051': 'scnd.c', 'Leon3':'frst.c', 'Thumb':'thrd.c'}
+targets = ["int8_t", "int16_t"] # TARGET_INDEX types
+indexes = ["int8_t", "int16_t"] # TARGET_TYPE types
+headers = [
+    'ID', 'CInstr', 'AssemblyInstr', 'ClockCycles','ExecutionTime', 'CC4CS'
+] # headers of the output csv
 
-## Result file headers 
-headers = ['ID', 'CInstr', 'AssemblyInstr', 'ClockCycles','ExecutionTime', 'CC4CS']
-## Dirs and file names 
-outputDir = ""
-
-### Absolute of the directory containing the source code
-sourcePath = dirname(realpath(__file__))
-
-def replaceString(filename, regexStr, replacementStr):
-    """This function replaces a line in a file that matches the specified regular expression
-
-        Args:
-            filename (string): the name of the file to be opened
-            regexStr (string): a regular expression
-            replacementStr (string): the string that is inserted in the file
-"""
-    with open(filename, "r") as file:
-        lines = file.readlines()
-
-    for i,line in enumerate(lines):
-        # Better to rise an exception if this is never accessed
-        if match(regexStr, line):
-            lines[i] = replacementStr
-
-    with open(filename, "w") as file:
-        file.writelines(lines)
-
-def loadJSONFile(filePath):
-    with open(filePath + '.json', 'r') as jsonFile:
-        fileObj = load(jsonFile)
-    return fileObj
+def loadCommands():
+# Gets the commands from cmds.json
+    with open('src/cmds.json', 'r') as file:
+        content = load(file)
+    return content
 
 def getFiles(topDir, extension):
-    """This function returns the files with a specified extension that are contained in topDir.
+    """This function returns the files with a specified extension
+    that are contained in topDir.
     """
-    return [f for f in listdir(topDir) if isfile(join(topDir, f)) and f.endswith(extension)]
+    return [
+        f for f in listdir(topDir)
+            if isfile(join(topDir, f)) and f.endswith(extension)
+    ]
 
 def num(s):
     try:
@@ -70,16 +43,19 @@ def num(s):
     except ValueError:
         return float(s)
 
-def calculateMetric(profPath, simPath):
-    """The function merges the content of the files obtained from the simulation and the profiling phases.
-    Then, it writes their content and the metric values in the "cc4csValues.csv" file
+def calculateMetric(profPath, simPath, outputPath):
+    """The function merges the content of the files obtained from the
+    simulation and the profiling phases. Then, it writes their content
+    and the metric values in the "cc4csValues.csv" file
 
     Args:
-        cyclesFilename (string): path of the file obtained from the simulation phase
-        statementsFilename (string): path of the file obtained from the profiling phase
+        cyclesFilename (string): path of the file obtained from
+            the simulation phase
+        statementsFilename (string): path of the file obtained from the
+        profiling phase
     """
     with open(simPath) as cyclesFile, open(profPath) as statementsFile, \
-        open("cc4csValues.csv", "w") as outputFile:
+        open(outputPath, "w") as outputFile:
 
         # Reads the content of the output files
         profilingContent = reader(cyclesFile)
@@ -109,132 +85,98 @@ def calculateMetric(profPath, simPath):
             # Writes it on a file
             resWriter.writerow(dict(zip(headers, c1)))
 
+# Start the GUI
+gui = GUI("CC4CS Calculator", "300x370") # Start GUI
+gui.fillMainWindow(abspath('benchmark'), gui.callback)
+gui.start()
 
-def callback(algName, chosenMicro, listBoxFlag):
-    global outputDir
+cmds = loadCommands()
+# directory containing the source file of the functions
+source = abspath('benchmark/' + gui.function) + '/'
+funSrc = source + files[gui.micro]
 
-    functionName = algName.get(listBoxFlag)
-    absFunctionPath = abspath('benchmark/' + functionName) + '/'
+inputsGen = InputsGenerator(funSrc, gui.function, gui.micro)
+cmdMan = CommandsManager(funSrc, configsrc, gui.results)
 
-    outputDir = askdirectory(initialdir = expanduser("~/Desktop"),
-        title = 'Select folder to save results')
+for target, index in zip(targets, indexes):
+    print("#### type: ", target)
+    inputsPath = gui.results + "/includes"
+    print("input generation...", end = " ")
+    # Generates the header files, i.e. the inputs of the function
+    inputsGen.generate(inputsPath, target, index)
+    print("Done!")
+    # Executes commands needed to include configuration files of
+    # the microprocessors
+    configcmd = cmds['Configuration'].get(gui.micro)
+    if configcmd:
+        cmdMan.executeCommand(
+            cmdMan.expandCommand(configcmd, configsrc, gui.results)
+        )
+    """
+    Profiling: Gets the number of executed C statements:
+        1. retrieves the commands for profiling the function from cmds.json
+        2. for each couple (input, function) is executed on the host
+        3. the number of executed c statements is collected for each execution
+    """
+    print(
+        "retrieving executed C statements on the host platform...", end = " "
+    )
+    parser = Parser(
+        gui.results + "/cStatements.csv", Parser.gcovParser, ['id', 'cInstr']
+    ) # creates the output file and binds the parser
 
-    if not isdir(outputDir):
-        mkdir(outputDir)
+    cmdMan.executeCommandSet(
+        cmds['Profiling'], inputsPath, parsingFunction = parser.run
+    )
+    print("Done!")
+    """
+    Simulation
+    """
+    print("simulation on the target platform...", end = " ")
+    parser = Parser(
+        gui.results + "/clockCycles.csv", Parser.PARSERS.get(gui.micro),
+        ['id', 'clockCycles', 'assemblyInstr']
+    )
+    cmdMan.executeCommandSet(
+        cmds[gui.micro], inputsPath, parsingFunction = parser.run
+    )
+    print("Done!")
+    # Creates a compact representation of the inputs
+    parser.inputParser(
+        gui.results + "/inputResume.csv", gui.results + "/includes"
+    )
 
-    # the GUI returns the index of the microprocessor in the "micros" list
-    chosenMicro = micros[chosenMicro.get()]
-    # Loads a different source file according to the microprocessor that has been chosen
+    print("collecting execution statistics using frama-c...", end = " ")
+    # Retrieves code metrics using FramaC
+    cmdMan.executeCommandSet(cmds['FramaC'], inputsPath)
 
-    funSrc = 'frst.c'
-    if chosenMicro == "8051":
-        funSrc = 'scnd.c'
+    # Builds a parser to collect Halsted statistics  
+    parser = Parser(gui.results + "/Halsted.csv", Parser.getFramaRow)
+    parser.framaParser(gui.results + "/files", 1)
 
-    # Absolute path of the function source code
-    absFunctionFile = absFunctionPath + funSrc
-    # Loads parameters from the file named parameters.json
-    paramsFile = loadJSONFile(absFunctionPath + '/parameters')
-    # Contains the parameters of the chosen microprocessors according with the current type
-    chosenParams = paramsFile[chosenMicro]
-    # Loads the commands to execute from the file named cmds.json
-    cmdsFile = loadJSONFile(sourcePath + '/cmds')
-    # Commands for the profiling phase
-    cmdsProfiling = cmdsFile['Profiling']
-    # Commands for the simulation phase
-    cmdsMicro = cmdsFile[chosenMicro]
-    # Commands for the FramaC workflow
-    cmdsFrama = cmdsFile['FramaC']
-
-    # CommandManager Singleton
-    ## Removes the extension from the filename
-    funSrcName = splitext(funSrc)[0]
-    cmdMan = CommandsMananger(absFunctionFile, sourcePath, funSrcName, outputDir)
-    # InputsGenerator 
-    inptGen = InputsGenerator(absFunctionFile, functionName)
-
-    # Executes the flow for each type in "parameters.json" file
-    for currentType, currentIndex in zip(targetTypes, indexTypes):
-        print(currentType, currentIndex)
-        # The path of the folder that will contain  the inputs of the function
-        inputsPath = outputDir + "/includes"
-        # The path of the directory that will contain the results of the computation
-        resultsPath = "results/" + currentType
-        # The path of the file contaning the executed C statements 
-        profilingFilename = outputDir + "/cStatements.csv"
-        # The path of the file contaning the number of clock cycles needed for the execution
-        simulationFilename = outputDir + "/clockCycles.csv"
-
-        # Preprocessing Part
-        replaceString(absFunctionFile, r'typedef\s[a-z0-9_\s]+TARGET_TYPE',
-            "typedef " + currentType + " TARGET_TYPE;\n")
-        replaceString(absFunctionFile, r'typedef\s[a-z0-9_\s]+TARGET_INDEX',
-            "typedef " + currentIndex + " TARGET_INDEX;\n" )
-
-        # Create the directory in which the headers will be placed
-        makedirs(inputsPath)
-        # Changes working directory 
-        chdir(inputsPath)
-        inptGen.createHeaders(chosenParams, currentType, currentIndex)
-        # Returns to the previous working directory
-        chdir("..")
-
-        # Executes profiling commands
-        if chosenMicro == "Thumb":
-            funSrc = "frst.c"
-            funSrcName = splitext(funSrc)[0]
-            absFunctionFile = absFunctionPath + funSrc
-            cmdMan = CommandsMananger(absFunctionFile, sourcePath, funSrcName, outputDir)
-
-        parser = Parser(profilingFilename, Parser.gcovParser, ['id', 'cInstr'])
-        cmdMan.executeCommandSet(cmdsProfiling, inputsPath, parsingFunction = parser.run, debugFlag = True)
-
-        # Executes simulation commands
-        if chosenMicro == "Thumb":
-            funSrc = "thrd.c"
-            funSrcName = splitext(funSrc)[0]
-            absFunctionFile = absFunctionPath + funSrc
-            cmdMan = CommandsMananger(absFunctionFile, sourcePath, funSrcName, outputDir)
-            parser = Parser(simulationFilename, Parser.thumbParser, ['id', 'clockCycles', 'assemblyInstr'])
-        else:
-            parser = Parser(simulationFilename, Parser.simParser, ['id', 'clockCycles', 'assemblyInstr'])
-
-        cmdMan.executeCommandSet(cmdsMicro, inputsPath, parsingFunction = parser.run, debugFlag = True)
-
-        """
-        # Executes FramaC commands
-        cmdMan.executeCommandSet(cmdsFrama, inputsPath)
-
-        # Builds a parser for the Halsted output file
-        parser = Parser(outputDir + "/Halsted.csv", Parser.getFramaRow)
-        parser.framaParser(outputDir + "/files", 1)
-
-        # Buils a parser for the McCabe output file
-        parser.outputPath = outputDir + "/McCabe.csv"
-        parser.framaParser(outputDir + "/files", 0)
-        """
-        parser = Parser(outputDir + "/inputResume.csv", Parser.inputParser)
-        parser.inputParser(inputsPath)
-
-        # Function that calculates the metric
-        calculateMetric(profilingFilename, simulationFilename)
-
-        # Creates the directory in which store the results 
-        if not isdir(resultsPath):
-            makedirs(resultsPath)
-
-        dirFiles = getFiles('.', '.csv') + getFiles('.', '.txt')
-        for resFile in dirFiles:
-            move(resFile, resultsPath)
-
-        # Deletes the directory containing the inputs for the current type 
-        rmtree("includes/")
-        # Deletes the files produced for the current type
-        # rmtree("files/")
-
+    # Builds a parser to collect Halsted statistics  
+    parser.outputPath = gui.results + "/McCabe.csv"
+    parser.framaParser(gui.results + "/files", 0)
     print("Done!")
 
-# Start GUI
-viewInstance = GUI("CC4CS Calculator", "300x370")
-# viewInstance.fixSize()
-viewInstance.fillMainWindow(micros, abspath('benchmark'), callback)
-viewInstance.start()
+    print("calculating cc4s...", end = " ")
+    # Generates CC4CS file
+    calculateMetric(
+        gui.results + "/cStatements.csv", gui.results + "/clockCycles.csv",
+        "cc4csValues.csv"
+    )
+    print("Done!")
+
+    # Creates the directory in which store the results 
+    if not isdir(target):
+        makedirs(target)
+
+    files = getFiles('.', '.csv') + getFiles('.', '.txt')
+    for file in files:
+        move(file, join(target, file))
+
+    # Deletes the directory containing the inputs for the current type 
+    rmtree("includes/")
+    rmtree("files/")
+
+print("\n#### Ended! Results stored in ", gui.results)

@@ -1,4 +1,5 @@
 {
+	"args": ["TARGET_INDEX size", "TARGET_TYPE a[size]"],
 	"Thumb":
 	{
 		"int8_t":

@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <values.h>
 
-typedef int32_t TARGET_TYPE;
-typedef int32_t TARGET_INDEX;
+typedef int16_t TARGET_TYPE;
+typedef int16_t TARGET_INDEX;
 
 void swap(TARGET_INDEX index_1, TARGET_INDEX index_2)
 {
@@ -40,4 +40,9 @@ void bubble_sort()
 		if(is_sorted) break;
 		lastSwap = currentSwap;
 	}
+}
+
+void main()
+{
+	bubble_sort();
 }

@@ -10,21 +10,26 @@ class Parser:
         self.parsingFunction = parsingFunction
         self.headers = headers
 
-    def writeFile(self, row):
+    def writeFile(self, row, outputPath=None):
+        if outputPath is None:
+            outputPath = self.outputPath
+
         # output file access mode
         flag = 'w'
+        if isfile(outputPath):
+            flag = 'a'
 
-        if isfile(self.outputPath): flag = 'a'
         # Creates the output file 
-        with open(self.outputPath, flag) as outFile:
+        with open(outputPath, flag) as outFile:
             wrt = DictWriter(outFile, fieldnames = self.headers)
 
             # If headers is a field of the object, then they are written on the output file
-            if flag == 'w': wrt.writeheader()
+            if flag == 'w':
+                wrt.writeheader()
+
             wrt.writerow(row)
 
     def run(self, parserInput, values = []):
-
         # Executes the parsing function 
         results = self.parsingFunction(parserInput)
         values.extend(results)
@@ -59,9 +64,6 @@ class Parser:
             cycleStr = search(r'(\d+)\s+ticks', content)
             assemblyInst = search(r'(\d+)\s+instructions', content)
 
-            print(cycleStr.group(1))
-            print(assemblyInst.group(1))
-
             if cycleStr: results.append(cycleStr.group(1))
             if assemblyInst: results.append(assemblyInst.group(1))
 
@@ -85,9 +87,6 @@ class Parser:
 
             cycleStr = search(r'([cC]ycles.*?:\s*)(\d+)', content)
             assemblyInst = search(r'([iI]nstructions.*?:\s*)(\d+(.\d+)?)', content)
-
-            print(cycleStr.group(2))
-            print(assemblyInst.group(2))
 
             if cycleStr: results.append(cycleStr.group(2))
             if assemblyInst: results.append(assemblyInst.group(2))
@@ -127,7 +126,7 @@ class Parser:
 
         return content
 
-    def getInputsRow(self, args, values = []):
+    def getInputsRow(self, outputPath, args, values = []):
         filePath, idxStart, idxEnd = args
 
         with open(filePath, 'r') as fp:
@@ -149,7 +148,10 @@ class Parser:
 
                 content.append(value)
 
-        self.writeFile({key:value for key, value in zip(self.headers, content)})
+        self.writeFile(
+            {key:value for key, value in zip(self.headers, content)},
+            outputPath
+        )
 
     def framaParser(self, inputsPath, analysisFlag):
         dirs = [f for f in listdir(inputsPath) if isdir(join(inputsPath, f))]
@@ -164,7 +166,6 @@ class Parser:
             # Parameters for the Halsted file
             filesPath = inputsPath + "/values_0/" + fileName
             params = [filesPath, idxStart, idxEnd, r'([a-zA-Z_]+\s?)*:']
-
         else:
             # McCabe output parameters 
             fileName = "McCabe.txt"
@@ -179,8 +180,9 @@ class Parser:
             params = [filesPath, idxStart, idxEnd]
             self.run(params, values = [dirName])
 
-    def inputParser(self, inputsPath):
+    def inputParser(self, outputPath, inputsPath):
         dirs = [f for f in listdir(inputsPath) if isdir(join(inputsPath, f))]
+
         # Gets the headers from the output file
         self.headers = ["inputName"]
         filesPath = inputsPath + "/values_0/values.h"
@@ -192,4 +194,10 @@ class Parser:
         for dirName in dirs:
             filesPath = inputsPath + '/' + dirName + '/values.h'
             params = [filesPath, 2, None]
-            self.getInputsRow(params, values = [dirName])
+            self.getInputsRow(outputPath, params, values = [dirName])
+
+    PARSERS = {
+        'Thumb': thumbParser,
+        'Leon3': simParser,
+        '8051': simParser
+    }
