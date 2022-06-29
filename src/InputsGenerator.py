@@ -1,7 +1,7 @@
 from re import search, findall, match, compile
 from random import uniform, randint
 from os import makedirs, chdir, rename
-from os.path import abspath, isdir
+from os.path import abspath, isdir, dirname
 from itertools import product
 from json import load
 from shutil import rmtree
@@ -19,7 +19,7 @@ class InputsGenerator:
 
 
     def getParameters(self, function, micro):
-        benchmark = abspath('benchmark/' + function)
+        benchmark = dirname(self.filePath)
         with open(benchmark + '/parameters.json', 'r') as file:
             content = load(file)
         return content[micro], content['args']

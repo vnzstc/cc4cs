@@ -16,7 +16,7 @@ class GUI:
         self.lbox = ""
         self.rbtn = ""
         # microprocessors
-        self.micros = ['8051', 'Leon3', 'Atmega328p', 'Thumb']
+        self.micros = ['8051', 'Leon3', 'Atmega328p', 'Thumb', 'Arm']
 
     def fixSize(self):
         self.root.resizable(0, 0)  # Don't allow resizing in the x or y direction

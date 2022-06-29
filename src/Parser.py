@@ -200,5 +200,6 @@ class Parser:
         'Thumb': thumbParser,
         'Leon3': simParser,
         '8051': simParser,
-        'Atmega328p': simParser
+        'Atmega328p': simParser,
+        'Arm': simParser
     }

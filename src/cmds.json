@@ -35,11 +35,20 @@
 
 	"Thumb": {
 		"vectors": "arm-none-eabi-as [functionDir]/vectors.s -o [functionDir]/vectors.o",
-		"compiler": "arm-none-eabi-gcc -mthumb -c [functionPath] -I[prjPath]includes/[directoryName] -o [functionName].o",
+		"compiler": "arm-none-eabi-gcc -mthumb -c -I[prjPath]includes/[directoryName] -o [functionName].o [functionPath]",
 		"linking": "arm-none-eabi-ld -T [functionDir]/memmap [functionDir]/vectors.o [functionName].o -o [functionName].elf",
 		"binary": "arm-none-eabi-objcopy -O binary [functionName].elf [functionName].bin",
 		"iss": "thumbulator [functionName].bin {[functionName].txt}",
 		"dependencies": "vectors compiler linking binary iss"
+	},
+
+	"Arm": {
+		"compiler": "arm-none-eabi-gcc -march=armv4t -c [functionPath] -I[prjPath]includes/[directoryName] -o [functionDir]/[functionName].o",
+		"linking": "arm-none-eabi-ld [functionDir]/startup.o [functionDir]/[functionName].o -o [functionDir]/[functionName].elf -T [functionDir]/arm-memmap.ld",
+		"startup":"arm-none-eabi-as [functionDir]/startup.s -o [functionDir]/startup.o",
+		"binary":"[functionDir]/rip [functionDir]/[functionName].elf",
+		"iss":"armulator [functionDir]/00000000.bin {[functionName].txt}",
+		"dependencies":"startup compiler linking binary iss"
 	},
 
 	"FramaC": {

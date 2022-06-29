@@ -12,11 +12,13 @@ from shutil import move, rmtree
 
 # Absolute path of the directory containing the configuration files 
 configsrc = dirname(realpath(__file__))
+projectPath = dirname(configsrc) + '/'
 
 # TODO: automatic switching between signed and unsigned types
 # Global Variables
 files = {
-    '8051': 'scnd.c', 'Leon3':'frst.c', 'Thumb':'thrd.c', 'Atmega328p':'frst.c'
+    '8051': 'scnd.c', 'Leon3':'frst.c', 'Thumb':'thrd.c',
+    'Atmega328p':'frst.c', 'Arm':'thrd.c'
 }
 targets = ["int8_t", "int16_t"] # TARGET_INDEX types
 indexes = ["int8_t", "int16_t"] # TARGET_TYPE types
@@ -26,7 +28,7 @@ headers = [
 
 def loadCommands():
 # Gets the commands from cmds.json
-    with open('src/cmds.json', 'r') as file:
+    with open(projectPath + 'src/cmds.json', 'r') as file:
         content = load(file)
     return content
 
@@ -89,12 +91,12 @@ def calculateMetric(profPath, simPath, outputPath):
 
 # Start the GUI
 gui = GUI("CC4CS Calculator", "300x370") # Start GUI
-gui.fillMainWindow(abspath('benchmark'), gui.callback)
+gui.fillMainWindow(projectPath + '/benchmark', gui.callback)
 gui.start()
 
 cmds = loadCommands()
 # directory containing the source file of the functions
-source = abspath('benchmark/' + gui.function) + '/'
+source = projectPath + 'benchmark/' + gui.function + '/'
 funSrc = source + files[gui.micro]
 
 inputsGen = InputsGenerator(funSrc, gui.function, gui.micro)
