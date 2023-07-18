@@ -51,3 +51,6 @@ The simulation phase involves the execution of the toolchain of each processor s
 
 
 For any bug or doubt, it is possible to contact me at: [vincenzo.stoico@graduate.univaq.it](mailto:vincenzo.stoico@graduate.univaq.it)
+
+
+Vittoriano Muttillo, Giacomo Valente, Luigi Pomante, Vincenzo Stoico, Fausto D'Antonio, and Fabio Salice, CC4CS: an Off-the-Shelf Unifying Statement-Level Performance Metric for HW/SW Technologies, In Companion of the 2018 ACM/SPEC International Conference on Performance Engineering (ICPE '18), https://doi.org/10.1145/3185768.3186291
